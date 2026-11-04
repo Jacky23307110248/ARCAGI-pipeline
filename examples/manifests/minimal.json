@@ -1,0 +1,13 @@
+{
+  "schema_version": "arcagi-pipeline-manifest/v2",
+  "pipeline_id": "example-minimal",
+  "game": {
+    "id": "example-grid",
+    "version": "1",
+    "plugin_id": "example.grid",
+    "plugin_version": "1",
+    "extension": {"board_shape": [2, 3], "actions": ["left", "right"]}
+  },
+  "materials": [],
+  "workflow": {"seed": 7, "course": {"hypothesis": "demonstration only"}}
+}

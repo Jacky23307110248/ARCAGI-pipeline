@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARCAGI evidence ledger",
+  "type": "object",
+  "required": ["schema_version", "game_id", "trajectory_frozen", "trajectory", "source_audit", "probes"],
+  "properties": {
+    "schema_version": {"const": "arcagi-evidence-ledger/v1"},
+    "game_id": {"type": "string"},
+    "trajectory_frozen": {"type": "boolean"},
+    "trajectory": {"type": "array", "items": {"$ref": "#/$defs/trajectory_entry"}},
+    "source_audit": {"type": "array", "items": {"$ref": "#/$defs/source_entry"}},
+    "probes": {"type": "array", "items": {"$ref": "#/$defs/probe_entry"}}
+  },
+  "$defs": {
+    "trajectory_entry": {
+      "type": "object",
+      "required": ["entry_id", "kind", "statement", "evidence_refs"],
+      "properties": {
+        "entry_id": {"type": "string"},
+        "kind": {"enum": ["direct_observation", "agent_inference", "saved_note", "prediction"]},
+        "statement": {"type": "string"},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}},
+        "alternatives": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false
+    },
+    "source_entry": {
+      "type": "object",
+      "required": ["finding_id", "statement", "source_ref", "source_version"],
+      "properties": {
+        "finding_id": {"type": "string"}, "statement": {"type": "string"},
+        "source_ref": {"type": "string"}, "source_version": {"type": "string"},
+        "uncovered_by_play": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "probe_entry": {
+      "type": "object",
+      "required": ["probe_id", "setup", "action", "expected_alternatives", "observed_result", "engine_version"],
+      "properties": {
+        "probe_id": {"type": "string"}, "setup": {}, "action": {},
+        "expected_alternatives": {"type": "array"}, "observed_result": {},
+        "engine_version": {"type": "string"}, "replay_evidence": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

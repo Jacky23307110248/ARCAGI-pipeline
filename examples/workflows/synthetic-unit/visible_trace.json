@@ -1,0 +1,8 @@
+{
+  "fixture_kind": "synthetic_example",
+  "steps": [
+    {"observation": {"marker": "off"}, "action": "press", "feedback": {"marker": "on"}},
+    {"observation": {"marker": "on"}, "action": "wait", "feedback": {"marker": "on"}}
+  ],
+  "outcome": "synthetic_fixture_complete"
+}

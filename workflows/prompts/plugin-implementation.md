@@ -1,0 +1,3 @@
+# Game plugin implementation brief
+
+Implement the versioned game-specific plugin from the frozen rule contract and exact engine interface. Keep state/action/mechanic semantics inside the plugin. Include validators and targeted probes for trigger, non-trigger, boundary, and reachable interactions. State whether the transition model is deterministic and complete enough for exhaustive search. A path counts as solved only after original-engine replay; unsupported cases return unknown.

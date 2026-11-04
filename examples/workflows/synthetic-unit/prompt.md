@@ -1,0 +1,1 @@
+Summarize only the directly visible patterns in the supplied synthetic trace. Separate observation from inference. Return one JSON object matching the supplied schema. Do not claim access to private reasoning.

@@ -1,0 +1,3 @@
+# Mechanism probe design
+
+Design small engine-backed tests for unresolved claims. Change one relevant condition at a time. Include trigger, non-trigger, boundary, and reachable-interaction cases where relevant. Each probe states initial setup, exact action, competing predictions, expected observable fields, reset/seed policy, and engine version. Do not label a probe result as evidence of what an agent inferred.

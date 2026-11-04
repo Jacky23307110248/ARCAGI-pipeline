@@ -1,0 +1,3 @@
+# Course draft
+
+Use the reviewed rule contract to propose ordered learning slots. Each slot names objectives, prerequisites, the mechanic it isolates, the change from prior slots, task references, and why the order may help an agent infer or apply the mechanic. Treat learning benefit as a hypothesis; do not claim improvement without a controlled performance comparison. Avoid assuming a fixed number of levels or a particular board/action format.

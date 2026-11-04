@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARCAGI pipeline manifest",
+  "type": "object",
+  "required": ["schema_version", "pipeline_id", "game", "materials", "workflow"],
+  "properties": {
+    "schema_version": {"const": "arcagi-pipeline-manifest/v2"},
+    "pipeline_id": {"type": "string", "minLength": 1},
+    "game": {
+      "type": "object",
+      "required": ["id", "version", "plugin_id", "plugin_version", "extension"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "plugin_id": {"type": "string", "minLength": 1},
+        "plugin_version": {"type": "string", "minLength": 1},
+        "extension": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "materials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "sha256", "role"],
+        "properties": {
+          "id": {"type": "string"},
+          "path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "role": {"enum": ["source", "level_data", "play_trace", "saved_note", "engine", "other"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "workflow": {"type": "object", "required": ["seed", "course"],
+      "properties": {"seed": {"type": ["integer", "null"]}, "course": {"type": "object"}}},
+    "provenance": {"type": "object"}
+  },
+  "additionalProperties": false
+}

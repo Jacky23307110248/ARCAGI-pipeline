@@ -1,0 +1,40 @@
+{
+  "schema_version": "arcagi-agent-workflow/v1",
+  "workflow_id": "synthetic-visible-trace-analysis",
+  "unit_id": "synthetic-example-unit-v1",
+  "game": {
+    "id": "synthetic-toggle-fixture",
+    "version": "fixture-v1",
+    "extension": {"state_shape": "named_fields"}
+  },
+  "provider": {
+    "id": "deepseek-chat-completions/v1",
+    "model": "deepseek-chat"
+  },
+  "budget": {
+    "max_attempts": 3,
+    "max_tokens": 5000
+  },
+  "tasks": [
+    {
+      "id": "visible-trace-claims",
+      "stage": "trajectory_analysis",
+      "evidence_lane": "trajectory_blind",
+      "depends_on": [],
+      "prompt": "prompt.md",
+      "max_output_tokens": 1000,
+      "inputs": [
+        {"id": "saved-trace", "role": "play_trace", "path": "visible_trace.json"}
+      ],
+      "output_schema": {
+        "type": "object",
+        "required": ["observations", "hypotheses"],
+        "additionalProperties": false,
+        "properties": {
+          "observations": {"type": "array", "items": {"type": "string"}},
+          "hypotheses": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  ]
+}

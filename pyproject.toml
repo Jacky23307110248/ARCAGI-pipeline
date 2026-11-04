@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arcagi-pipeline"
+version = "0.2.0"
+description = "A general workflow and tooling layer for ARC game campaign construction"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+arcagi-pipeline = "arcagi_pipeline.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
