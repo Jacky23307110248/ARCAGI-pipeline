@@ -1,0 +1,91 @@
+{
+  "scope": "standalone human LS20 player; no pipeline machine updates",
+  "game_id": "ls20-9607627b",
+  "game_source_sha256": "67cc85888eeef68f125cbb5f5fb158e9ca455d6bca46b171790f556fcabf934e",
+  "engine_version": "0.9.3",
+  "adapter_origin": "historical examples/ls20/implementation/tycho_adapter.py (local accepted delivery, identified by hash)",
+  "adapter_original_sha256": "7d25ba87d0dc8daa9a4aec362489cb4b472b5575dd4b6891035f307574f07a7a",
+  "adapter_change": "portable ROOT changed to this directory; game rules and adapter logic unchanged",
+  "runtime": {
+    "python": "3.13.5",
+    "numpy": "2.4.6",
+    "pydantic": "2.10.3"
+  },
+  "data": "outputs/ls20/seed22/packages/unit{1,2,3}_public.json",
+  "checks": {
+    "gui_smoke": "PASS",
+    "native_three_campaigns_21_levels_win": "PASS",
+    "keyboard_reset_unit_switch": "PASS",
+    "clean_copy_isolated_python": "PASS"
+  },
+  "files": [
+    {
+      "path": "adapter.py",
+      "sha256": "f395817dfdcbe48c6ce2982b3e45d7e79c0728d8b95025e72ff7a0109f2f9732"
+    },
+    {
+      "path": "game/ls20.py",
+      "sha256": "67cc85888eeef68f125cbb5f5fb158e9ca455d6bca46b171790f556fcabf934e"
+    },
+    {
+      "path": "game/metadata.json",
+      "sha256": "559b6349cc0285a6d56960bc85b0686f469e5b8315aa717da1ed71c23b2f0cf8"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "0a2a257cb5e377833bb054f9e3aee884c6e8c528e31dff03d887ba3afcf1726d"
+    },
+    {
+      "path": "play.py",
+      "sha256": "2d9a48d5eb7208b323c077187c8943c1f910cbf3fe49d0d76569b559c4897c3c"
+    },
+    {
+      "path": "README.md",
+      "sha256": "201cc0bd4bd51410c50d1cec0a002f24abd3ed5dd2212e5bb093b6ccad7a6825"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "43b404c34373adc4d0905172cc8b7ce5c6697186f769d1ab97ec3de2886f897b"
+    },
+    {
+      "path": "test_player.py",
+      "sha256": "20cb39fe3cf3d57ba541ed92a283dd1a8ee8bdb8d52506721578d7ed89012768"
+    },
+    {
+      "path": "VALIDATION.md",
+      "sha256": "7b72151ee69e59c1fa39ec00e1e9eccd9d5191c546faae9b8a8075c952ffc8e0"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/__init__.py",
+      "sha256": "538961ed7fcd09401dc7157c5611ee9f1fdaa177eae751a4b61b16844ab4304b"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/base_game.py",
+      "sha256": "5b5f41f3bec4c0c97a727fda7326114991dc0d4a5642d489b40ee4aa87e6b15f"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/camera.py",
+      "sha256": "f06e16807b0f97d86cafb5481bb3969213f27768f789d898c6b8b07e957de397"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/enums.py",
+      "sha256": "94ebef48f6fe950a18679a1b991c366e8e28c32ab58c9335f385e19bea21950e"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/interfaces.py",
+      "sha256": "0cfc24178e9f1102fb4ccb5892141d91c3a9eec88eccab3402b9777a76532cd8"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/level.py",
+      "sha256": "f74db969772b251018b2fcce6ec42f3522adeef4e9c03c036e455d2a35e3215a"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/sprites.py",
+      "sha256": "ea9d3d02c7db0814954134a0e0ea6a3cb9b80066930dbdbfc5865befb54c493f"
+    },
+    {
+      "path": "vendor/arcengine/LICENSE-MIT.txt",
+      "sha256": "dc408b7287c1c9cf8034bca32b8ca9ac157651998a08a28e21a06af6fe02ace0"
+    }
+  ]
+}
