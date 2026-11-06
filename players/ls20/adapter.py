@@ -1,7 +1,6 @@
-"""M3-only adapter: translate the public generated package into real Tycho Levels.
+"""Translate the public generated package into native LS20 levels.
 
-No pseudo_ls20 runtime code is imported. The source game is cloned only for its
-sprite/template implementation; all map placements come from public JSON.
+The source game supplies sprite templates; public JSON supplies map placements.
 """
 import importlib.util, json, sys, hashlib
 import numpy as np

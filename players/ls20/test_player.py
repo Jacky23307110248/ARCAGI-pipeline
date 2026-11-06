@@ -1,4 +1,4 @@
-"""Optional tests read the published answer report. Do not run before blind play."""
+"""Player validation using the published solution witnesses."""
 import json
 from pathlib import Path
 import unittest

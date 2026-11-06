@@ -1,9 +1,10 @@
 # Player validation
 
-Local validation on Windows, CPython 3.13.5, NumPy 2.4.6, Pydantic 2.10.3:
+Validated on Windows with CPython 3.13.5, NumPy 2.4.6 and Pydantic 2.10.3:
 
-- GUI smoke loaded/rendered all three public units, executed movement and reset, and exited successfully.
-- Native replay test passed all 21 published per-level witnesses through three continuous seven-level sessions. Each reached engine WIN with score 7, then native RESET restored level 1 and score 0.
-- Tk keyboard-event test passed movement, R reset, unit switching, and complete restart; the renderer produced a 64×64 frame before scaling.
+- GUI smoke: loaded and rendered all three units, executed movement and reset, and exited successfully.
+- Native replay: executed all 21 published level witnesses through three continuous campaigns. Each reached engine WIN with score 7; RESET restored level 1 and score 0.
+- Keyboard test: checked movement, R reset, unit switching and campaign restart through Tk events. The renderer produced a 64×64 frame before scaling.
+- Clean-copy check: repeated the GUI and replay tests using a directory containing the player components and sample outputs, with Python isolated mode.
 
-Tests use the player itself and the bundled original engine/game. The optional answer replay reads outputs/ls20/seed22/report.json; normal human play does not. These checks establish the player wiring for this sample, not generalization of the main machine or a new TR87 result. Historical search and generation evidence remain in the outputs report.
+The interactive player loads public packages. Replay tests read the published solution witnesses from `outputs/ls20/seed22/report.json`. That report also contains the sample's search and generation records.

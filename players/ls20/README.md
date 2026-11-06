@@ -1,14 +1,16 @@
-# pseudo-LS20 人工游玩播放器
+# Pseudo-LS20 Player
 
-这是独立的本地窗口播放器：读取仓库里的三套 pseudo-LS20 公共关卡，每套七关，使用随附的原 LS20 游戏源码和 ARCEngine 执行移动、碰撞和通关。**不需要安装 ARCAGI Pipeline、不需要 API 密钥、Tycho/Duck 仓库，也不使用新 main 工作机。**
+A local desktop player for three pseudo-LS20 campaigns, each containing seven levels. The bundled LS20 game and ARCEngine execute movement, collisions, level transitions and victory conditions.
 
-## 下载与安装
+## Download and install
 
-下载整个仓库（GitHub 页面绿色 **Code → Download ZIP**，解压），或者 git clone。只下载一个 JSON 无法游玩。保留 `players/ls20/` 与 `outputs/ls20/seed22/` 的相对位置。
+Download the repository with **Code → Download ZIP** and extract it, or clone it with Git. Keep `players/ls20/` and `outputs/ls20/seed22/` in their repository layout.
 
-需要 **Python 3.13**（已验证 3.13.5）及 Tk 图形界面支持。Windows 推荐 python.org 的标准安装版，安装时保留 Tcl/Tk；Linux 通常需要系统包 `python3-tk`，并使用有桌面的会话。远程无显示环境不能直接弹出窗口。
+Use **Python 3.13** with Tcl/Tk support and a desktop session. Validation used Python 3.13.5. The standard Windows Python installer includes a Tcl/Tk option. On Linux, install the Tk package matching your Python version. Run `python3.13 -m tkinter` to check the windowing setup.
 
-在**仓库根目录**打开终端，Windows PowerShell 执行：
+From the **repository root**, run:
+
+### Windows PowerShell
 
 ```powershell
 py -3.13 -m venv .venv-ls20
@@ -16,7 +18,7 @@ py -3.13 -m venv .venv-ls20
 .\.venv-ls20\Scripts\python.exe players/ls20/play.py
 ```
 
-macOS / Linux（确认 `python3.13 -m tkinter` 能打开窗口）：
+### macOS and Linux
 
 ```sh
 python3.13 -m venv .venv-ls20
@@ -24,54 +26,65 @@ python3.13 -m venv .venv-ls20
 .venv-ls20/bin/python players/ls20/play.py
 ```
 
-下载依赖时需要联网，安装后游玩完全离线。无需运行 `pip install -e .`。依赖列表只供这个播放器使用，不要覆盖其他实验环境。
+Dependency installation uses an internet connection. Gameplay runs locally after installation. The dedicated virtual environment keeps the player's pinned dependencies together.
 
-## 操作与游玩规则
+## Controls
 
-| 操作 | 功能 |
+| Control | Action |
 |---|---|
-| 方向键或 W/A/S/D | 上、左、下、右；每次按键交给原引擎执行一次动作 |
-| R /「重置当前关」 | 非最终 WIN 时按原引擎重置当前关，保持已过关进度；最终 WIN 后重置回第一关 |
-|「整套重新开始」| 新建当前单元的游戏，从第一关开始，清零界面输入计数 |
-| 1 / 2 / 3 或顶部下拉框 | 切换游戏单元，并从该单元第一关开始；不保存原单元进度 |
-| Esc / 关闭窗口 | 退出；下次启动从第一关开始 |
+| Arrow keys or W/A/S/D | Move up, left, down or right; each input executes one engine action |
+| R / **Reset level** | Reset the current level while retaining completed-level progress; after campaign WIN, return to level 1 |
+| **Restart campaign** | Start a fresh session for the selected unit at level 1 and clear the input counter |
+| 1 / 2 / 3 or the unit selector | Start the selected unit at level 1 |
+| Esc / close window | Exit; the next launch starts a fresh session |
 
-- 默认单元 1。关卡目标由实际游戏判断；满足后自动进入下一关，七关全部完成才显示 **整套通关 WIN**。没有人为跳关或自动解题按钮。
-- **GAME OVER** 后不能继续移动，按 R 重试或整套重新开始。
-- 当前关内的步数、状态等以游戏画面为准；下方“已输入”只是播放器累计收到的动作次数，**不是剩余步数或评分**。撞墙等操作是否消耗资源由引擎决定。
-- 游戏不是按时间自动推进，观察画面不消耗动作。长按键可能触发系统连发，建议逐次按键。若按键没响应，先点击游戏画面。
-- 这里不提前解释关卡机关，保留自行观察与推断的体验。播放器不读取解答：只加载 `unit1_public.json`～`unit3_public.json`。想盲玩时请勿查看 `unit*_supervisor.json`、`report.json` 或运行解答回放测试。
-- 这三套是固定拓扑样例，不代表任意 seed 都会生成不同地图；游戏数据中有可见/迷雾设置，播放器不额外揭示隐藏状态。
+Complete a level's objective to advance automatically. Completing all seven levels displays **Campaign complete — WIN**. After **GAME OVER**, press R to retry or select **Restart campaign**.
 
-## 启动参数
+The game image displays the in-level state and resource indicators. **Inputs** counts the actions received by the player during the session. The engine determines each action's effects and resource costs.
+
+Gameplay advances with your inputs. Tap keys individually for precise movement; holding a key can trigger keyboard repeat. Click the game image to restore keyboard focus.
+
+The sample contains three fixed map profiles with their configured visibility settings. Explore the mechanics by playing the public packages, `unit1_public.json` through `unit3_public.json`. The accompanying supervisor files, validation report and replay tests provide solution witnesses for later study.
+
+## Options
 
 ```powershell
 .\.venv-ls20\Scripts\python.exe players/ls20/play.py --unit 2 --scale 10
 ```
 
-`--unit` 选择 1～3；`--scale` 设置像素放大倍数（3～16，默认 8）。数据放在其他目录时使用 `--packages "关卡文件夹路径"`，该目录须包含三份 `unit*_public.json`。默认路径根据播放器文件定位，与当前终端目录无关。
+- `--unit`: start unit 1, 2 or 3; default 1.
+- `--scale`: pixel enlargement factor, 3–16; default 8.
+- `--packages DIRECTORY`: load the three `unit*_public.json` files from another directory.
 
-## 排查与检查
+The default package directory is resolved relative to the player file.
 
-- 找不到 `numpy` / `pydantic`：确认使用上面同一个 `.venv-ls20` 解释器安装及启动。
-- 找不到 `_tkinter`：补装带 Tcl/Tk 的 Python 或对应系统 Tk 包；它不是 `pip install tkinter`。
-- 找不到关卡：下载整个仓库，检查 `outputs/ls20/seed22/packages/`，或显式指定 `--packages`。
-- 源码指纹不一致：不要修改 `game/ls20.py`；重新取得同一份播放器组件。
+## Troubleshooting
 
-不读答案的窗口烟测：
+| Symptom | Action |
+|---|---|
+| Missing `numpy` or `pydantic` | Install requirements with the same virtual-environment Python used to launch the player |
+| Missing `_tkinter` | Install Python with Tcl/Tk support or the matching system Tk package |
+| Missing package files | Check `outputs/ls20/seed22/packages/` or supply `--packages DIRECTORY` |
+| Game source fingerprint mismatch | Restore `game/ls20.py` from this player release |
+
+## Checks
+
+Check loading, rendering, movement and reset for all three units:
 
 ```powershell
 .\.venv-ls20\Scripts\python.exe players/ls20/play.py --smoke-test
 ```
 
-它检查三套加载、绘制、移动和重置后退出，**不代表通关**。可加 `--screenshot preview.png` 导出初始画面。开发验收另有 `test_player.py`：会读取公开报告里的答案，检查三套真实引擎连续七关 WIN、重置与 Tk 键盘事件；如需检查请在游玩之后运行：
+Add `--screenshot preview.png` to save the initial image. Run the solution-replay and keyboard tests with:
 
 ```powershell
 .\.venv-ls20\Scripts\python.exe players/ls20/test_player.py
 ```
 
-## 实现边界与许可
+The replay test reads the solution witnesses in `outputs/ls20/seed22/report.json` and checks continuous seven-level campaigns, engine WIN, resets and Tk keyboard events. Validation results are recorded in [VALIDATION.md](VALIDATION.md).
 
-这是将生成关卡装载到原引擎的适配环境，不是原版关卡合集。地图由公共 JSON 构造，路径初始方向在关卡装载/重置后按公共配置初始化；后续动作使用原源码。该设置与历史验证流程一致。界面使用固定 16 色调色板显示引擎像素，画面缩放不改变碰撞或状态。
+## Implementation and licenses
 
-来源、原文件及交付文件哈希见 `PROVENANCE.json`；项目播放器使用本目录 MIT `LICENSE`。LS20 源码保留 ARC Prize Foundation MIT 声明，ARCEngine 0.9.3 许可见 `vendor/arcengine/LICENSE-MIT.txt`。NumPy、Pydantic 等依赖适用各自许可。只新增这个独立播放器目录，不更新 main 工作机。
+Public JSON defines each generated map. The adapter initializes path headings from that configuration when levels are installed or reset; subsequent actions run through the bundled LS20 game and ARCEngine. The renderer displays engine pixels with a fixed 16-color palette and integer scaling.
+
+File hashes and component provenance are recorded in [PROVENANCE.json](PROVENANCE.json). Player code uses the MIT [LICENSE](LICENSE). The LS20 source retains the ARC Prize Foundation MIT notice, and ARCEngine 0.9.3 includes [its MIT license](vendor/arcengine/LICENSE-MIT.txt). Installed dependencies retain their respective licenses.
