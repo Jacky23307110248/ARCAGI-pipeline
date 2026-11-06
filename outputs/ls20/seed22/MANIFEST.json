@@ -1,0 +1,41 @@
+{
+  "seed": 22,
+  "result": "PASS_ALL_THREE",
+  "historical_verified_output": true,
+  "original_report_sha256": "f3d9243dfdd458785896611314cd509704ec046d2f038b41ce3ed6c115abd5e6",
+  "report_serialization": "compact JSON, unchanged parsed content",
+  "files": [
+    {
+      "path": "packages/unit1_public.json",
+      "sha256": "c27d9b27dfe6c5013fcb91a4abf7edaeb05970a4711643757aec696c90803569"
+    },
+    {
+      "path": "packages/unit1_supervisor.json",
+      "sha256": "ecf28a6f064d0f6bc3b3de597410b3d7dfbc52651fc712e90d250da0738e021a"
+    },
+    {
+      "path": "packages/unit2_public.json",
+      "sha256": "8ff8b46f48fb4f1fc0b18dabbad09fdb525d614e6e147ff6d6819db31952c98f"
+    },
+    {
+      "path": "packages/unit2_supervisor.json",
+      "sha256": "d335c4ca5482023f22807a7a91adf42b2414adedf936456d1ccf1f9789883029"
+    },
+    {
+      "path": "packages/unit3_public.json",
+      "sha256": "e4607cfd6443dc08f1f9737450b07f0dfd5e7a4c0106c3621bc244f548854ddc"
+    },
+    {
+      "path": "packages/unit3_supervisor.json",
+      "sha256": "15bacf6ab3b7e034ec5b443238826c7cf6f8b2f541951bb17a62c1cf8be495d9"
+    },
+    {
+      "path": "report.json",
+      "sha256": "7d87d45c215b0ba538f5e702b7c79c5111757a6aae19c0ac8a2ca7440a14481e"
+    },
+    {
+      "path": "README.md",
+      "sha256": "cc0b9f025d69d0c213d7662b532d27f0e42b5ca4b717fbd2fff9cc7e1ac161e5"
+    }
+  ]
+}
