@@ -6,6 +6,33 @@ A local desktop player for three pseudo-LS20 campaigns, each containing seven le
 
 Download the repository with **Code → Download ZIP** and extract it, or clone it with Git. Keep `players/ls20/` and `outputs/ls20/seed22/` in their repository layout.
 
+### Minimal download
+
+For interactive play, download the entire [`players/ls20/`](../../players/ls20/) directory and these three files from [`outputs/ls20/seed22/packages/`](../../outputs/ls20/seed22/packages/):
+
+- `unit1_public.json`
+- `unit2_public.json`
+- `unit3_public.json`
+
+Arrange them as follows:
+
+```text
+your-folder/
+├── players/
+│   └── ls20/                 # Complete player directory, including game/ and vendor/
+└── outputs/
+    └── ls20/
+        └── seed22/
+            └── packages/
+                ├── unit1_public.json
+                ├── unit2_public.json
+                └── unit3_public.json
+```
+
+Run the installation and launch commands below from `your-folder/`. This selection supplies the player and all three campaigns. Supervisor packages and the validation report are additional downloads for studying solutions and running the replay tests. The full repository ZIP provides a convenient way to obtain everything together.
+
+### Python environment
+
 Use **Python 3.13** with Tcl/Tk support and a desktop session. Validation used Python 3.13.5. The standard Windows Python installer includes a Tcl/Tk option. On Linux, install the Tk package matching your Python version. Run `python3.13 -m tkinter` to check the windowing setup.
 
 From the **repository root**, run:
