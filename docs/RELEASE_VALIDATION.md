@@ -19,6 +19,9 @@ guide](../examples/tr87/README.md). The release packaging command builds a file
 manifest alongside the ZIP. Replays emit new local reports with source,
 configuration, and runtime identities.
 
+The [TR87 run-v1 process archive](https://github.com/Jacky23307110248/ARCAGI-pipeline/releases/tag/tr87-run-v1)
+contains the revision history, execution records and supporting evidence.
+
 ## Historical scope
 
 LS20 established a frozen-design production path. An earlier TR87 repair3 run
