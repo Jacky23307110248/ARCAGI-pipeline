@@ -132,6 +132,28 @@ class GameProvenanceTests(unittest.TestCase):
         self.assertIn("arc-agi", result["required_packages"])
         self.assertIn("tufa-arc-agi-framework", result["required_packages"])
 
+    def test_raw_profile_verifies_actual_module_and_rejects_duplicate_versions(self):
+        site=self.root/"raw-site"
+        self._add_distribution(site,"arcengine","0.9.3","arcengine")
+        for name in ("numpy","pydantic"):
+            self._add_distribution(site,name,importlib.metadata.version(name),name)
+        with patch.dict(os.environ,{"PYTHONPATH":str(site)}):
+            valid=inspect_runtime_packages(sys.executable,"raw-arcengine")
+            self.assertEqual(valid["status"],"verified",valid)
+            self.assertEqual(valid["required_packages"],["arcengine","numpy","pydantic"])
+            self._add_distribution(site,"pydantic","999.0","pydantic")
+            invalid=inspect_runtime_packages(sys.executable,"raw-arcengine")
+            self.assertEqual(invalid["status"],"unverified")
+
+    def test_raw_profile_rejects_metadata_whose_module_resolves_elsewhere(self):
+        site=self.root/"shadow-site"
+        self._add_distribution(site,"arcengine","0.9.3","arcengine")
+        self._add_distribution(site,"numpy",importlib.metadata.version("numpy"),"numpy")
+        self._add_distribution(site,"pydantic",importlib.metadata.version("pydantic"),"other_pydantic")
+        with patch.dict(os.environ,{"PYTHONPATH":str(site)}):
+            result=inspect_runtime_packages(sys.executable,"raw-arcengine")
+        self.assertEqual(result["status"],"unverified")
+
 
 if __name__ == "__main__":
     unittest.main()

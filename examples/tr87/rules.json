@@ -1,0 +1,361 @@
+{
+  "rules": [
+    {
+      "evidence_refs": [
+        "duck-e5",
+        "tycho-outcome-0001"
+      ],
+      "extensions": {
+        "alternatives": [
+          "final_score includes unexported scoring components",
+          "the two packets are re-exports of one run but final_score is not comparable across export forms"
+        ],
+        "cross_packet_dependency": "tr87-cross-packet-identity-unestablished",
+        "merge_withheld_reason": "supplied evidence does not establish that the duck and tycho packets describe the same run",
+        "scope": "per-packet outcome records only; no cross-packet merge",
+        "untested_boundaries": [
+          "whether final_score is comparable across runs or export forms",
+          "same-run identity of the duck and tycho packets"
+        ]
+      },
+      "id": "tr87-run-outcome",
+      "statement": "Per-packet outcome records independently report a win at 6/6 levels: the duck packet viewer_data reports status won, levels_completed 6, total_levels 6, final_score 77.84043470086425; the tycho packet outcome record reports levels_completed=6, n_levels=6, partial=false, stop_reason=win. The viewer score is not merged with the tycho outcome because same-run identity is not established.",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "duck-e2",
+        "source-levels-grid"
+      ],
+      "extensions": {
+        "alternatives": [
+          "export encoding may be version-specific"
+        ],
+        "source_version": "supplied source sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+        "untested_boundaries": [
+          "historical same-version source identity"
+        ]
+      },
+      "id": "tr87-grid-and-level-count",
+      "statement": "The exported trace begins at step 0 with RESET and a 64x64 grid-full/v1 observation; the supplied source declares six levels, each with grid_size=(64,64).",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "duck-e3",
+        "tycho-step74-reset"
+      ],
+      "extensions": {
+        "alternatives": [
+          "RESET input restarts the current level",
+          "RESET marks an episode boundary",
+          "RESET only resets selected state"
+        ],
+        "cross_packet_dependency": "tr87-cross-packet-identity-unestablished",
+        "packet_scoping": "the two RESET step sets are reported separately because same-run identity is not established",
+        "untested_boundaries": [
+          "effect on completed levels, action budget, and score",
+          "whether the two packets share level indexing"
+        ]
+      },
+      "id": "tr87-reset-mid-run",
+      "statement": "RESET is not confined to step 0 within either supplied packet: the duck packet exports RESET at steps 41,262,325,360 beyond step 0, while the tycho packet exports RESET at step 74 (record_index 73), where the delta shows level-2 cyan-cycle slot values flipping back and row-63 meter cells returning to 1. The two packets' RESET step sets differ.",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "tycho-step74-reset"
+      ],
+      "extensions": {
+        "alternatives": [
+          "RESET may restore the setup snapshot exactly",
+          "RESET may only reset a subset of selected state",
+          "the meter may change for a reason other than selected-value mutation"
+        ],
+        "untested_boundaries": [
+          "setup-snapshot equality",
+          "causal link between selected-value mutation and meter change",
+          "effect of RESET on action budget and score"
+        ]
+      },
+      "id": "tr87-tycho-reset-delta-scope",
+      "statement": "The tycho step-74 RESET delta is directly observed to show level-2 cyan-cycle slot values flipping back and row-63 meter cells returning to 1; the supplied trace does not establish equality to the level-setup snapshot or that selected-value mutation causes the meter change.",
+      "status": "unknown"
+    },
+    {
+      "evidence_refs": [
+        "duck-e4",
+        "duck-e5"
+      ],
+      "extensions": {
+        "alternatives": [
+          "final_score includes unexported time, level, or action bonuses",
+          "reward field is normalized while final_score uses a different scale"
+        ],
+        "packet_scoping": "duck packet only",
+        "untested_boundaries": [
+          "scoring formula",
+          "whether tycho records reward fields at all"
+        ]
+      },
+      "id": "tr87-reward-observation",
+      "statement": "In the duck packet, every explicit level_completed=true event in the exported trace carries reward 0.16666666666666666, and final step 509 with done/run_complete carries the same reward; the duck viewer final_score 77.84043470086425 is not equal to the sum of those exported rewards.",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "source-game-class",
+        "source-controls"
+      ],
+      "extensions": {
+        "alternatives": [
+          "exported directional labels UP/RIGHT/LEFT/DOWN may map to ACTION IDs differently"
+        ],
+        "source_binding": "unbound; not historical same-version identity",
+        "source_sha256": "3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+        "untested_boundaries": [
+          "label-to-action mapping in the exported trace"
+        ]
+      },
+      "id": "tr87-controls-source-snapshot",
+      "statement": "In the supplied Tr87 source snapshot, available_actions are [1,2,3,4]; ACTION3/4 cycle the selected rule index, and ACTION1/2 rotate the selected sequence by -1/+1 through wpbnovjwkv.",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "source-win-check",
+        "source-after-win-animation"
+      ],
+      "extensions": {
+        "alternatives": [
+          "greedy matching may be ambiguous with duplicate rules"
+        ],
+        "source_binding": "unbound; not historical same-version identity",
+        "source_sha256": "3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+        "untested_boundaries": [
+          "trace-level confirmation of the matching procedure"
+        ]
+      },
+      "id": "tr87-win-check-source-snapshot",
+      "statement": "In the supplied Tr87 source snapshot, the win check greedily matches the left sprite sequence against rule pairs and verifies the corresponding right sequence, requiring all left sprites to be consumed; after a solved check, matched sprites animate and next_level is called.",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "source-action-budget",
+        "source-loss"
+      ],
+      "extensions": {
+        "alternatives": [
+          "budget depletion may be masked by reset or win ordering"
+        ],
+        "source_binding": "unbound; not historical same-version identity",
+        "source_sha256": "3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+        "untested_boundaries": [
+          "whether RESET replenishes budget",
+          "how budget maps to exported steps"
+        ]
+      },
+      "id": "tr87-budget-and-loss-source-snapshot",
+      "statement": "In the supplied Tr87 source snapshot, action budget is 128 for level indices <=4 and 256 for index 5; if the budget reaches zero before the solved branch returns, the game calls lose().",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "source-level-flags",
+        "source-rule-randomization"
+      ],
+      "extensions": {
+        "indexing_caveat": "source finding labels levels[3..5] as levels 4..6; statement retains both readings",
+        "source_binding": "unbound; not historical same-version identity",
+        "source_sha256": "3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+        "untested_boundaries": [
+          "exact randomness consumed in the historical run"
+        ]
+      },
+      "id": "tr87-level-flags-source-snapshot",
+      "statement": "In the supplied Tr87 source snapshot, declared level indices 3,4,5 carry double_translation, alter_rules, and double_translation+alter_rules+tree_translation respectively; alter_rules randomizes both sides of rule pairs, otherwise only the ztgmtnnufb side is randomized.",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "source-rotations",
+        "source-rule-pairs",
+        "source-rng-seeds"
+      ],
+      "extensions": {
+        "alternatives": [
+          "historical run may use a different source version or seed ordering"
+        ],
+        "source_binding": "unbound; not historical same-version identity",
+        "source_sha256": "3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+        "untested_boundaries": [
+          "whether observed slot/glyph values correspond to these sprite tags",
+          "how many iqrduxrukrk markers each level declares"
+        ]
+      },
+      "id": "tr87-rotation-and-rule-pair-source-snapshot",
+      "statement": "In the supplied Tr87 source snapshot, nxkictbbvzt sprites are sorted by (y,x), assigned a seeded rotation from [0,90,180,270], and iqrduxrukrk markers anchor left/right nxkictbbvzt sequences extended horizontally with step 7; per-level seed arrays are fixed in source.",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "source-rule-pairs",
+        "source-controls"
+      ],
+      "extensions": {
+        "alternatives": [
+          "a level may declare only one rule pair",
+          "a level may declare multiple rule pairs not counted in the supplied finding",
+          "selected_rule_index change may be visible through another observable"
+        ],
+        "source_binding": "unbound; not historical same-version identity",
+        "source_sha256": "3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+        "untested_boundaries": [
+          "per-level rule-pair count",
+          "trace mapping between selected_rule_index and rendered slots"
+        ]
+      },
+      "id": "tr87-rule-pair-count-unestablished",
+      "statement": "The supplied source finding source-rule-pairs states that each iqrduxrukrk marker anchors a left and right nxkictbbvzt sequence, and source-controls states that ACTION3/4 cycle a selected rule index; these findings do not state how many iqrduxrukrk markers or rule pairs any level declares. A requirement that ACTION3/4 visibly changes selected_rule_index by constructing at least two declared rule pairs is therefore not established by the supplied findings alone.",
+      "status": "unknown"
+    },
+    {
+      "evidence_refs": [
+        "source-ui-meter",
+        "source-hidden-tokens"
+      ],
+      "extensions": {
+        "alternatives": [
+          "progress segment may encode remaining budget rather than completion",
+          "hidden tokens may serve as internal match targets"
+        ],
+        "source_binding": "unbound; not historical same-version identity",
+        "source_sha256": "3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+        "untested_boundaries": [
+          "trace confirmation of meter identity and hidden-token role",
+          "rendered meter quantization boundaries"
+        ]
+      },
+      "id": "tr87-ui-and-hidden-tokens-source-snapshot",
+      "statement": "In the supplied Tr87 source snapshot, the interface renders a bottom color-4 bar with a color-1 progress segment proportional to upmkivwyrxz/vfpimnmtnta, and all tjaqvwdgkxe-tagged sprites are hidden during setup while the win check reads them by name.",
+      "status": "supported"
+    },
+    {
+      "evidence_refs": [
+        "tycho-coverage-0001",
+        "tycho-note-empty-l5-registry",
+        "tycho-note-fallback-l0",
+        "tycho-note-fallback-l1",
+        "tycho-note-fallback-l4",
+        "tycho-note-level1-world-model",
+        "tycho-note-level2",
+        "tycho-note-level3",
+        "tycho-note-level5",
+        "duck-e8",
+        "tycho-limits",
+        "tycho-limits-transcript-field"
+      ],
+      "extensions": {
+        "alternatives": [
+          "reasoning may exist but was excluded or unimported",
+          "notes may reflect in-run hypotheses rather than verified rules",
+          "the uncharacterized notes may include other note kinds"
+        ],
+        "boundary": "exclusion does not establish absence",
+        "note_records_supplied": {
+          "deterministic_fallback": [
+            "level 0",
+            "level 1",
+            "level 4"
+          ],
+          "empty": [
+            "04_l5_registry.json"
+          ],
+          "in_run_hypothesis": [
+            "level 1 world model",
+            "level 2 insights",
+            "level 3 insights",
+            "level 5 insights"
+          ]
+        },
+        "packet_scoping": "duck packet has 0 saved notes; tycho packet has 12 imported saved notes, of which supplied records include fallback, empty, and hypothesis examples; same-run identity not established",
+        "untested_boundaries": [
+          "whether unimported reasoning exists elsewhere",
+          "full inventory and status of all 12 tycho saved notes"
+        ]
+      },
+      "id": "tr87-player-reasoning-not-established",
+      "statement": "No player strategy, intent, or contemporary reasoning is established from supplied materials. The duck packet has saved_notes=0. The tycho packet reports 12 saved notes; among the supplied note records, levels 0, 1, and 4 are deterministic fallback notes stating the summary pass did not create the requested note, 04_l5_registry.json is empty, and levels 1, 2, 3, and 5/world-model records are written as in-run hypotheses. The supplied evidence does not characterize the remaining notes, so it does not establish that all 12 notes are in-run hypotheses. action_sequence_is_not_reasoning_evidence=true; Tycho-specific transcript-text import status is not independently established.",
+      "status": "unknown"
+    },
+    {
+      "evidence_refs": [
+        "tycho-source-binding",
+        "source-game-class"
+      ],
+      "extensions": {
+        "alternatives": [
+          "historical version differs",
+          "supplied source matches but cannot be verified"
+        ],
+        "source_findings_limitation": "each source finding states no historical same-version identity is inferred",
+        "untested_boundaries": [
+          "hash binding to the exact historical game source tree"
+        ]
+      },
+      "id": "tr87-source-version-unbound",
+      "statement": "The historical run's exact source/version is unbound (basis=game_id_only, source_sha256=null); all source_finding rules are scoped to supplied source sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305 and do not establish same-version identity for tr87-cd924810.",
+      "status": "unknown"
+    },
+    {
+      "evidence_refs": [
+        "duck-e4",
+        "duck-e5",
+        "duck-e6"
+      ],
+      "extensions": {
+        "alternatives": [
+          "final level is represented only by run_complete",
+          "one level completion is not exported",
+          "counter semantics differ"
+        ],
+        "packet_scoping": "duck packet only",
+        "untested_boundaries": [
+          "which event corresponds to each of the six levels",
+          "whether the tycho packet represents six completions differently"
+        ]
+      },
+      "id": "tr87-level-completion-count-conflict",
+      "statement": "Within the duck packet, the exported trace and viewer disagree on explicit level-completion representation: the trace has five level_completed=true events at steps 98,147,189,217,303 plus final done/run_complete at step 509, while viewer_data reports six levels completed; the cause is unresolved.",
+      "status": "conflicting"
+    },
+    {
+      "evidence_refs": [
+        "duck-e1",
+        "duck-e3",
+        "tycho-coverage-0001",
+        "tycho-step74-reset"
+      ],
+      "extensions": {
+        "alternatives": [
+          "the packets are different runs of the same game_id",
+          "one packet is a re-export or subset of the other with different filtering",
+          "the packets describe different sessions or level selections"
+        ],
+        "compared_fields": {
+          "duck": "raw_event_count 566, exported_trace_steps 510, saved_notes 0; RESET steps 0,41,262,325,360",
+          "tycho": "raw_event_count 213, exported_trace_steps 213, saved_notes 12; RESET at exported step 74 (record_index 73)"
+        },
+        "untested_boundaries": [
+          "same-run identity",
+          "export provenance and filtering basis",
+          "which packet's coverage is authoritative for tr87-cd924810"
+        ]
+      },
+      "id": "tr87-cross-packet-identity-unestablished",
+      "statement": "Two supplied packets both carry game_id tr87-cd924810 but differ materially in coverage and RESET positions: the duck packet reports 566 raw events / 510 exported trace steps / 0 saved notes with RESET at steps 0,41,262,325,360, while the tycho packet reports 213/213/12 saved notes with RESET at exported step 74. No supplied evidence states whether these are the same run, a re-export, or different runs; cross-packet merging and coverage claims therefore lack an established basis.",
+      "status": "unknown"
+    }
+  ]
+}

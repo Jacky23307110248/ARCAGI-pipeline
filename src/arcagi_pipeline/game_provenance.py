@@ -166,6 +166,7 @@ def inspect_runtime_packages(python: str, backend: str) -> dict[str, Any]:
     """Fingerprint installed engine distributions and editable local sources."""
     required_by_backend = {
         "tycho": ["arc-agi", "arcengine", "jinja2", "numpy", "pillow", "pyyaml"],
+        "raw-arcengine": ["arcengine", "numpy", "pydantic"],
         "duck": [
             "arcengine", "matplotlib", "python-dotenv", "requests",
             "tufa-arc-agi-framework", "arc-agi", "imageio", "imageio-ffmpeg",
@@ -175,7 +176,7 @@ def inspect_runtime_packages(python: str, backend: str) -> dict[str, Any]:
     if backend not in required_by_backend:
         raise ValueError(f"unsupported runtime backend: {backend}")
     script = r"""
-import hashlib, importlib.metadata as metadata, json, platform, re, sys, sysconfig
+import hashlib, importlib.metadata as metadata, importlib.util as module_util, json, platform, re, sys, sysconfig
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 from urllib.request import url2pathname
@@ -235,6 +236,14 @@ def package_record(name, fingerprint_files=False):
             installed.update(wire)
         record["installed_tree_sha256"] = installed.hexdigest() if rows else None
         record["installed_file_count"] = len(rows)
+        module_name={"arcengine":"arcengine","numpy":"numpy","pydantic":"pydantic"}.get(name)
+        if module_name:
+            try:
+                spec=module_util.find_spec(module_name)
+                origin=Path(spec.origin).resolve() if spec and spec.origin else None
+                record["module_origin"]=str(origin) if origin else None
+                record["module_matches_distribution"]=bool(origin and any(Path(dist.locate_file(file)).resolve()==origin for file in (dist.files or ())))
+            except (ImportError,ValueError,AttributeError):record["module_matches_distribution"]=False
     direct = dist.read_text("direct_url.json")
     if direct:
         try:
@@ -260,9 +269,9 @@ def canonical_name(value):
 names = [
     "arc-agi", "arcengine", "jinja2", "numpy", "pillow", "pyyaml",
     "matplotlib", "python-dotenv", "requests", "tufa-arc-agi-framework",
-    "imageio", "imageio-ffmpeg", "scipy", "kaggle",
+    "imageio", "imageio-ffmpeg", "scipy", "kaggle", "pydantic",
 ]
-code_packages = {"arc-agi", "arcengine", "tufa-arc-agi-framework"}
+code_packages = {"arc-agi", "arcengine", "tufa-arc-agi-framework", "numpy", "pydantic"}
 packages = {name: package_record(name, fingerprint_files=(name in code_packages)) for name in names}
 inventory = []
 for dist in metadata.distributions():
@@ -312,6 +321,8 @@ print(json.dumps(runtime))
         if installed_versions != {package["version"]}:
             return False
         if name in {"arc-agi", "arcengine"} and not package.get("installed_tree_sha256"):
+            return False
+        if backend=="raw-arcengine" and (not package.get("installed_tree_sha256") or not package.get("module_matches_distribution")):
             return False
         if package.get("source_kind") == "editable_local":
             return bool(package.get("editable_source") and package.get("source_tree_sha256"))

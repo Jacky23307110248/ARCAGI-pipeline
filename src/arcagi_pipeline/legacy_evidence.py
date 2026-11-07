@@ -57,10 +57,10 @@ def file_ref(path: Path, role: str) -> dict[str, str]:
 
 
 def create_tycho_binding_manifest(
-    *, game_id: str, tycho_root: Path, source_dir: Path, python: str, output_path: Path
+    *, game_id: str, tycho_root: Path, source_dir: Path, python: str, output_path: Path, runtime_profile: str = "tycho"
 ) -> dict[str, Any]:
     env = inspect_tycho_environment(tycho_root, game_id, source_dir=source_dir)
-    runtime = inspect_runtime_packages(python, "tycho")
+    runtime = inspect_runtime_packages(python, runtime_profile)
     if env.get("status") != "verified":
         raise ValueError(f"game source is not verified: {env.get('reason')}")
     value = {
@@ -71,6 +71,7 @@ def create_tycho_binding_manifest(
         "source": env,
         "runtime": runtime,
         "historical_runs": {"binding": "not_implied"},
+        "runtime_profile": runtime_profile,
     }
     write_new_json(output_path, value)
     return {

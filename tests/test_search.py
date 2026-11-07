@@ -41,6 +41,19 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(result.actions, ("go",))
         self.assertTrue(result.replay_accepted)
 
+    def test_non_boolean_model_flags_cannot_prove_exhaustion(self):
+        domain=TinyDomain({},"goal",complete="true")
+        self.assertEqual(exact_bfs(domain).status,"unknown")
+        domain.deterministic="true"
+        self.assertEqual(exact_bfs(domain).status,"unknown")
+
+    def test_truthy_non_boolean_replay_cannot_solve(self):
+        for result in ("false",1,{"accepted":True}):
+            with self.subTest(result=result):
+                found=exact_bfs(TinyDomain({"start":{"go":"goal"}},"goal",replay=result))
+                self.assertEqual(found.status,"unknown")
+                self.assertEqual(found.reason,"invalid_engine_replay_result")
+
     def test_replay_mismatch_is_unknown(self):
         result = exact_bfs(TinyDomain({"start": {"go": "goal"}}, "goal", replay=False))
         self.assertEqual(result.status, "unknown")

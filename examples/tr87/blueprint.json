@@ -1,0 +1,1149 @@
+{
+  "commitment_changes": [
+    {
+      "obligation_id": "BR-01-grid-shape",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-01-level-0-baseline"
+    },
+    {
+      "obligation_id": "BR-01-available-actions",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-01-level-0-baseline"
+    },
+    {
+      "obligation_id": "BR-01-budget-128",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-01-level-0-baseline"
+    },
+    {
+      "obligation_id": "BR-01-selected-index",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-01-level-0-baseline"
+    },
+    {
+      "obligation_id": "BR-01-win-advance",
+      "reason": "Converted the unsupported predicate object to the supported string predicate changes and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-01-level-0-baseline"
+    },
+    {
+      "obligation_id": "BR-02-level-index",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-02-level-1-transition-budget-win"
+    },
+    {
+      "obligation_id": "BR-02-budget",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-02-level-1-transition-budget-win"
+    },
+    {
+      "obligation_id": "BR-02-available-actions",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-02-level-1-transition-budget-win"
+    },
+    {
+      "obligation_id": "BR-02-win-advance",
+      "reason": "Converted the unsupported predicate object to the supported string predicate changes and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-02-level-1-transition-budget-win"
+    },
+    {
+      "obligation_id": "BR-03-level-index",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition"
+    },
+    {
+      "obligation_id": "BR-03-budget",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition"
+    },
+    {
+      "obligation_id": "BR-03-cursor-action-3-advertised",
+      "reason": "Converted the unsupported predicate object to the supported string predicate contains and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition"
+    },
+    {
+      "obligation_id": "BR-03-cursor-action-4-advertised",
+      "reason": "Converted the unsupported predicate object to the supported string predicate contains and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition"
+    },
+    {
+      "obligation_id": "BR-03-win-advance",
+      "reason": "Converted the unsupported predicate object to the supported string predicate changes and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition"
+    },
+    {
+      "obligation_id": "BR-04-level-index",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-04-level-3-double-translation-budget"
+    },
+    {
+      "obligation_id": "BR-04-budget",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-04-level-3-double-translation-budget"
+    },
+    {
+      "obligation_id": "BR-04-budget-changes",
+      "reason": "Converted the unsupported predicate object to the supported string predicate changes and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-04-level-3-double-translation-budget"
+    },
+    {
+      "obligation_id": "BR-04-win-advance",
+      "reason": "Converted the unsupported predicate object to the supported string predicate changes and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-04-level-3-double-translation-budget"
+    },
+    {
+      "obligation_id": "BR-05-level-index",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-05-level-4-alter-rules"
+    },
+    {
+      "obligation_id": "BR-05-budget",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-05-level-4-alter-rules"
+    },
+    {
+      "obligation_id": "BR-05-available-actions",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-05-level-4-alter-rules"
+    },
+    {
+      "obligation_id": "BR-05-win-advance",
+      "reason": "Converted the unsupported predicate object to the supported string predicate changes and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-05-level-4-alter-rules"
+    },
+    {
+      "obligation_id": "BR-06-level-index",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-06-level-5-combined-tree"
+    },
+    {
+      "obligation_id": "BR-06-budget-256",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-06-level-5-combined-tree"
+    },
+    {
+      "obligation_id": "BR-06-available-actions",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-06-level-5-combined-tree"
+    },
+    {
+      "obligation_id": "BR-06-final-state-win",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-06-level-5-combined-tree"
+    },
+    {
+      "obligation_id": "BR-06-completed-count-6",
+      "reason": "Converted the unsupported predicate object to the supported string predicate equals and added function-anchor coverage; the check semantics are preserved.",
+      "slot_id": "slot-06-level-5-combined-tree"
+    }
+  ],
+  "commitment_version": 2,
+  "function_anchors": [
+    {
+      "evidence_refs": [
+        "source-game-class",
+        "source-levels-grid",
+        "duck-e2"
+      ],
+      "id": "anchor-grid-actions",
+      "statement": "Supplied Tr87 source declares an ARCBaseGame with game_id tr87, available_actions [1,2,3,4], and six levels each with grid_size (64,64); the duck packet step 0 RESET exports a 64x64 grid-full/v1 observation."
+    },
+    {
+      "evidence_refs": [
+        "source-action-budget",
+        "source-loss"
+      ],
+      "id": "anchor-action-budget",
+      "statement": "Supplied Tr87 source sets action budget 128 for level indices <=4 and 256 for index 5, and calls lose() if the budget reaches zero before the solved branch returns."
+    },
+    {
+      "evidence_refs": [
+        "source-win-check",
+        "source-after-win-animation"
+      ],
+      "id": "anchor-matching-win",
+      "statement": "Supplied Tr87 source greedily matches the left sprite sequence against rule pairs and verifies the corresponding right sequence, requiring all left sprites to be consumed; after a solved check, matched sprites animate and next_level is called."
+    },
+    {
+      "evidence_refs": [
+        "source-controls",
+        "source-game-class"
+      ],
+      "id": "anchor-controls",
+      "statement": "Supplied Tr87 source assigns ACTION3/4 to cycling the selected rule index and ACTION1/2 to rotating the selected sequence by -1/+1."
+    },
+    {
+      "evidence_refs": [
+        "source-level-flags",
+        "source-rule-randomization"
+      ],
+      "id": "anchor-level-flags",
+      "statement": "Supplied Tr87 source declares level index 3 with double_translation, index 4 with alter_rules, and index 5 with double_translation, alter_rules, and tree_translation; alter_rules randomizes both sides of rule pairs."
+    },
+    {
+      "evidence_refs": [
+        "source-levels-grid",
+        "duck-e5",
+        "tycho-outcome-0001"
+      ],
+      "id": "anchor-six-level-completion",
+      "statement": "Supplied Tr87 source defines six levels, and supplied packet outcome records independently report a 6/6-level win; generated-game complete() requires WIN state and completed count equal to the number of installed levels."
+    }
+  ],
+  "production_target": {
+    "contract": "generated-game/v2",
+    "object": "playable_generated_unit"
+  },
+  "slots": [
+    {
+      "behavior_requirements": [
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "Construct level index 0, reset and select it, resolve the planned grid_shape binding, and assert projected.grid_shape equals [64,64].",
+          "description": "The generated baseline level exposes a 64x64 projected grid shape after reset/select.",
+          "id": "BR-01-grid-shape",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "grid_shape"
+          ],
+          "predicate": "equals",
+          "value": [
+            64,
+            64
+          ]
+        },
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "Construct level index 0 and assert projected.available_actions equals [1,2,3,4] using the planned game-owned binding.",
+          "description": "The generated baseline level advertises available actions 1,2,3,4.",
+          "id": "BR-01-available-actions",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "available_actions"
+          ],
+          "predicate": "equals",
+          "value": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "anchor_refs": [
+            "anchor-action-budget"
+          ],
+          "check_description": "After reset/select on level index 0, assert projected.action_budget equals 128 before search actions consume budget.",
+          "description": "Level index 0 starts with a 128-action budget.",
+          "id": "BR-01-budget-128",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "action_budget"
+          ],
+          "predicate": "equals",
+          "value": 128
+        },
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "After reset/select, assert observation.level_index equals 0.",
+          "description": "The generated level is selected at level index 0.",
+          "id": "BR-01-selected-index",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "equals",
+          "value": 0
+        },
+        {
+          "anchor_refs": [
+            "anchor-matching-win"
+          ],
+          "check_description": "Replay the generated search path for level index 0 and assert observation.level_index changes after the solved transition.",
+          "description": "Solving the matching condition on level index 0 advances the level index.",
+          "id": "BR-01-win-advance",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "changes"
+        }
+      ],
+      "evidence_refs": [
+        "duck-e2",
+        "source-levels-grid",
+        "source-game-class",
+        "source-action-budget",
+        "source-loss",
+        "source-win-check",
+        "source-after-win-animation"
+      ],
+      "extensions": {
+        "action_budget": 128,
+        "alternatives": [
+          "The baseline mechanics may be generic to all levels rather than specific to level index 0.",
+          "Exported directional labels may not map directly to ACTION IDs."
+        ],
+        "flags": {},
+        "grid_size": [
+          64,
+          64
+        ],
+        "level_index": 0,
+        "necessity_status": "not established; a winning path proves existence, not necessity of every present rule",
+        "observation_binding_source_basis": {
+          "action_budget": "source-action-budget and source-ui-meter",
+          "available_actions": "source-game-class",
+          "grid_shape": "source-levels-grid"
+        },
+        "observation_binding_status": "pending_implementation; aliases are planned projections, not executed evidence",
+        "observation_bindings": {
+          "action_budget": [
+            "upmkivwyrxz"
+          ],
+          "available_actions": [
+            "available_actions"
+          ],
+          "grid_shape": [
+            "current_level",
+            "_grid_size"
+          ]
+        },
+        "source_binding": "unbound; supplied source sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred",
+        "uncertainty": "Mid-run RESET is observed, but exact restoration to the level-setup snapshot is not established; scoring and final-score calculation are not asserted."
+      },
+      "function_anchor_ids": [
+        "anchor-grid-actions",
+        "anchor-action-budget",
+        "anchor-matching-win"
+      ],
+      "game_function": "baseline_rule_pair_matching_and_level_advance",
+      "id": "slot-01-level-0-baseline",
+      "prerequisites": [],
+      "purpose": "Playable level index 0: a 64x64 grid, available actions 1-4, a 128-action budget, and level advance when the rule-pair matching condition is solved.",
+      "rationale": "Inferred from the exported step-0 RESET with a 64x64 grid, six declared 64x64 levels, the supplied source controls, win-check, and budget findings. This slot does not assert exact RESET restoration to the setup snapshot, a visible selected-rule-index change, scoring formulas, or historical label-to-action mapping. Alternative interpretation: the baseline mechanics may be shared by all levels rather than being level-0-specific. Necessity of every present rule is not established.",
+      "rule_ids": [
+        "tr87-grid-and-level-count",
+        "tr87-win-check-source-snapshot",
+        "tr87-budget-and-loss-source-snapshot"
+      ],
+      "teaching_hypotheses": [
+        {
+          "evidence_needed": "Controlled comparison of level variants and player outcomes.",
+          "hypothesis": "Repeated greedy pair matching may make left-to-right rule composition salient to a player, but no learning gain is established.",
+          "learning_gain_claimed": false,
+          "status": "hypothesis"
+        }
+      ]
+    },
+    {
+      "behavior_requirements": [
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "After reset/select, assert observation.level_index equals 1.",
+          "description": "The generated level is selected at level index 1.",
+          "id": "BR-02-level-index",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "equals",
+          "value": 1
+        },
+        {
+          "anchor_refs": [
+            "anchor-action-budget"
+          ],
+          "check_description": "After reset/select on level index 1, assert projected.action_budget equals 128 before search actions consume budget.",
+          "description": "Level index 1 starts with a 128-action budget.",
+          "id": "BR-02-budget",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "action_budget"
+          ],
+          "predicate": "equals",
+          "value": 128
+        },
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "Assert projected.available_actions equals [1,2,3,4] for level index 1.",
+          "description": "Level index 1 advertises available actions 1,2,3,4.",
+          "id": "BR-02-available-actions",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "available_actions"
+          ],
+          "predicate": "equals",
+          "value": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "anchor_refs": [
+            "anchor-matching-win"
+          ],
+          "check_description": "Replay the generated search path for level index 1 and assert observation.level_index changes after the solved transition.",
+          "description": "Solving the matching condition on level index 1 advances the level index.",
+          "id": "BR-02-win-advance",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "changes"
+        }
+      ],
+      "evidence_refs": [
+        "duck-e2",
+        "source-levels-grid",
+        "source-game-class",
+        "source-action-budget",
+        "source-loss",
+        "source-win-check",
+        "source-after-win-animation",
+        "tycho-note-level1-world-model"
+      ],
+      "extensions": {
+        "action_budget": 128,
+        "alternatives": [
+          "The progress segment may encode remaining budget rather than completion.",
+          "Level index 1 may initialize independently of prior-level completion."
+        ],
+        "flags": {},
+        "grid_size": [
+          64,
+          64
+        ],
+        "level_index": 1,
+        "necessity_status": "not established",
+        "note_handling": "tycho-note-level1-world-model is an in-run hypothesis, not a verified rule; scoped by tr87-player-reasoning-not-established",
+        "observation_binding_source_basis": {
+          "action_budget": "source-action-budget and source-ui-meter",
+          "available_actions": "source-game-class"
+        },
+        "observation_binding_status": "pending_implementation; aliases are planned projections, not executed evidence",
+        "observation_bindings": {
+          "action_budget": [
+            "upmkivwyrxz"
+          ],
+          "available_actions": [
+            "available_actions"
+          ]
+        },
+        "source_binding": "unbound; supplied source sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred",
+        "uncertainty": "Rotation-domain and bottom-bar color observation paths are not established in the adapter; no rotation or meter behavior is asserted. Meter causality and quantization are not established."
+      },
+      "function_anchor_ids": [
+        "anchor-grid-actions",
+        "anchor-action-budget",
+        "anchor-matching-win"
+      ],
+      "game_function": "level_1_budget_and_matching_advance",
+      "id": "slot-02-level-1-transition-budget-win",
+      "prerequisites": [
+        "slot-01-level-0-baseline"
+      ],
+      "purpose": "Playable level index 1: selected level advertises actions 1-4, starts with a 128-action budget, and advances to level 2 when the matching condition is solved. The level-1 note is treated as an in-run hypothesis, not a verified rule.",
+      "rationale": "Builds on slot-01 through the source next_level path. The supplied source sets budget 128 for level indices <=4, and reusable matching completion is supported by the win-check finding. The level-1 note's target sequence and cycling order are not promoted to executable checks. Alternative interpretation: level 1 may initialize independently of prior-level completion. Meter semantics and rotation-domain behavior are not asserted.",
+      "rule_ids": [
+        "tr87-grid-and-level-count",
+        "tr87-win-check-source-snapshot",
+        "tr87-budget-and-loss-source-snapshot",
+        "tr87-player-reasoning-not-established"
+      ],
+      "teaching_hypotheses": [
+        {
+          "evidence_needed": "Meter-semantics experiment separating budget from completion, plus player-outcome comparison.",
+          "hypothesis": "A visible two-color progress meter may communicate remaining budget or completion, but its instructional effect is untested.",
+          "learning_gain_claimed": false,
+          "status": "hypothesis"
+        }
+      ]
+    },
+    {
+      "behavior_requirements": [
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "After reset/select, assert observation.level_index equals 2.",
+          "description": "The generated level is selected at level index 2.",
+          "id": "BR-03-level-index",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "equals",
+          "value": 2
+        },
+        {
+          "anchor_refs": [
+            "anchor-action-budget"
+          ],
+          "check_description": "After reset/select on level index 2, assert projected.action_budget equals 128 before search actions consume budget.",
+          "description": "Level index 2 starts with a 128-action budget.",
+          "id": "BR-03-budget",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "action_budget"
+          ],
+          "predicate": "equals",
+          "value": 128
+        },
+        {
+          "anchor_refs": [
+            "anchor-controls"
+          ],
+          "check_description": "Assert projected.available_actions contains action ID 3 for level index 2; actual cursor-index visibility is not asserted.",
+          "description": "Level index 2 advertises ACTION3 as an available action.",
+          "id": "BR-03-cursor-action-3-advertised",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "available_actions"
+          ],
+          "predicate": "contains",
+          "value": 3
+        },
+        {
+          "anchor_refs": [
+            "anchor-controls"
+          ],
+          "check_description": "Assert projected.available_actions contains action ID 4 for level index 2; actual cursor-index visibility is not asserted.",
+          "description": "Level index 2 advertises ACTION4 as an available action.",
+          "id": "BR-03-cursor-action-4-advertised",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "available_actions"
+          ],
+          "predicate": "contains",
+          "value": 4
+        },
+        {
+          "anchor_refs": [
+            "anchor-matching-win"
+          ],
+          "check_description": "Replay the generated search path for level index 2 and assert observation.level_index changes after the solved transition.",
+          "description": "Solving the matching condition on level index 2 advances the level index.",
+          "id": "BR-03-win-advance",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "changes"
+        }
+      ],
+      "evidence_refs": [
+        "duck-e2",
+        "source-levels-grid",
+        "source-game-class",
+        "source-controls",
+        "source-action-budget",
+        "source-loss",
+        "source-win-check",
+        "source-after-win-animation"
+      ],
+      "extensions": {
+        "action_budget": 128,
+        "alternatives": [
+          "A level may declare only one rule pair.",
+          "A level may declare multiple rule pairs not counted in the supplied finding.",
+          "Accepted cursor actions may not visibly mutate a selected-index count."
+        ],
+        "flags": {},
+        "grid_size": [
+          64,
+          64
+        ],
+        "level_index": 2,
+        "necessity_status": "not established",
+        "observation_binding_source_basis": {
+          "action_budget": "source-action-budget and source-ui-meter",
+          "available_actions": "source-game-class"
+        },
+        "observation_binding_status": "pending_implementation; aliases are planned projections, not executed evidence",
+        "observation_bindings": {
+          "action_budget": [
+            "upmkivwyrxz"
+          ],
+          "available_actions": [
+            "available_actions"
+          ]
+        },
+        "source_binding": "unbound; supplied source sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred",
+        "uncertainty": "Per-level rule-pair count and trace mapping between selected_rule_index and rendered slots are not established."
+      },
+      "function_anchor_ids": [
+        "anchor-grid-actions",
+        "anchor-controls",
+        "anchor-action-budget",
+        "anchor-matching-win"
+      ],
+      "game_function": "level_2_cursor_availability_and_matching_advance",
+      "id": "slot-03-level-2-rule-cursor-and-solved-transition",
+      "prerequisites": [
+        "slot-02-level-1-transition-budget-win"
+      ],
+      "purpose": "Playable level index 2: advertises ACTION3/4 rule-cursor inputs alongside ACTION1/2, starts with a 128-action budget, and advances after solving the rule-pair matching condition. Per-level rule-pair count and visible selected-index change are not asserted.",
+      "rationale": "Reuses the matching core from earlier slots through the next_level path. The supplied source controls state that ACTION3/4 cycle a selected rule index, but the supplied findings do not state how many iqrduxrukrk markers or rule pairs any level declares. A requirement that ACTION3/4 visibly changes selected_rule_index by constructing at least two declared rule pairs is therefore not established. This slot checks advertised action availability, budget, and solved advance. Alternative interpretation: a level may declare only one rule pair or multiple uncounted rule pairs.",
+      "rule_ids": [
+        "tr87-controls-source-snapshot",
+        "tr87-rule-pair-count-unestablished",
+        "tr87-win-check-source-snapshot",
+        "tr87-budget-and-loss-source-snapshot"
+      ],
+      "teaching_hypotheses": [
+        {
+          "evidence_needed": "Per-level marker count and a controlled cursor-use study.",
+          "hypothesis": "A rule cursor may support comparison of left/right pair transformations, but per-level pair count is not established and no learning gain is claimed.",
+          "learning_gain_claimed": false,
+          "status": "hypothesis"
+        }
+      ]
+    },
+    {
+      "behavior_requirements": [
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "After reset/select, assert observation.level_index equals 3.",
+          "description": "The generated level is selected at level index 3.",
+          "id": "BR-04-level-index",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "equals",
+          "value": 3
+        },
+        {
+          "anchor_refs": [
+            "anchor-action-budget"
+          ],
+          "check_description": "After reset/select on level index 3, assert projected.action_budget equals 128 before search actions consume budget.",
+          "description": "Level index 3 starts with a 128-action budget.",
+          "id": "BR-04-budget",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "action_budget"
+          ],
+          "predicate": "equals",
+          "value": 128
+        },
+        {
+          "anchor_refs": [
+            "anchor-action-budget"
+          ],
+          "check_description": "Replay the generated search path for level index 3 and assert projected.action_budget changes across the trajectory; no exact zero or loss terminal value is asserted.",
+          "description": "Taking generated actions on level index 3 changes the projected remaining action budget.",
+          "id": "BR-04-budget-changes",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "action_budget"
+          ],
+          "predicate": "changes"
+        },
+        {
+          "anchor_refs": [
+            "anchor-matching-win"
+          ],
+          "check_description": "Replay the generated search path for level index 3 and assert observation.level_index changes after the solved transition.",
+          "description": "Solving the matching condition on level index 3 advances the level index.",
+          "id": "BR-04-win-advance",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "changes"
+        },
+        {
+          "anchor_refs": [
+            "anchor-level-flags"
+          ],
+          "check_description": "Assert projected.level_data contains the key double_translation for level index 3; the exact transform is not checked.",
+          "description": "Level index 3 configuration carries the source-declared double_translation flag.",
+          "id": "BR-04-flag-double-translation",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "level_data"
+          ],
+          "predicate": "contains",
+          "value": "double_translation"
+        }
+      ],
+      "evidence_refs": [
+        "duck-e2",
+        "source-levels-grid",
+        "source-game-class",
+        "source-action-budget",
+        "source-loss",
+        "source-win-check",
+        "source-after-win-animation",
+        "source-level-flags",
+        "source-rule-randomization"
+      ],
+      "extensions": {
+        "action_budget": 128,
+        "alternatives": [
+          "Source levels[3] may map to a different human-visible level number.",
+          "The exact double-translation transform may be more specific than the flag alone."
+        ],
+        "flag_evidence": "source-declared flag presence; exact transform and visible effect not established from supplied findings",
+        "flags": {
+          "double_translation": true
+        },
+        "grid_size": [
+          64,
+          64
+        ],
+        "indexing_caveat": "source finding labels levels[3] as level 4; both index readings are retained as uncertainty",
+        "level_index": 3,
+        "necessity_status": "not established",
+        "observation_binding_source_basis": {
+          "action_budget": "source-action-budget and source-ui-meter",
+          "level_data": "source-level-flags and source-rule-randomization"
+        },
+        "observation_binding_status": "pending_implementation; aliases are planned projections, not executed evidence",
+        "observation_bindings": {
+          "action_budget": [
+            "upmkivwyrxz"
+          ],
+          "level_data": [
+            "current_level",
+            "_data"
+          ]
+        },
+        "source_binding": "unbound; supplied source sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred",
+        "uncertainty": "Only flag presence, selected index, budget, budget consumption, and completion advance are asserted; the detailed double-translation mechanic and exact loss terminal value are not supplied or verified."
+      },
+      "function_anchor_ids": [
+        "anchor-grid-actions",
+        "anchor-action-budget",
+        "anchor-matching-win",
+        "anchor-level-flags"
+      ],
+      "game_function": "level_3_double_translation_flagged_budget_and_advance",
+      "id": "slot-04-level-3-double-translation-budget",
+      "prerequisites": [
+        "slot-03-level-2-rule-cursor-and-solved-transition"
+      ],
+      "purpose": "Playable level index 3: carries the source-declared double_translation flag in configuration, starts with a 128-action budget, consumes budget as actions are taken, and advances when the matching condition is solved. The exact transform and loss terminal value are not asserted.",
+      "rationale": "Builds on slot-03 through the next_level path. The source finding labels levels[3] as human level 4, so the declared-index reading and human-visible-number reading both remain uncertain. The exact double-translation transform is not supplied. This slot checks selected index, budget, observable budget consumption, flag presence, and solved advance; it does not assert depletion to zero or entry into the loss branch because a replay may solve before budget depletion. Loss necessity and scoring remain unestablished.",
+      "rule_ids": [
+        "tr87-level-flags-source-snapshot",
+        "tr87-budget-and-loss-source-snapshot",
+        "tr87-win-check-source-snapshot"
+      ],
+      "teaching_hypotheses": [
+        {
+          "evidence_needed": "Controlled transfer test comparing single- and double-translation variants.",
+          "hypothesis": "A doubled-translation variant may require reusing a previously encountered transform relation, but no transfer effect is established.",
+          "learning_gain_claimed": false,
+          "status": "hypothesis"
+        }
+      ]
+    },
+    {
+      "behavior_requirements": [
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "After reset/select, assert observation.level_index equals 4.",
+          "description": "The generated level is selected at level index 4.",
+          "id": "BR-05-level-index",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "equals",
+          "value": 4
+        },
+        {
+          "anchor_refs": [
+            "anchor-action-budget"
+          ],
+          "check_description": "After reset/select on level index 4, assert projected.action_budget equals 128 before search actions consume budget.",
+          "description": "Level index 4 starts with a 128-action budget.",
+          "id": "BR-05-budget",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "action_budget"
+          ],
+          "predicate": "equals",
+          "value": 128
+        },
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "Assert projected.available_actions equals [1,2,3,4] for level index 4.",
+          "description": "Level index 4 advertises available actions 1,2,3,4.",
+          "id": "BR-05-available-actions",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "available_actions"
+          ],
+          "predicate": "equals",
+          "value": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "anchor_refs": [
+            "anchor-matching-win"
+          ],
+          "check_description": "Replay the generated search path for level index 4 and assert observation.level_index changes after the solved transition.",
+          "description": "Solving the matching condition on level index 4 advances the level index.",
+          "id": "BR-05-win-advance",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "changes"
+        },
+        {
+          "anchor_refs": [
+            "anchor-level-flags"
+          ],
+          "check_description": "Assert projected.level_data contains the key alter_rules for level index 4; exact randomization is not checked.",
+          "description": "Level index 4 configuration carries the source-declared alter_rules flag.",
+          "id": "BR-05-flag-alter-rules",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "level_data"
+          ],
+          "predicate": "contains",
+          "value": "alter_rules"
+        }
+      ],
+      "evidence_refs": [
+        "duck-e2",
+        "source-levels-grid",
+        "source-game-class",
+        "source-action-budget",
+        "source-loss",
+        "source-win-check",
+        "source-after-win-animation",
+        "source-level-flags",
+        "source-rule-randomization",
+        "source-rule-pairs"
+      ],
+      "extensions": {
+        "action_budget": 128,
+        "alternatives": [
+          "A level may declare only one rule pair.",
+          "A level may declare multiple rule pairs not counted in the supplied finding."
+        ],
+        "flag_evidence": "source-declared flag presence; per-level rule-pair count and randomized configuration are not checked",
+        "flags": {
+          "alter_rules": true
+        },
+        "grid_size": [
+          64,
+          64
+        ],
+        "indexing_caveat": "source finding labels levels[4] as level 5; both index readings are retained as uncertainty",
+        "level_index": 4,
+        "necessity_status": "not established",
+        "observation_binding_source_basis": {
+          "action_budget": "source-action-budget and source-ui-meter",
+          "available_actions": "source-game-class",
+          "level_data": "source-level-flags and source-rule-randomization"
+        },
+        "observation_binding_status": "pending_implementation; aliases are planned projections, not executed evidence",
+        "observation_bindings": {
+          "action_budget": [
+            "upmkivwyrxz"
+          ],
+          "available_actions": [
+            "available_actions"
+          ],
+          "level_data": [
+            "current_level",
+            "_data"
+          ]
+        },
+        "source_binding": "unbound; supplied source sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred",
+        "uncertainty": "Both-side randomization is source-supported under alter_rules, but no exact selected-index, pair-count, variant-index, or randomization behavior is asserted as a generated-unit check."
+      },
+      "function_anchor_ids": [
+        "anchor-grid-actions",
+        "anchor-action-budget",
+        "anchor-matching-win",
+        "anchor-level-flags"
+      ],
+      "game_function": "level_4_alter_rules_flagged_budget_and_advance",
+      "id": "slot-05-level-4-alter-rules",
+      "prerequisites": [
+        "slot-04-level-3-double-translation-budget"
+      ],
+      "purpose": "Playable level index 4: carries the source-declared alter_rules flag in configuration, exposes actions 1-4 and a 128-action budget, and advances when the matching condition is solved. Both-side randomization is not asserted as a generated-unit check.",
+      "rationale": "Reuses slot-04 through the next_level path. The source supports both-side randomization under alter_rules, but does not establish how many rule pairs a level declares, and the supplied findings do not provide a checked generated-unit observation for the randomized configuration. This slot narrows its function to the checked selected index, budget, advertised actions, flag presence, and solved advance while keeping alter_rules flag presence in extensions. Alternative interpretation: alter_rules indexing may differ from the human level number. The historical random distribution is not claimed.",
+      "rule_ids": [
+        "tr87-level-flags-source-snapshot",
+        "tr87-rotation-and-rule-pair-source-snapshot",
+        "tr87-rule-pair-count-unestablished",
+        "tr87-budget-and-loss-source-snapshot",
+        "tr87-win-check-source-snapshot"
+      ],
+      "teaching_hypotheses": [
+        {
+          "evidence_needed": "Comparison of alter_rules versus fixed-side variants with player outcomes.",
+          "hypothesis": "Altering both rule sides may reduce reliance on surface memorization and encourage relational matching, but no learning gain is claimed.",
+          "learning_gain_claimed": false,
+          "status": "hypothesis"
+        }
+      ]
+    },
+    {
+      "behavior_requirements": [
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "After reset/select, assert observation.level_index equals 5.",
+          "description": "The generated final level is selected at level index 5.",
+          "id": "BR-06-level-index",
+          "kind": "behavior",
+          "observation_path": [
+            "level_index"
+          ],
+          "predicate": "equals",
+          "value": 5
+        },
+        {
+          "anchor_refs": [
+            "anchor-action-budget"
+          ],
+          "check_description": "After reset/select on level index 5, assert projected.action_budget equals 256 before search actions consume budget.",
+          "description": "Level index 5 starts with a 256-action budget.",
+          "id": "BR-06-budget-256",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "action_budget"
+          ],
+          "predicate": "equals",
+          "value": 256
+        },
+        {
+          "anchor_refs": [
+            "anchor-grid-actions"
+          ],
+          "check_description": "Assert projected.available_actions equals [1,2,3,4] for level index 5.",
+          "description": "Level index 5 advertises available actions 1,2,3,4.",
+          "id": "BR-06-available-actions",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "available_actions"
+          ],
+          "predicate": "equals",
+          "value": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "anchor_refs": [
+            "anchor-matching-win",
+            "anchor-six-level-completion"
+          ],
+          "check_description": "Replay the generated final level and assert observation.state equals WIN after final completion.",
+          "description": "Solving the final level leaves the generated unit in WIN state.",
+          "id": "BR-06-final-state-win",
+          "kind": "behavior",
+          "observation_path": [
+            "state"
+          ],
+          "predicate": "equals",
+          "value": "WIN"
+        },
+        {
+          "anchor_refs": [
+            "anchor-six-level-completion"
+          ],
+          "check_description": "Replay the generated final level and assert observation.completed equals 6, matching the six installed generated levels; no packet merge is asserted.",
+          "description": "Final completion reports six completed levels.",
+          "id": "BR-06-completed-count-6",
+          "kind": "behavior",
+          "observation_path": [
+            "completed"
+          ],
+          "predicate": "equals",
+          "value": 6
+        },
+        {
+          "anchor_refs": [
+            "anchor-level-flags"
+          ],
+          "check_description": "Assert projected.level_data contains the key double_translation for the final level; exact combined transform is not checked.",
+          "description": "Level index 5 configuration carries the source-declared double_translation flag.",
+          "id": "BR-06-flag-double-translation",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "level_data"
+          ],
+          "predicate": "contains",
+          "value": "double_translation"
+        },
+        {
+          "anchor_refs": [
+            "anchor-level-flags"
+          ],
+          "check_description": "Assert projected.level_data contains the key alter_rules for the final level; exact randomization is not checked.",
+          "description": "Level index 5 configuration carries the source-declared alter_rules flag.",
+          "id": "BR-06-flag-alter-rules",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "level_data"
+          ],
+          "predicate": "contains",
+          "value": "alter_rules"
+        },
+        {
+          "anchor_refs": [
+            "anchor-level-flags"
+          ],
+          "check_description": "Assert projected.level_data contains the key tree_translation for the final level; exact combined transform is not checked.",
+          "description": "Level index 5 configuration carries the source-declared tree_translation flag.",
+          "id": "BR-06-flag-tree-translation",
+          "kind": "behavior",
+          "observation_path": [
+            "projected",
+            "level_data"
+          ],
+          "predicate": "contains",
+          "value": "tree_translation"
+        }
+      ],
+      "evidence_refs": [
+        "duck-e2",
+        "source-levels-grid",
+        "source-game-class",
+        "source-action-budget",
+        "source-loss",
+        "source-win-check",
+        "source-after-win-animation",
+        "source-level-flags",
+        "source-rule-randomization",
+        "source-hidden-tokens",
+        "duck-e5",
+        "tycho-outcome-0001"
+      ],
+      "extensions": {
+        "action_budget": 256,
+        "alternatives": [
+          "The final level may be represented only by run_complete in the exported trace.",
+          "Viewer and trace completion counts may use different counter semantics.",
+          "Hidden tokens may serve as internal match targets rather than visible play pieces."
+        ],
+        "completion_count_uncertainty": "duck trace has five explicit level_completed events plus final run_complete while viewer reports 6/6; cause unresolved",
+        "cross_packet_note": "duck and tycho packets are not merged because same-run identity is not established; packet outcome fields are retained as evidence-only references, not generated-unit behavior requirements",
+        "flag_evidence": "source-declared flag presence; exact combined transform is not supplied or checked",
+        "flags": {
+          "alter_rules": true,
+          "double_translation": true,
+          "tree_translation": true
+        },
+        "grid_size": [
+          64,
+          64
+        ],
+        "hidden_token_behavior": "source-hidden-tokens states tjaqvwdgkxe sprites are hidden during setup; no single game-owned read-only alias is established for a direct visibility assertion, so it remains configuration uncertainty",
+        "indexing_caveat": "source finding labels levels[5] as level 6; both index readings are retained as uncertainty",
+        "level_index": 5,
+        "necessity_status": "not established; a winning path proves existence, not necessity of every present rule",
+        "observation_binding_source_basis": {
+          "action_budget": "source-action-budget and source-ui-meter",
+          "available_actions": "source-game-class",
+          "level_data": "source-level-flags and source-rule-randomization"
+        },
+        "observation_binding_status": "pending_implementation; aliases are planned projections, not executed evidence",
+        "observation_bindings": {
+          "action_budget": [
+            "upmkivwyrxz"
+          ],
+          "available_actions": [
+            "available_actions"
+          ],
+          "level_data": [
+            "current_level",
+            "_data"
+          ]
+        },
+        "packet_outcomes_evidence_only": {
+          "duck_viewer": "status won, levels_completed 6, total_levels 6, final_score 77.84043470086425",
+          "tycho_outcome": "levels_completed=6, n_levels=6, partial=false, stop_reason=win"
+        },
+        "source_binding": "unbound; supplied source sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred",
+        "uncertainty": "Run outcome is reported per packet at 6/6 levels, but cross-packet identity and completion-count reconciliation remain unresolved; final_score is not asserted and final-step level_completed is not asserted."
+      },
+      "function_anchor_ids": [
+        "anchor-grid-actions",
+        "anchor-action-budget",
+        "anchor-matching-win",
+        "anchor-level-flags",
+        "anchor-six-level-completion"
+      ],
+      "game_function": "level_5_combined_flags_final_completion",
+      "id": "slot-06-level-5-combined-tree",
+      "prerequisites": [
+        "slot-05-level-4-alter-rules"
+      ],
+      "purpose": "Playable final level index 5: carries combined source-declared flags in configuration, starts with a 256-action budget, advertises actions 1-4, and completes the six-level unit with state WIN and completed count 6. Hidden tjaqvwdgkxe-tagged sprite setup is recorded as unverified configuration, not asserted as a direct check.",
+      "rationale": "Reuses slot-05 through the next_level path. The source declares budget 256 for index 5, combined flags, and hidden tjaqvwdgkxe-tagged sprites during setup. The API complete() requires WIN state and score equal to the number of installed levels, so this slot checks final state and completed count. Packet outcomes reporting 6/6 are retained as evidence-only and not merged because same-run identity is unestablished. Final-step level_completed is not asserted because duck-e4 shows it false at the final exported step. Alternative interpretation: hidden tokens may serve as internal match targets rather than visible play pieces.",
+      "rule_ids": [
+        "tr87-grid-and-level-count",
+        "tr87-level-flags-source-snapshot",
+        "tr87-budget-and-loss-source-snapshot",
+        "tr87-ui-and-hidden-tokens-source-snapshot",
+        "tr87-win-check-source-snapshot",
+        "tr87-run-outcome",
+        "tr87-cross-packet-identity-unestablished"
+      ],
+      "teaching_hypotheses": [
+        {
+          "evidence_needed": "Controlled composition-transfer experiment with variants isolating tree_translation, double_translation, and alter_rules.",
+          "hypothesis": "Combining transformations may encourage compositional problem solving, but no educational effectiveness or necessity of every mechanism is established.",
+          "learning_gain_claimed": false,
+          "status": "hypothesis"
+        }
+      ]
+    }
+  ],
+  "validation_program_version": "arcagi-validation-program/v2"
+}

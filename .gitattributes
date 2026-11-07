@@ -1,0 +1,10 @@
+* text=auto eol=lf
+# Preserve byte identities used by provenance manifests.
+src/** -text
+schemas/** -text
+tests/** -text
+workflows/prompts/** -text
+examples/neutral_machine/** -text
+examples/ls20/** -text
+examples/tr87/** -text
+vendor/arcengine/** -text

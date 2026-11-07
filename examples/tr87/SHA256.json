@@ -1,0 +1,21 @@
+{
+  "examples/tr87/__init__.py": "afafbb0f83fe237143ed65aa0e577e16e6dbec7c6514573f73f9735217bc5a2b",
+  "examples/tr87/adapter.py": "5d43bb3a2a7aaa296f6f7f7e5c6268839436aae631fe0a17f34ff3bdfa77b1d9",
+  "examples/tr87/blueprint.json": "1682704999282fc38d7fa8af39a39eff2b1e3863b0420ea0899d45d93316bad4",
+  "examples/tr87/evidence.json": "4303b00c91d21d19bde9d7c923bee6c3bb472c49bd31daee4f6f705bf4dbd8a5",
+  "examples/tr87/game/metadata.json": "9b2250af0f5a23d1c622ff8028c088aebb384f16bb7935a1f60a874ccb68345c",
+  "examples/tr87/game/tr87.py": "3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305",
+  "examples/tr87/replay.json": "82c7ade36bb78417f7ed6b21e627fe90e48b80963b45e5b1dc06749f9056c1cb",
+  "examples/tr87/requirements.txt": "3d7b81dce07c7f479632fd07d5b1d4f6a7ea8b72a90801e9304ccd5a336752e3",
+  "examples/tr87/rules.json": "d13ec928dfe7f30d5fd25e1e7eac0e9c066d844f245614b6ade10c0179ee65fb",
+  "examples/tr87/unit.json": "d51ae56d2a6f45ef72ac7607fdc3e66da11090d931eddf233e8de8a31c8df266",
+  "examples/tr87/verify.py": "de7c46725e854f903007192ba903a15661098a3605283dfa71c49d9a8ebd439a",
+  "vendor/arcengine/LICENSE-MIT.txt": "dc408b7287c1c9cf8034bca32b8ca9ac157651998a08a28e21a06af6fe02ace0",
+  "vendor/arcengine/arcengine/__init__.py": "538961ed7fcd09401dc7157c5611ee9f1fdaa177eae751a4b61b16844ab4304b",
+  "vendor/arcengine/arcengine/base_game.py": "5b5f41f3bec4c0c97a727fda7326114991dc0d4a5642d489b40ee4aa87e6b15f",
+  "vendor/arcengine/arcengine/camera.py": "f06e16807b0f97d86cafb5481bb3969213f27768f789d898c6b8b07e957de397",
+  "vendor/arcengine/arcengine/enums.py": "94ebef48f6fe950a18679a1b991c366e8e28c32ab58c9335f385e19bea21950e",
+  "vendor/arcengine/arcengine/interfaces.py": "0cfc24178e9f1102fb4ccb5892141d91c3a9eec88eccab3402b9777a76532cd8",
+  "vendor/arcengine/arcengine/level.py": "f74db969772b251018b2fcce6ec42f3522adeef4e9c03c036e455d2a35e3215a",
+  "vendor/arcengine/arcengine/sprites.py": "ea9d3d02c7db0814954134a0e0ea6a3cb9b80066930dbdbfc5865befb54c493f"
+}

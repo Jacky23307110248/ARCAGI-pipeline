@@ -1,0 +1,5520 @@
+{
+  "constructor": {},
+  "engine_class": "Tr87",
+  "levels": [
+    {
+      "configuration": {
+        "engine_level": {
+          "data": {},
+          "grid_size": [
+            64,
+            64
+          ],
+          "sprites": [
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "background",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 0,
+              "_y": 10,
+              "pixels": [
+                [
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA1",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB1",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 13,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA1",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 4,
+              "_y": 20,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB6",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 4,
+              "_y": 32,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC1",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 14,
+              "_y": 32,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            }
+          ]
+        },
+        "model": {
+          "desired_movable": "nxkictbbvztB1",
+          "flags": {},
+          "generator_seed": 17,
+          "level_index": 0,
+          "movable_initial_names": [
+            "nxkictbbvztB6",
+            "nxkictbbvztC1"
+          ],
+          "rule_specs": [
+            {
+              "k_left": 0,
+              "k_right": 0,
+              "left_final": "nxkictbbvztA1",
+              "left_initial": "nxkictbbvztA1",
+              "marker_x": 2,
+              "right_final": "nxkictbbvztB1",
+              "right_initial": "nxkictbbvztB1"
+            }
+          ],
+          "slot_id": "slot-01-level-0-baseline",
+          "solution_actions": [
+            4,
+            1
+          ],
+          "source_seed": 7,
+          "target_name": "nxkictbbvztA1"
+        }
+      },
+      "construction": {
+        "claims": [
+          {
+            "check": "Construct level index 0, reset and select it, resolve the planned grid_shape binding, and assert projected.grid_shape equals [64,64].",
+            "id": "BR-01-grid-shape",
+            "statement": "The generated baseline level exposes a 64x64 projected grid shape after reset/select."
+          },
+          {
+            "check": "Construct level index 0 and assert projected.available_actions equals [1,2,3,4] using the planned game-owned binding.",
+            "id": "BR-01-available-actions",
+            "statement": "The generated baseline level advertises available actions 1,2,3,4."
+          },
+          {
+            "check": "After reset/select on level index 0, assert projected.action_budget equals 128 before search actions consume budget.",
+            "id": "BR-01-budget-128",
+            "statement": "Level index 0 starts with a 128-action budget."
+          },
+          {
+            "check": "After reset/select, assert observation.level_index equals 0.",
+            "id": "BR-01-selected-index",
+            "statement": "The generated level is selected at level index 0."
+          },
+          {
+            "check": "Replay the generated search path for level index 0 and assert observation.level_index changes after the solved transition.",
+            "id": "BR-01-win-advance",
+            "statement": "Solving the matching condition on level index 0 advances the level index."
+          }
+        ],
+        "config": {
+          "engine_level": {
+            "data": {},
+            "grid_size": [
+              64,
+              64
+            ],
+            "sprites": [
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "background",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 0,
+                "_y": 10,
+                "pixels": [
+                  [
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA1",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB1",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 13,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA1",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 4,
+                "_y": 20,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB6",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 4,
+                "_y": 32,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC1",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 14,
+                "_y": 32,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              }
+            ]
+          },
+          "model": {
+            "desired_movable": "nxkictbbvztB1",
+            "flags": {},
+            "generator_seed": 17,
+            "level_index": 0,
+            "movable_initial_names": [
+              "nxkictbbvztB6",
+              "nxkictbbvztC1"
+            ],
+            "rule_specs": [
+              {
+                "k_left": 0,
+                "k_right": 0,
+                "left_final": "nxkictbbvztA1",
+                "left_initial": "nxkictbbvztA1",
+                "marker_x": 2,
+                "right_final": "nxkictbbvztB1",
+                "right_initial": "nxkictbbvztB1"
+              }
+            ],
+            "slot_id": "slot-01-level-0-baseline",
+            "solution_actions": [
+              4,
+              1
+            ],
+            "source_seed": 7,
+            "target_name": "nxkictbbvztA1"
+          }
+        },
+        "rationale": "Deterministic Tr87 native level with a 64x64 grid, source-owned action budget, and a small rule-pair composition solved by source ACTION inputs. The level keeps source setup randomization by pre-rotating initial sprite names so the declared goal is reached after the declared action sequence.",
+        "rule_ids": [
+          "tr87-grid-and-level-count",
+          "tr87-win-check-source-snapshot",
+          "tr87-budget-and-loss-source-snapshot"
+        ],
+        "slot_id": "slot-01-level-0-baseline"
+      },
+      "goal": {
+        "completed": 1
+      },
+      "initializations": [],
+      "novelty_actions": [
+        4
+      ],
+      "observation_bindings": {
+        "action_budget": [
+          "upmkivwyrxz"
+        ],
+        "available_actions": [
+          "_available_actions"
+        ],
+        "grid_shape": [
+          "current_level",
+          "_grid_size"
+        ],
+        "level_data": [
+          "current_level",
+          "_data"
+        ]
+      },
+      "probes": [],
+      "slot_id": "slot-01-level-0-baseline",
+      "task_id": "tr87-slot-01-level-0-baseline"
+    },
+    {
+      "configuration": {
+        "engine_level": {
+          "data": {},
+          "grid_size": [
+            64,
+            64
+          ],
+          "sprites": [
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "background",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 0,
+              "_y": 10,
+              "pixels": [
+                [
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA2",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB2",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 13,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA2",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 7,
+              "_y": 21,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB7",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 8,
+              "_y": 33,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC2",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 18,
+              "_y": 33,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            }
+          ]
+        },
+        "model": {
+          "desired_movable": "nxkictbbvztB2",
+          "flags": {},
+          "generator_seed": 17,
+          "level_index": 1,
+          "movable_initial_names": [
+            "nxkictbbvztB7",
+            "nxkictbbvztC2"
+          ],
+          "rule_specs": [
+            {
+              "k_left": 0,
+              "k_right": 0,
+              "left_final": "nxkictbbvztA2",
+              "left_initial": "nxkictbbvztA2",
+              "marker_x": 2,
+              "right_final": "nxkictbbvztB2",
+              "right_initial": "nxkictbbvztB2"
+            }
+          ],
+          "slot_id": "slot-02-level-1-transition-budget-win",
+          "solution_actions": [
+            4,
+            1
+          ],
+          "source_seed": 7,
+          "target_name": "nxkictbbvztA2"
+        }
+      },
+      "construction": {
+        "claims": [
+          {
+            "check": "After reset/select, assert observation.level_index equals 1.",
+            "id": "BR-02-level-index",
+            "statement": "The generated level is selected at level index 1."
+          },
+          {
+            "check": "After reset/select on level index 1, assert projected.action_budget equals 128 before search actions consume budget.",
+            "id": "BR-02-budget",
+            "statement": "Level index 1 starts with a 128-action budget."
+          },
+          {
+            "check": "Assert projected.available_actions equals [1,2,3,4] for level index 1.",
+            "id": "BR-02-available-actions",
+            "statement": "Level index 1 advertises available actions 1,2,3,4."
+          },
+          {
+            "check": "Replay the generated search path for level index 1 and assert observation.level_index changes after the solved transition.",
+            "id": "BR-02-win-advance",
+            "statement": "Solving the matching condition on level index 1 advances the level index."
+          }
+        ],
+        "config": {
+          "engine_level": {
+            "data": {},
+            "grid_size": [
+              64,
+              64
+            ],
+            "sprites": [
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "background",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 0,
+                "_y": 10,
+                "pixels": [
+                  [
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA2",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB2",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 13,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA2",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 7,
+                "_y": 21,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB7",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 8,
+                "_y": 33,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC2",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 18,
+                "_y": 33,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              }
+            ]
+          },
+          "model": {
+            "desired_movable": "nxkictbbvztB2",
+            "flags": {},
+            "generator_seed": 17,
+            "level_index": 1,
+            "movable_initial_names": [
+              "nxkictbbvztB7",
+              "nxkictbbvztC2"
+            ],
+            "rule_specs": [
+              {
+                "k_left": 0,
+                "k_right": 0,
+                "left_final": "nxkictbbvztA2",
+                "left_initial": "nxkictbbvztA2",
+                "marker_x": 2,
+                "right_final": "nxkictbbvztB2",
+                "right_initial": "nxkictbbvztB2"
+              }
+            ],
+            "slot_id": "slot-02-level-1-transition-budget-win",
+            "solution_actions": [
+              4,
+              1
+            ],
+            "source_seed": 7,
+            "target_name": "nxkictbbvztA2"
+          }
+        },
+        "rationale": "Deterministic Tr87 native level with a 64x64 grid, source-owned action budget, and a small rule-pair composition solved by source ACTION inputs. The level keeps source setup randomization by pre-rotating initial sprite names so the declared goal is reached after the declared action sequence.",
+        "rule_ids": [
+          "tr87-grid-and-level-count",
+          "tr87-win-check-source-snapshot",
+          "tr87-budget-and-loss-source-snapshot",
+          "tr87-player-reasoning-not-established"
+        ],
+        "slot_id": "slot-02-level-1-transition-budget-win"
+      },
+      "goal": {
+        "completed": 2
+      },
+      "initializations": [],
+      "novelty_actions": [
+        4
+      ],
+      "observation_bindings": {
+        "action_budget": [
+          "upmkivwyrxz"
+        ],
+        "available_actions": [
+          "_available_actions"
+        ],
+        "grid_shape": [
+          "current_level",
+          "_grid_size"
+        ],
+        "level_data": [
+          "current_level",
+          "_data"
+        ]
+      },
+      "probes": [],
+      "slot_id": "slot-02-level-1-transition-budget-win",
+      "task_id": "tr87-slot-02-level-1-transition-budget-win"
+    },
+    {
+      "configuration": {
+        "engine_level": {
+          "data": {},
+          "grid_size": [
+            64,
+            64
+          ],
+          "sprites": [
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "background",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 0,
+              "_y": 10,
+              "pixels": [
+                [
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA3",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB3",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 13,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA3",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 10,
+              "_y": 22,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB3",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 12,
+              "_y": 34,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC3",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 22,
+              "_y": 34,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            }
+          ]
+        },
+        "model": {
+          "desired_movable": "nxkictbbvztB3",
+          "flags": {},
+          "generator_seed": 17,
+          "level_index": 2,
+          "movable_initial_names": [
+            "nxkictbbvztB3",
+            "nxkictbbvztC3"
+          ],
+          "rule_specs": [
+            {
+              "k_left": 0,
+              "k_right": 0,
+              "left_final": "nxkictbbvztA3",
+              "left_initial": "nxkictbbvztA3",
+              "marker_x": 2,
+              "right_final": "nxkictbbvztB3",
+              "right_initial": "nxkictbbvztB3"
+            }
+          ],
+          "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition",
+          "solution_actions": [
+            4,
+            1
+          ],
+          "source_seed": 32,
+          "target_name": "nxkictbbvztA3"
+        }
+      },
+      "construction": {
+        "claims": [
+          {
+            "check": "After reset/select, assert observation.level_index equals 2.",
+            "id": "BR-03-level-index",
+            "statement": "The generated level is selected at level index 2."
+          },
+          {
+            "check": "After reset/select on level index 2, assert projected.action_budget equals 128 before search actions consume budget.",
+            "id": "BR-03-budget",
+            "statement": "Level index 2 starts with a 128-action budget."
+          },
+          {
+            "check": "Assert projected.available_actions contains action ID 3 for level index 2; actual cursor-index visibility is not asserted.",
+            "id": "BR-03-cursor-action-3-advertised",
+            "statement": "Level index 2 advertises ACTION3 as an available action."
+          },
+          {
+            "check": "Assert projected.available_actions contains action ID 4 for level index 2; actual cursor-index visibility is not asserted.",
+            "id": "BR-03-cursor-action-4-advertised",
+            "statement": "Level index 2 advertises ACTION4 as an available action."
+          },
+          {
+            "check": "Replay the generated search path for level index 2 and assert observation.level_index changes after the solved transition.",
+            "id": "BR-03-win-advance",
+            "statement": "Solving the matching condition on level index 2 advances the level index."
+          }
+        ],
+        "config": {
+          "engine_level": {
+            "data": {},
+            "grid_size": [
+              64,
+              64
+            ],
+            "sprites": [
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "background",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 0,
+                "_y": 10,
+                "pixels": [
+                  [
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA3",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB3",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 13,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA3",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 10,
+                "_y": 22,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB3",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 12,
+                "_y": 34,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC3",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 22,
+                "_y": 34,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              }
+            ]
+          },
+          "model": {
+            "desired_movable": "nxkictbbvztB3",
+            "flags": {},
+            "generator_seed": 17,
+            "level_index": 2,
+            "movable_initial_names": [
+              "nxkictbbvztB3",
+              "nxkictbbvztC3"
+            ],
+            "rule_specs": [
+              {
+                "k_left": 0,
+                "k_right": 0,
+                "left_final": "nxkictbbvztA3",
+                "left_initial": "nxkictbbvztA3",
+                "marker_x": 2,
+                "right_final": "nxkictbbvztB3",
+                "right_initial": "nxkictbbvztB3"
+              }
+            ],
+            "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition",
+            "solution_actions": [
+              4,
+              1
+            ],
+            "source_seed": 32,
+            "target_name": "nxkictbbvztA3"
+          }
+        },
+        "rationale": "Deterministic Tr87 native level with a 64x64 grid, source-owned action budget, and a small rule-pair composition solved by source ACTION inputs. The level keeps source setup randomization by pre-rotating initial sprite names so the declared goal is reached after the declared action sequence.",
+        "rule_ids": [
+          "tr87-controls-source-snapshot",
+          "tr87-rule-pair-count-unestablished",
+          "tr87-win-check-source-snapshot",
+          "tr87-budget-and-loss-source-snapshot"
+        ],
+        "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition"
+      },
+      "goal": {
+        "completed": 3
+      },
+      "initializations": [],
+      "novelty_actions": [
+        4
+      ],
+      "observation_bindings": {
+        "action_budget": [
+          "upmkivwyrxz"
+        ],
+        "available_actions": [
+          "_available_actions"
+        ],
+        "grid_shape": [
+          "current_level",
+          "_grid_size"
+        ],
+        "level_data": [
+          "current_level",
+          "_data"
+        ]
+      },
+      "probes": [],
+      "slot_id": "slot-03-level-2-rule-cursor-and-solved-transition",
+      "task_id": "tr87-slot-03-level-2-rule-cursor-and-solved-transition"
+    },
+    {
+      "configuration": {
+        "engine_level": {
+          "data": {
+            "double_translation": true
+          },
+          "grid_size": [
+            64,
+            64
+          ],
+          "sprites": [
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "background",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 0,
+              "_y": 10,
+              "pixels": [
+                [
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA4",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB4",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 13,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 24,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB4",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 24,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC4",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 35,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA4",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 13,
+              "_y": 23,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC3",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 16,
+              "_y": 32,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC5",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 26,
+              "_y": 32,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            }
+          ]
+        },
+        "model": {
+          "desired_movable": "nxkictbbvztC4",
+          "flags": {
+            "double_translation": true
+          },
+          "generator_seed": 17,
+          "level_index": 3,
+          "movable_initial_names": [
+            "nxkictbbvztC3",
+            "nxkictbbvztC5"
+          ],
+          "rule_specs": [
+            {
+              "k_left": 0,
+              "k_right": 0,
+              "left_final": "nxkictbbvztA4",
+              "left_initial": "nxkictbbvztA4",
+              "marker_x": 2,
+              "right_final": "nxkictbbvztB4",
+              "right_initial": "nxkictbbvztB4"
+            },
+            {
+              "k_left": 0,
+              "k_right": 0,
+              "left_final": "nxkictbbvztB4",
+              "left_initial": "nxkictbbvztB4",
+              "marker_x": 24,
+              "right_final": "nxkictbbvztC4",
+              "right_initial": "nxkictbbvztC4"
+            }
+          ],
+          "slot_id": "slot-04-level-3-double-translation-budget",
+          "solution_actions": [
+            4,
+            1
+          ],
+          "source_seed": 18,
+          "target_name": "nxkictbbvztA4"
+        }
+      },
+      "construction": {
+        "claims": [
+          {
+            "check": "After reset/select, assert observation.level_index equals 3.",
+            "id": "BR-04-level-index",
+            "statement": "The generated level is selected at level index 3."
+          },
+          {
+            "check": "After reset/select on level index 3, assert projected.action_budget equals 128 before search actions consume budget.",
+            "id": "BR-04-budget",
+            "statement": "Level index 3 starts with a 128-action budget."
+          },
+          {
+            "check": "Replay the generated search path for level index 3 and assert projected.action_budget changes across the trajectory; no exact zero or loss terminal value is asserted.",
+            "id": "BR-04-budget-changes",
+            "statement": "Taking generated actions on level index 3 changes the projected remaining action budget."
+          },
+          {
+            "check": "Replay the generated search path for level index 3 and assert observation.level_index changes after the solved transition.",
+            "id": "BR-04-win-advance",
+            "statement": "Solving the matching condition on level index 3 advances the level index."
+          },
+          {
+            "check": "Assert projected.level_data contains the key double_translation for level index 3; the exact transform is not checked.",
+            "id": "BR-04-flag-double-translation",
+            "statement": "Level index 3 configuration carries the source-declared double_translation flag."
+          }
+        ],
+        "config": {
+          "engine_level": {
+            "data": {
+              "double_translation": true
+            },
+            "grid_size": [
+              64,
+              64
+            ],
+            "sprites": [
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "background",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 0,
+                "_y": 10,
+                "pixels": [
+                  [
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA4",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB4",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 13,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 24,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB4",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 24,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC4",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 35,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA4",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 13,
+                "_y": 23,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC3",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 16,
+                "_y": 32,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC5",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 26,
+                "_y": 32,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              }
+            ]
+          },
+          "model": {
+            "desired_movable": "nxkictbbvztC4",
+            "flags": {
+              "double_translation": true
+            },
+            "generator_seed": 17,
+            "level_index": 3,
+            "movable_initial_names": [
+              "nxkictbbvztC3",
+              "nxkictbbvztC5"
+            ],
+            "rule_specs": [
+              {
+                "k_left": 0,
+                "k_right": 0,
+                "left_final": "nxkictbbvztA4",
+                "left_initial": "nxkictbbvztA4",
+                "marker_x": 2,
+                "right_final": "nxkictbbvztB4",
+                "right_initial": "nxkictbbvztB4"
+              },
+              {
+                "k_left": 0,
+                "k_right": 0,
+                "left_final": "nxkictbbvztB4",
+                "left_initial": "nxkictbbvztB4",
+                "marker_x": 24,
+                "right_final": "nxkictbbvztC4",
+                "right_initial": "nxkictbbvztC4"
+              }
+            ],
+            "slot_id": "slot-04-level-3-double-translation-budget",
+            "solution_actions": [
+              4,
+              1
+            ],
+            "source_seed": 18,
+            "target_name": "nxkictbbvztA4"
+          }
+        },
+        "rationale": "Deterministic Tr87 native level with a 64x64 grid, source-owned action budget, and a small rule-pair composition solved by source ACTION inputs. The level keeps source setup randomization by pre-rotating initial sprite names so the declared goal is reached after the declared action sequence.",
+        "rule_ids": [
+          "tr87-level-flags-source-snapshot",
+          "tr87-budget-and-loss-source-snapshot",
+          "tr87-win-check-source-snapshot"
+        ],
+        "slot_id": "slot-04-level-3-double-translation-budget"
+      },
+      "goal": {
+        "completed": 4
+      },
+      "initializations": [],
+      "novelty_actions": [
+        4
+      ],
+      "observation_bindings": {
+        "action_budget": [
+          "upmkivwyrxz"
+        ],
+        "available_actions": [
+          "_available_actions"
+        ],
+        "grid_shape": [
+          "current_level",
+          "_grid_size"
+        ],
+        "level_data": [
+          "current_level",
+          "_data"
+        ]
+      },
+      "probes": [],
+      "slot_id": "slot-04-level-3-double-translation-budget",
+      "task_id": "tr87-slot-04-level-3-double-translation-budget"
+    },
+    {
+      "configuration": {
+        "engine_level": {
+          "data": {
+            "alter_rules": true
+          },
+          "grid_size": [
+            64,
+            64
+          ],
+          "sprites": [
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "background",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 0,
+              "_y": 10,
+              "pixels": [
+                [
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA6",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB3",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 13,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 24,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC1",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 24,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA2",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 35,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA5",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 16,
+              "_y": 20,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB5",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 20,
+              "_y": 33,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            }
+          ]
+        },
+        "model": {
+          "desired_movable": "nxkictbbvztB5",
+          "flags": {
+            "alter_rules": true
+          },
+          "generator_seed": 17,
+          "level_index": 4,
+          "movable_initial_names": [
+            "nxkictbbvztB5"
+          ],
+          "rule_specs": [
+            {
+              "k_left": 6,
+              "k_right": 2,
+              "left_final": "nxkictbbvztA5",
+              "left_initial": "nxkictbbvztA6",
+              "marker_x": 2,
+              "right_final": "nxkictbbvztB5",
+              "right_initial": "nxkictbbvztB3"
+            },
+            {
+              "k_left": 6,
+              "k_right": 0,
+              "left_final": "nxkictbbvztC7",
+              "left_initial": "nxkictbbvztC1",
+              "marker_x": 24,
+              "right_final": "nxkictbbvztA2",
+              "right_initial": "nxkictbbvztA2"
+            }
+          ],
+          "slot_id": "slot-05-level-4-alter-rules",
+          "solution_actions": [
+            4,
+            4,
+            1
+          ],
+          "source_seed": 23,
+          "target_name": "nxkictbbvztA5"
+        }
+      },
+      "construction": {
+        "claims": [
+          {
+            "check": "After reset/select, assert observation.level_index equals 4.",
+            "id": "BR-05-level-index",
+            "statement": "The generated level is selected at level index 4."
+          },
+          {
+            "check": "After reset/select on level index 4, assert projected.action_budget equals 128 before search actions consume budget.",
+            "id": "BR-05-budget",
+            "statement": "Level index 4 starts with a 128-action budget."
+          },
+          {
+            "check": "Assert projected.available_actions equals [1,2,3,4] for level index 4.",
+            "id": "BR-05-available-actions",
+            "statement": "Level index 4 advertises available actions 1,2,3,4."
+          },
+          {
+            "check": "Replay the generated search path for level index 4 and assert observation.level_index changes after the solved transition.",
+            "id": "BR-05-win-advance",
+            "statement": "Solving the matching condition on level index 4 advances the level index."
+          },
+          {
+            "check": "Assert projected.level_data contains the key alter_rules for level index 4; exact randomization is not checked.",
+            "id": "BR-05-flag-alter-rules",
+            "statement": "Level index 4 configuration carries the source-declared alter_rules flag."
+          }
+        ],
+        "config": {
+          "engine_level": {
+            "data": {
+              "alter_rules": true
+            },
+            "grid_size": [
+              64,
+              64
+            ],
+            "sprites": [
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "background",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 0,
+                "_y": 10,
+                "pixels": [
+                  [
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA6",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB3",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 13,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 24,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC1",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 24,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA2",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 35,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA5",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 16,
+                "_y": 20,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB5",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 20,
+                "_y": 33,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              }
+            ]
+          },
+          "model": {
+            "desired_movable": "nxkictbbvztB5",
+            "flags": {
+              "alter_rules": true
+            },
+            "generator_seed": 17,
+            "level_index": 4,
+            "movable_initial_names": [
+              "nxkictbbvztB5"
+            ],
+            "rule_specs": [
+              {
+                "k_left": 6,
+                "k_right": 2,
+                "left_final": "nxkictbbvztA5",
+                "left_initial": "nxkictbbvztA6",
+                "marker_x": 2,
+                "right_final": "nxkictbbvztB5",
+                "right_initial": "nxkictbbvztB3"
+              },
+              {
+                "k_left": 6,
+                "k_right": 0,
+                "left_final": "nxkictbbvztC7",
+                "left_initial": "nxkictbbvztC1",
+                "marker_x": 24,
+                "right_final": "nxkictbbvztA2",
+                "right_initial": "nxkictbbvztA2"
+              }
+            ],
+            "slot_id": "slot-05-level-4-alter-rules",
+            "solution_actions": [
+              4,
+              4,
+              1
+            ],
+            "source_seed": 23,
+            "target_name": "nxkictbbvztA5"
+          }
+        },
+        "rationale": "Deterministic Tr87 native level with a 64x64 grid, source-owned action budget, and a small rule-pair composition solved by source ACTION inputs. The level keeps source setup randomization by pre-rotating initial sprite names so the declared goal is reached after the declared action sequence.",
+        "rule_ids": [
+          "tr87-level-flags-source-snapshot",
+          "tr87-rotation-and-rule-pair-source-snapshot",
+          "tr87-rule-pair-count-unestablished",
+          "tr87-budget-and-loss-source-snapshot",
+          "tr87-win-check-source-snapshot"
+        ],
+        "slot_id": "slot-05-level-4-alter-rules"
+      },
+      "goal": {
+        "completed": 5
+      },
+      "initializations": [],
+      "novelty_actions": [
+        4
+      ],
+      "observation_bindings": {
+        "action_budget": [
+          "upmkivwyrxz"
+        ],
+        "available_actions": [
+          "_available_actions"
+        ],
+        "grid_shape": [
+          "current_level",
+          "_grid_size"
+        ],
+        "level_data": [
+          "current_level",
+          "_data"
+        ]
+      },
+      "probes": [],
+      "slot_id": "slot-05-level-4-alter-rules",
+      "task_id": "tr87-slot-05-level-4-alter-rules"
+    },
+    {
+      "configuration": {
+        "engine_level": {
+          "data": {
+            "alter_rules": true,
+            "double_translation": true,
+            "tree_translation": true
+          },
+          "grid_size": [
+            64,
+            64
+          ],
+          "sprites": [
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "background",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 0,
+              "_y": 10,
+              "pixels": [
+                [
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA3",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 2,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB7",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 13,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 24,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztB2",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 24,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC7",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 35,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": -2,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "iqrduxrukrk",
+              "_scale": 1,
+              "_tags": [],
+              "_x": 46,
+              "_y": 2,
+              "pixels": [
+                [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC2",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 46,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA7",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 57,
+              "_y": 2,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztA6",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 4,
+              "_y": 21,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            },
+            {
+              "_blocking": 3,
+              "_interaction": 1,
+              "_layer": 0,
+              "_mirror_lr": false,
+              "_mirror_ud": false,
+              "_name": "nxkictbbvztC6",
+              "_scale": 1,
+              "_tags": [
+                "nxkictbbvzt"
+              ],
+              "_x": 4,
+              "_y": 34,
+              "pixels": [
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ]
+              ],
+              "rotation": 0
+            }
+          ]
+        },
+        "model": {
+          "desired_movable": "nxkictbbvztC6",
+          "flags": {
+            "alter_rules": true,
+            "double_translation": true,
+            "tree_translation": true
+          },
+          "generator_seed": 17,
+          "level_index": 5,
+          "movable_initial_names": [
+            "nxkictbbvztC6"
+          ],
+          "rule_specs": [
+            {
+              "k_left": 3,
+              "k_right": 6,
+              "left_final": "nxkictbbvztA6",
+              "left_initial": "nxkictbbvztA3",
+              "marker_x": 2,
+              "right_final": "nxkictbbvztB6",
+              "right_initial": "nxkictbbvztB7"
+            },
+            {
+              "k_left": 4,
+              "k_right": 6,
+              "left_final": "nxkictbbvztB6",
+              "left_initial": "nxkictbbvztB2",
+              "marker_x": 24,
+              "right_final": "nxkictbbvztC6",
+              "right_initial": "nxkictbbvztC7"
+            },
+            {
+              "k_left": 6,
+              "k_right": 3,
+              "left_final": "nxkictbbvztC1",
+              "left_initial": "nxkictbbvztC2",
+              "marker_x": 46,
+              "right_final": "nxkictbbvztA3",
+              "right_initial": "nxkictbbvztA7"
+            }
+          ],
+          "slot_id": "slot-06-level-5-combined-tree",
+          "solution_actions": [
+            4,
+            4,
+            4,
+            4,
+            1
+          ],
+          "source_seed": 11,
+          "target_name": "nxkictbbvztA6"
+        }
+      },
+      "construction": {
+        "claims": [
+          {
+            "check": "After reset/select, assert observation.level_index equals 5.",
+            "id": "BR-06-level-index",
+            "statement": "The generated final level is selected at level index 5."
+          },
+          {
+            "check": "After reset/select on level index 5, assert projected.action_budget equals 256 before search actions consume budget.",
+            "id": "BR-06-budget-256",
+            "statement": "Level index 5 starts with a 256-action budget."
+          },
+          {
+            "check": "Assert projected.available_actions equals [1,2,3,4] for level index 5.",
+            "id": "BR-06-available-actions",
+            "statement": "Level index 5 advertises available actions 1,2,3,4."
+          },
+          {
+            "check": "Replay the generated final level and assert observation.state equals WIN after final completion.",
+            "id": "BR-06-final-state-win",
+            "statement": "Solving the final level leaves the generated unit in WIN state."
+          },
+          {
+            "check": "Replay the generated final level and assert observation.completed equals 6, matching the six installed generated levels; no packet merge is asserted.",
+            "id": "BR-06-completed-count-6",
+            "statement": "Final completion reports six completed levels."
+          },
+          {
+            "check": "Assert projected.level_data contains the key double_translation for the final level; exact combined transform is not checked.",
+            "id": "BR-06-flag-double-translation",
+            "statement": "Level index 5 configuration carries the source-declared double_translation flag."
+          },
+          {
+            "check": "Assert projected.level_data contains the key alter_rules for the final level; exact randomization is not checked.",
+            "id": "BR-06-flag-alter-rules",
+            "statement": "Level index 5 configuration carries the source-declared alter_rules flag."
+          },
+          {
+            "check": "Assert projected.level_data contains the key tree_translation for the final level; exact combined transform is not checked.",
+            "id": "BR-06-flag-tree-translation",
+            "statement": "Level index 5 configuration carries the source-declared tree_translation flag."
+          }
+        ],
+        "config": {
+          "engine_level": {
+            "data": {
+              "alter_rules": true,
+              "double_translation": true,
+              "tree_translation": true
+            },
+            "grid_size": [
+              64,
+              64
+            ],
+            "sprites": [
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "background",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 0,
+                "_y": 10,
+                "pixels": [
+                  [
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA3",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 2,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB7",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 13,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 24,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztB2",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 24,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC7",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 35,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": -2,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "iqrduxrukrk",
+                "_scale": 1,
+                "_tags": [],
+                "_x": 46,
+                "_y": 2,
+                "pixels": [
+                  [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC2",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 46,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA7",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 57,
+                "_y": 2,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztA6",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 4,
+                "_y": 21,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              },
+              {
+                "_blocking": 3,
+                "_interaction": 1,
+                "_layer": 0,
+                "_mirror_lr": false,
+                "_mirror_ud": false,
+                "_name": "nxkictbbvztC6",
+                "_scale": 1,
+                "_tags": [
+                  "nxkictbbvzt"
+                ],
+                "_x": 4,
+                "_y": 34,
+                "pixels": [
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "rotation": 0
+              }
+            ]
+          },
+          "model": {
+            "desired_movable": "nxkictbbvztC6",
+            "flags": {
+              "alter_rules": true,
+              "double_translation": true,
+              "tree_translation": true
+            },
+            "generator_seed": 17,
+            "level_index": 5,
+            "movable_initial_names": [
+              "nxkictbbvztC6"
+            ],
+            "rule_specs": [
+              {
+                "k_left": 3,
+                "k_right": 6,
+                "left_final": "nxkictbbvztA6",
+                "left_initial": "nxkictbbvztA3",
+                "marker_x": 2,
+                "right_final": "nxkictbbvztB6",
+                "right_initial": "nxkictbbvztB7"
+              },
+              {
+                "k_left": 4,
+                "k_right": 6,
+                "left_final": "nxkictbbvztB6",
+                "left_initial": "nxkictbbvztB2",
+                "marker_x": 24,
+                "right_final": "nxkictbbvztC6",
+                "right_initial": "nxkictbbvztC7"
+              },
+              {
+                "k_left": 6,
+                "k_right": 3,
+                "left_final": "nxkictbbvztC1",
+                "left_initial": "nxkictbbvztC2",
+                "marker_x": 46,
+                "right_final": "nxkictbbvztA3",
+                "right_initial": "nxkictbbvztA7"
+              }
+            ],
+            "slot_id": "slot-06-level-5-combined-tree",
+            "solution_actions": [
+              4,
+              4,
+              4,
+              4,
+              1
+            ],
+            "source_seed": 11,
+            "target_name": "nxkictbbvztA6"
+          }
+        },
+        "rationale": "Deterministic Tr87 native level with a 64x64 grid, source-owned action budget, and a small rule-pair composition solved by source ACTION inputs. The level keeps source setup randomization by pre-rotating initial sprite names so the declared goal is reached after the declared action sequence.",
+        "rule_ids": [
+          "tr87-grid-and-level-count",
+          "tr87-level-flags-source-snapshot",
+          "tr87-budget-and-loss-source-snapshot",
+          "tr87-ui-and-hidden-tokens-source-snapshot",
+          "tr87-win-check-source-snapshot",
+          "tr87-run-outcome",
+          "tr87-cross-packet-identity-unestablished"
+        ],
+        "slot_id": "slot-06-level-5-combined-tree"
+      },
+      "goal": {
+        "completed": 6
+      },
+      "initializations": [],
+      "novelty_actions": [
+        4
+      ],
+      "observation_bindings": {
+        "action_budget": [
+          "upmkivwyrxz"
+        ],
+        "available_actions": [
+          "_available_actions"
+        ],
+        "grid_shape": [
+          "current_level",
+          "_grid_size"
+        ],
+        "level_data": [
+          "current_level",
+          "_data"
+        ]
+      },
+      "probes": [],
+      "slot_id": "slot-06-level-5-combined-tree",
+      "task_id": "tr87-slot-06-level-5-combined-tree"
+    }
+  ],
+  "profile": "raw-arcengine",
+  "source_id": "original",
+  "transition_policy": "continuous",
+  "unit_id": "tr87-generated-v2-rule-composition"
+}

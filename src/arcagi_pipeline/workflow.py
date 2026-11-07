@@ -54,7 +54,8 @@ class PipelineRun:
             if not resolved.is_file():
                 raise FileNotFoundError(resolved)
             refs.append({"artifact_id": resolved.stem, "path": rel, "sha256": sha256_file(resolved)})
-        row = {"name": name, "status": "complete", "outputs": refs, "details": details or {}}
+        row = {"name": name, "status": "complete", "outputs": refs, "details": details or {},
+               "completion_scope": "artifact_registration", "execution_verified": False}
         self.data["stages"] = [item for item in self.data["stages"] if item["name"] != name] + [row]
         self.data["stages"].sort(key=lambda item: STAGE_ORDER.index(item["name"]))
         self.record_path.write_text(json.dumps(self.data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

@@ -51,6 +51,11 @@ def canonical_sha256(value: Any) -> str:
     return hashlib.sha256(wire.encode("utf-8")).hexdigest()
 
 
+def _predicate(value):
+    if not isinstance(value,bool): raise TypeError("engine observation predicate must return bool")
+    return value
+
+
 def run_generated_level_replay(
     provider: GeneratedLevelReplayProvider,
     level: Any,
@@ -110,15 +115,19 @@ def run_generated_level_replay(
             raise ValueError("backend binder probe does not match trusted replay provenance")
         observation = probe.reset()
         trace.append({"index": 0, "action": None, "observation": observation})
-        if provider.is_goal_observation(level, observation):
+        if _predicate(provider.is_goal_observation(level, observation)):
             return GeneratedLevelReplayResult(True, tuple(trace), "goal_reached", envelope)
+        terminal = getattr(provider,"is_terminal_observation",None)
+        if terminal is not None and _predicate(terminal(level,observation)):
+            return GeneratedLevelReplayResult(False,tuple(trace),"engine_terminal",envelope)
         for index, action in enumerate(actions, 1):
             observation = probe.step(action)
             trace.append({"index": index, "action": action, "observation": observation})
-            if provider.is_goal_observation(level, observation):
+            if _predicate(provider.is_goal_observation(level, observation)):
                 return GeneratedLevelReplayResult(True, tuple(trace), "goal_reached", envelope)
-            if isinstance(observation, Mapping) and observation.get("state") in {"GAME_OVER", "LOSE"}:
+            terminal = getattr(provider,"is_terminal_observation",None)
+            if terminal is not None and _predicate(terminal(level,observation)):
                 break
         return GeneratedLevelReplayResult(False, tuple(trace), "goal_not_reached", envelope)
     except Exception as exc:
-        return GeneratedLevelReplayResult(False, tuple(trace), f"replay_mismatch:{type(exc).__name__}:{exc}")
+        return GeneratedLevelReplayResult(False, tuple(trace), f"replay_mismatch:{type(exc).__name__}")
