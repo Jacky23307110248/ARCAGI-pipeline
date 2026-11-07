@@ -1,0 +1,71 @@
+{
+  "implementation_ref": "b906c8d415e86133dca3acce89c69400bb730c53",
+  "trajectory_ref": "8b3badc61a66407d7bedd00b3f2881fa1897904b",
+  "historical_files": [
+    {
+      "path": "evidence/blueprint.md",
+      "original_sha256": "baee763aa325efd7ace3ef7eacd7e479c67ad94b65edbc3aa0b2d4c68cf32e82"
+    },
+    {
+      "path": "evidence/historical-acceptance.md",
+      "original_sha256": "35cc101ad75e45322469f7751929754d8c99f4b830abd4d3afd6588bccd693cc"
+    },
+    {
+      "path": "evidence/historical-design.md",
+      "original_sha256": "9df8329ee0752908fee39fdf7056ccd626c27c17967a39b1b8be51038cfb3595"
+    },
+    {
+      "path": "evidence/historical-run.md",
+      "original_sha256": "4d27640f1c53bb747424b7cc854f53415b7625f105ca880e43051cc7eb1e4286"
+    },
+    {
+      "path": "evidence/rule-contract.md",
+      "original_sha256": "80fa77bd34216cc51f77620fee29295bca66741d3ae43f0d48227099263be207"
+    },
+    {
+      "path": "evidence/trajectory/duck-claims.json",
+      "original_sha256": "c5827a32ef56b57230028c73775d5c02c9812c9cad2e5309358995a4946fc37d"
+    },
+    {
+      "path": "evidence/trajectory/duck-ledger.json",
+      "original_sha256": "6eea54ad7ae38be819cc3a34cc05fd7569a5ad53a450ff7cd6d9cd4e4e593ec2"
+    },
+    {
+      "path": "evidence/trajectory/duck-packet.json",
+      "original_sha256": "67e0c218b9b241ce7f2661df5bf2001a25f438e7b41835a424b58234213424cd"
+    },
+    {
+      "path": "evidence/trajectory/sourceblind-analysis-summary.json",
+      "original_sha256": "436e45720cf18768cee81a35d4f79dec94c83f6bbb366d24437f29e5f5d6a794"
+    },
+    {
+      "path": "evidence/trajectory/tycho-claims.json",
+      "original_sha256": "5dd7adb440f7a8ac8c40b39d1c11aa6b3c35ecf1118426bb4f2ed1c6ae7e2742"
+    },
+    {
+      "path": "evidence/trajectory/tycho-ledger.json",
+      "original_sha256": "534e18cb311c73a53c7a0873a115aa5b48904e477b4f823f2a224dc3fbd22d8f"
+    },
+    {
+      "path": "evidence/trajectory/tycho-packet.json",
+      "original_sha256": "bb3d80485c0662c921766cb5d953103caf18af539c428201cebd99f1251a6975"
+    },
+    {
+      "path": "evidence/CP0_FINAL_AUDIT.md",
+      "original_sha256": "a0d8101b01c7e65a75ddacb07bd829303ee4423b8b8da2044852007838b0f230"
+    },
+    {
+      "path": "evidence/CP0_TYCHO_MEMORY_RECONCILIATION.md",
+      "original_sha256": "a7b2b573c12e9e7c3aa49e6801e4594bdb8a157f51a13f5ebfdea674b29a9b69"
+    },
+    {
+      "path": "evidence/CP1_M1_IMPLEMENTATION_REPORT.md",
+      "original_sha256": "76771a4a094f1e8c89e9ddc51d79ef198bc219faf7d8d8e8cb85431f373d4b15"
+    },
+    {
+      "path": "evidence/CP1_M1_HINT_COST_CORRECTION_REPORT.md",
+      "original_sha256": "a90a2c33cabdd8196a31668c19492163d9bff8a4642f969b499bbf99d3d7a1ee"
+    }
+  ],
+  "prompt_provenance": "Original Codex conversation prompts are not reconstructed or claimed as executable inference. Retained blueprint, contract and audits document the accepted reasoning outputs; generic current prompts remain under workflows/prompts."
+}

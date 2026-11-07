@@ -8,9 +8,9 @@ from .contracts import SearchDomain, SearchResult
 
 def exact_bfs(domain: SearchDomain, *, max_expansions: int | None = None) -> SearchResult:
     """BFS over a declared deterministic model; only original-engine replay certifies a path."""
-    if not domain.deterministic:
+    if domain.deterministic is not True:
         return SearchResult("unknown", reason="nondeterministic_domain")
-    if max_expansions is not None and max_expansions < 0:
+    if max_expansions is not None and (isinstance(max_expansions,bool) or not isinstance(max_expansions,int) or max_expansions < 0):
         raise ValueError("max_expansions must be non-negative or None")
 
     initial = domain.initial_state()
@@ -40,7 +40,7 @@ def exact_bfs(domain: SearchDomain, *, max_expansions: int | None = None) -> Sea
             queue.append(next_key)
 
     if goal_key is None:
-        if domain.complete_finite_model:
+        if domain.complete_finite_model is True:
             return SearchResult("unsolvable", expanded_states=expanded, reason="exhaustive_state_space")
         return SearchResult("unknown", expanded_states=expanded, reason="model_not_complete")
 
@@ -60,7 +60,9 @@ def exact_bfs(domain: SearchDomain, *, max_expansions: int | None = None) -> Sea
         # but it is never a proof about the original engine.
         return SearchResult("unknown", actions=actions, expanded_states=expanded,
                             reason="engine_replay_pending", replay_accepted=None)
-    accepted = bool(replay_result)
+    if not isinstance(replay_result,bool):
+        return SearchResult("unknown",actions=actions,expanded_states=expanded,reason="invalid_engine_replay_result",replay_accepted=None)
+    accepted = replay_result
     if not accepted:
         return SearchResult("unknown", actions=actions, expanded_states=expanded,
                             reason="engine_replay_mismatch", replay_accepted=False)

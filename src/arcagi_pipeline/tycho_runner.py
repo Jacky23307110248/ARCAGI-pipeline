@@ -104,13 +104,7 @@ def run_tycho_session(
     # native run_env loop with an explicit Arcade environments_dir, preserving source code.
     apply_config_file(config_path)
     os.environ["ARCAGI_GAME_ENV_DIR"] = str(environment_dir)
-    dotenv_path = tycho_root.parent / ".env"
-    if actions_path is None and dotenv_path.is_file():
-        try:
-            from dotenv import load_dotenv
-            load_dotenv(dotenv_path=dotenv_path, override=False)
-        except ImportError:
-            pass
+    # Credentials are explicitly inherited; never discover a neighboring .env.
 
     arcade = Arcade(
         arc_api_key="", operation_mode=OperationMode.OFFLINE,

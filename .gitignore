@@ -11,3 +11,4 @@ outputs/
 runs/
 results/
 *.log
+error-archive/

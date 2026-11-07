@@ -1,0 +1,3 @@
+# Evidence and rule hypotheses
+
+Keep observation, saved in-run note, analyst inference, source finding and probe result distinctly attributed. Emit evidence entries {id,kind,source_ref,content,...}; version-bound sources should carry their supplied hashes in extension fields. Preserve source-version uncertainty. Emit rules {id,statement,status,evidence_refs,...}; status is hypothesis/supported/conflicting/unknown. Do not treat an explanation inferred after the run as the player's contemporary knowledge. Include alternatives and untested boundaries in extensions. These records support downstream blueprint construction; no particular game ontology is assumed.

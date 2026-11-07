@@ -1,0 +1,33 @@
+{
+  "schema_version": "arcagi-sourceblind-analysis-summary/v1",
+  "analysis_mode": "source_blind",
+  "analyst": "independent GPT-6 Luna High agent",
+  "source_code_provided": false,
+  "saved_notes_available": false,
+  "runs": [
+    {
+      "run_id": "tycho-serial-03-ls20-9607627b",
+      "packet_sha256": "bb3d80485c0662c921766cb5d953103caf18af539c428201cebd99f1251a6975",
+      "ledger_sha256": "534e18cb311c73a53c7a0873a115aa5b48904e477b4f823f2a224dc3fbd22d8f",
+      "trajectory_digest": "34a285b5a6511c2ed56648d9f90c9181c305b0bc744b929083027c5fcafe2172"
+    },
+    {
+      "run_id": "duck-20261020-002308-ls20-9607627b",
+      "packet_sha256": "67e0c218b9b241ce7f2661df5bf2001a25f438e7b41835a424b58234213424cd",
+      "ledger_sha256": "6eea54ad7ae38be819cc3a34cc05fd7569a5ad53a450ff7cd6d9cd4e4e593ec2",
+      "trajectory_digest": "097ee70046865e28f2f2af2d514ef8d6f0853d517f94f8e2ea5286189f8dd20d"
+    }
+  ],
+  "mechanism_assessment": {
+    "candidate": "deterministic tile-entry or re-entry rotation",
+    "status": "unknown_from_trajectory_packets",
+    "reason": "The visible transitions do not distinguish tile entry/re-entry from action-timed or player-position-conditioned changes.",
+    "not_a_claim_about_original_player_learning": true
+  },
+  "uncovered_questions": [
+    "Whether entering a rotation tile changes player orientation.",
+    "Whether remaining on a trigger avoids retriggering.",
+    "Whether leaving and re-entering retriggers.",
+    "Which state update explains the visible grid changes."
+  ]
+}

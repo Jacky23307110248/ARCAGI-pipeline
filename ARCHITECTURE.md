@@ -24,4 +24,11 @@ Tycho and Duck adapters construct and inspect runs against externally installed 
 
 ## Current scope
 
-The synthetic demo is an offline integration example, not evidence of cross-game generalization. The main snapshot contains no original-game plugin, game-specific campaign, or historical run record. A new integration must arrive as an explicit plugin and its own evidence package, then pass source-bound probes, generation checks, search, and engine replay before its results are claimed.
+The synthetic demo is an offline integration example, not evidence of cross-game generalization. The generic package contains no game rules. The separate examples/ls20 reference includes frozen inference evidence, three campaign profiles, an independent solver and engine replay. A new integration must arrive as an explicit plugin and its own evidence package, then pass source-bound probes, generation checks, search, and engine replay before its results are claimed.
+## Executable production versus artifact tracking
+
+The new `production` module and `production-run` CLI call explicit plugin generation, validation, model search and engine replay, preserving pass/return/unknown results and revision feedback. See docs/INTERFACE_ALIGNMENT.md. PipelineRun tracks artifact registration and WorkflowRunner validates model output schemas; their completion is not proof that a game or plugin was executed. The LS20 bridge reuses CP1 functions. CP2 alignment is code comparison and neutral tests, not a cross-game performance result.
+
+## Evidence-to-construction contracts
+
+The generic machine connects workflow task outputs to a game-owned implementation bundle and strict production. Its blueprint interface has open purpose/rationale, earlier-slot prerequisites, selected rule references and evidence references. Construction claims link generated tasks to slots. Engine and fulfillment checks remain distinct. No mechanism vocabulary, level count or accumulating difficulty schedule is embedded in the core. See docs/GENERIC_MAIN.md for trust boundaries and executable commands.

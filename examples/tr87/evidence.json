@@ -1,0 +1,350 @@
+{
+  "evidence": [
+    {
+      "content": "Packet metadata: game_id tr87-cd924810; run_status legacy_recorded; source_binding status unbound (basis game_id_only, source_sha256 null); coverage 566 raw events, 510 exported trace steps, 0 saved notes; 56 analysis rows excluded before import.",
+      "id": "duck-e1",
+      "kind": "direct_observation",
+      "source_ref": {
+        "artifact_id": "packet",
+        "path": "packet",
+        "rendered_sha256": "db8f1c0e1271048a5304db315cb8b18d85d93f7c1b8d9f83bd8a826fed6053e3",
+        "sha256": "730b49101f52de7da0150691a1d5877ced16815c091d1cd6cd7fd0fc9064defe"
+      }
+    },
+    {
+      "content": "Step 0 action RESET; observation encoding grid-full/v1, shape 64x64; reward 0.0; terminal_result null. This is the initial exported frame.",
+      "id": "duck-e2",
+      "kind": "direct_observation",
+      "source_ref": {
+        "path": "source_artifacts/duck/tr87-cd924810_p0_events.jsonl",
+        "record_index": 0,
+        "sha256": "23f37b5b45d94bbb2d64d8a471d8a36ee9e4704cc68ea96797e197f5240707c8"
+      }
+    },
+    {
+      "content": "RESET actions appear at exported steps 0,41,262,325,360 (record_index values 0,41,262,325,360); other exported actions are directional UP/RIGHT/LEFT/DOWN. No action or transcript text is imported.",
+      "id": "duck-e3",
+      "kind": "direct_observation",
+      "source_ref": {
+        "path": "source_artifacts/duck/tr87-cd924810_p0_events.jsonl",
+        "record_indices": [
+          0,
+          41,
+          262,
+          325,
+          360
+        ],
+        "sha256": "23f37b5b45d94bbb2d64d8a471d8a36ee9e4704cc68ea96797e197f5240707c8"
+      }
+    },
+    {
+      "content": "Explicit level_completed=true occurs at steps 98,147,189,217,303, each with reward 0.16666666666666666. Step 509 has done=true and run_complete=true with the same reward; level_completed is false at that final exported step.",
+      "id": "duck-e4",
+      "kind": "direct_observation",
+      "source_ref": {
+        "path": "source_artifacts/duck/tr87-cd924810_p0_events.jsonl",
+        "record_indices": [
+          98,
+          147,
+          189,
+          217,
+          303,
+          509
+        ],
+        "sha256": "23f37b5b45d94bbb2d64d8a471d8a36ee9e4704cc68ea96797e197f5240707c8"
+      }
+    },
+    {
+      "content": "Viewer outcome for tr87-cd924810: status won, levels_completed 6, total_levels 6, final_score 77.84043470086425.",
+      "id": "duck-e5",
+      "kind": "direct_observation",
+      "source_ref": {
+        "path": "source_artifacts/duck/tr87-cd924810_p0_viewer_data.json",
+        "sha256": "690c957fa4e5a53d42ada1cc80d1130578ea683ad7c4b92262c89452a3139df0"
+      }
+    },
+    {
+      "content": "Reconciliation limit: the exported trace has five explicit level_completed=true events plus a final run_complete=true event, while viewer_data reports 6/6 levels completed. The packet does not explain whether the final level is represented only by run_complete or why the count differs; no saved notes are available.",
+      "id": "duck-e6",
+      "kind": "unknown",
+      "source_ref": {
+        "event_source_ref": {
+          "path": "source_artifacts/duck/tr87-cd924810_p0_events.jsonl",
+          "record_indices": [
+            98,
+            147,
+            189,
+            217,
+            303,
+            509
+          ],
+          "sha256": "23f37b5b45d94bbb2d64d8a471d8a36ee9e4704cc68ea96797e197f5240707c8"
+        },
+        "viewer_source_ref": {
+          "path": "source_artifacts/duck/tr87-cd924810_p0_viewer_data.json",
+          "sha256": "690c957fa4e5a53d42ada1cc80d1130578ea683ad7c4b92262c89452a3139df0"
+        }
+      }
+    },
+    {
+      "content": "Interpretation limits state source_code_included=false, engine_internal_fields_imported=false, raw_model_reasoning_imported=false, duck_transcript_text_imported=false, and action_sequence_is_not_reasoning_evidence=true.",
+      "id": "duck-e7",
+      "kind": "direct_observation",
+      "source_ref": {
+        "artifact_id": "packet",
+        "path": "packet",
+        "rendered_sha256": "db8f1c0e1271048a5304db315cb8b18d85d93f7c1b8d9f83bd8a826fed6053e3",
+        "sha256": "730b49101f52de7da0150691a1d5877ced16815c091d1cd6cd7fd0fc9064defe"
+      }
+    },
+    {
+      "content": "Player strategy, intent, and any reasoning behind the action sequence are not available in supplied materials: saved_notes=0 and analysis/transcript text was excluded. No player reasoning is inferred.",
+      "id": "duck-e8",
+      "kind": "unknown",
+      "source_ref": {
+        "artifact_id": "packet",
+        "path": "packet",
+        "rendered_sha256": "db8f1c0e1271048a5304db315cb8b18d85d93f7c1b8d9f83bd8a826fed6053e3",
+        "sha256": "730b49101f52de7da0150691a1d5877ced16815c091d1cd6cd7fd0fc9064defe"
+      }
+    },
+    {
+      "content": "Run outcome records levels_completed=6, n_levels=6, partial=false, stop_reason=win.",
+      "id": "tycho-outcome-0001",
+      "kind": "direct_observation",
+      "source_ref": {
+        "evidence_id": "outcome-0001",
+        "path": "source_artifacts/tycho/game_tr87.filtered.json",
+        "sha256": "8d62c58cbccda98104dcb64eec4da494efbd7aa5f8eecb149d2f1a37a5dc9e6e"
+      }
+    },
+    {
+      "content": "Packet coverage reports raw_event_count=213, exported_trace_steps=213, saved_notes=12, saved_note_status=explicit_notes_imported.",
+      "id": "tycho-coverage-0001",
+      "kind": "direct_observation",
+      "source_ref": {
+        "path": "source_artifacts/tycho/manifest.filtered.json",
+        "sha256": "114d6a536183e5794d431d3ce1a5e8e24cd34fd15b1540a13863a3716cb8810c"
+      }
+    },
+    {
+      "content": "Step 74 (record_index 73) action is RESET; feedback and terminal_result are null. The delta at this step shows the level-2 cyan-cycle slot values flipping back (e.g. rows 52-56), and the row-63 meter cells reverting to 1.",
+      "id": "tycho-step74-reset",
+      "kind": "direct_observation",
+      "source_ref": {
+        "evidence_id": "ev-000074",
+        "path": "source_artifacts/tycho/game_tr87.filtered.json",
+        "record_index": 73,
+        "sha256": "8d62c58cbccda98104dcb64eec4da494efbd7aa5f8eecb149d2f1a37a5dc9e6e"
+      }
+    },
+    {
+      "content": "Step 75 (record_index 74) action is ACTION2; feedback and terminal_result are null. In this packet trace, step n maps to record_index n-1.",
+      "id": "tycho-step75-action2",
+      "kind": "direct_observation",
+      "source_ref": {
+        "evidence_id": "ev-000075",
+        "path": "source_artifacts/tycho/game_tr87.filtered.json",
+        "record_index": 74,
+        "sha256": "8d62c58cbccda98104dcb64eec4da494efbd7aa5f8eecb149d2f1a37a5dc9e6e"
+      }
+    },
+    {
+      "content": "Level 2 note describes a fixed yellow 8-slot bar, a movable cyan 7-slot bar, cursor movement via ACTION3/4, glyph cycling via ACTION1/2, and a goal where the cyan bar equals a parsed/concatenated sequence derived from the yellow bar; it lists derived target positions and a 21-action script.",
+      "id": "tycho-note-level2",
+      "kind": "saved_in_run_note",
+      "source_ref": {
+        "evidence_id": "note-0007",
+        "path": "source_artifacts/tycho/notes/07_level_2_insights.md",
+        "sha256": "a83f74bc6481ce7f683681897934928aa1bf468f6a49afd3c82df5a4a7afe030"
+      }
+    },
+    {
+      "content": "Level 3 note describes eight example L/R tile pairs, a fixed cyan top bar, a movable yellow bottom bar, cursor selection, and glyph-cycle controls; it records the live hypothesis that the goal is a two-step cyan->pink->yellow composition and a dead-ish one-step hypothesis.",
+      "id": "tycho-note-level3",
+      "kind": "saved_in_run_note",
+      "source_ref": {
+        "evidence_id": "note-0008",
+        "path": "source_artifacts/tycho/notes/08_level_3_insights.md",
+        "sha256": "269c6c96d4bff92f4cce0841d583ddeefb91cb32289cd7f689f8eebb498334bd"
+      }
+    },
+    {
+      "content": "Level 5 note describes three example rows, fixed cyan 3-slot and yellow 6-slot bars, a dictionary-composition goal, a chosen target family, and an estimated 18-action cost from the t32 state; it also lists a fallback positional hypothesis.",
+      "id": "tycho-note-level5",
+      "kind": "saved_in_run_note",
+      "source_ref": {
+        "evidence_id": "note-0010",
+        "path": "source_artifacts/tycho/notes/10_level_5_insights.md",
+        "sha256": "ed06ebe0321eca7caa91060146b07f13af503868ccb9b1c9561208166c65635c"
+      }
+    },
+    {
+      "content": "Level 1 note describes six example dominoes, a static pink 4-slot bar, a movable yellow 7-slot bar, cursor controls, a candidate target sequence [Ya,Ye,Yf,Ye,Yd,Yd,Yg], and the observed cycling order O.",
+      "id": "tycho-note-level1-world-model",
+      "kind": "saved_in_run_note",
+      "source_ref": {
+        "evidence_id": "note-0012",
+        "path": "source_artifacts/tycho/notes/12_world_model.md",
+        "sha256": "afeb6af5c7aeaefcd625a361acfc2ae3b43f46c0570255c86996a288294ed95e"
+      }
+    },
+    {
+      "content": "Level 0 note is a deterministic fallback note stating the summary pass did not create the requested note; it records solved.json ACTION2 and terminal.json level 0 outcome win.",
+      "id": "tycho-note-fallback-l0",
+      "kind": "saved_in_run_note",
+      "source_ref": {
+        "evidence_id": "note-0005",
+        "path": "source_artifacts/tycho/notes/05_level_0_insights.md",
+        "sha256": "7e9d5058315961dded5a5b7f165c658dd03f1a2550b6eef1b166c0f3face44da"
+      }
+    },
+    {
+      "content": "Level 1 note is a deterministic fallback note stating the summary pass did not create the requested note; it records solved.json ACTION2 and terminal.json level 1 outcome win.",
+      "id": "tycho-note-fallback-l1",
+      "kind": "saved_in_run_note",
+      "source_ref": {
+        "evidence_id": "note-0006",
+        "path": "source_artifacts/tycho/notes/06_level_1_insights.md",
+        "sha256": "e903e2a581fd0a593fb4a23df341100ada268ce83c471b085d700350c99bbd54"
+      }
+    },
+    {
+      "content": "Level 4 note is a deterministic fallback note stating the summary pass did not create the requested note; it records solved.json ACTION1 and terminal.json level 4 outcome win.",
+      "id": "tycho-note-fallback-l4",
+      "kind": "saved_in_run_note",
+      "source_ref": {
+        "evidence_id": "note-0009",
+        "path": "source_artifacts/tycho/notes/09_level_4_insights.md",
+        "sha256": "fbc2e5bc63f3cba138bfab89284acdbab3ba7a17befeb9bd9ebbfa930d340e26"
+      }
+    },
+    {
+      "content": "Saved note 04_l5_registry.json has empty text; its sha256 (e3b0c442...b855) is the empty-string digest, indicating the note exists but contains no content.",
+      "id": "tycho-note-empty-l5-registry",
+      "kind": "direct_observation",
+      "source_ref": {
+        "evidence_id": "note-0004",
+        "path": "source_artifacts/tycho/notes/04_l5_registry.json",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "content": "Source binding is unbound: basis=game_id_only, source_sha256=null, reason=historic record has no trusted hash binding to the exact game source tree. Exact source/version cannot be verified from this packet.",
+      "id": "tycho-source-binding",
+      "kind": "unknown",
+      "source_ref": {
+        "path": "source_artifacts/tycho/manifest.filtered.json",
+        "sha256": "114d6a536183e5794d431d3ce1a5e8e24cd34fd15b1540a13863a3716cb8810c"
+      }
+    },
+    {
+      "content": "Packet interpretation_limits state source_code_included=false, engine_internal_fields_imported=false, raw_model_reasoning_imported=false; action_sequence_is_not_reasoning_evidence=true; saved_notes_are_not_a_complete_reasoning_record=true; unimported reasoning status is not reviewed, and exclusion does not establish whether reasoning was saved elsewhere. No transcript text is present as evidence in this packet.",
+      "id": "tycho-limits",
+      "kind": "unknown",
+      "source_ref": {
+        "path": "trajectory_packet",
+        "sha256": "863fee86c0ccaf2dc6bcd407986b20cc2ec6091a56a1a128fed59af92cdd5c21"
+      }
+    },
+    {
+      "content": "The packet's interpretation_limits object carries a field literally labeled duck_transcript_text_imported=false. That label is duck-specific while this run is Tycho (tr87-cd924810), so a Tycho-specific transcript-text import status is not independently established by the packet; the only directly observable fact is that no transcript text appears in the exported trace or notes. Prior claim tycho-limits attributing this field to manifest.filtered.json is revised accordingly.",
+      "id": "tycho-limits-transcript-field",
+      "kind": "unknown",
+      "source_ref": {
+        "path": "trajectory_packet",
+        "sha256": "863fee86c0ccaf2dc6bcd407986b20cc2ec6091a56a1a128fed59af92cdd5c21"
+      }
+    },
+    {
+      "content": "The supplied source defines Tr87 as an ARCBaseGame with game_id 'tr87' and available_actions [1, 2, 3, 4]. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-game-class",
+      "kind": "source_finding",
+      "source_ref": "source: class Tr87(ARCBaseGame) -> super().__init__(game_id=\"tr87\", levels=levels, camera=cvgwmhmdmtp, available_actions=[1, 2, 3, 4])"
+    },
+    {
+      "content": "Six Level entries are defined; every declared Level uses grid_size=(64, 64). Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-levels-grid",
+      "kind": "source_finding",
+      "source_ref": "source: levels = [...] six Level entries, each with grid_size=(64, 64)"
+    },
+    {
+      "content": "Level-specific flags are: level 4 double_translation; level 5 alter_rules; level 6 double_translation, alter_rules, and tree_translation. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-level-flags",
+      "kind": "source_finding",
+      "source_ref": "source: levels[3].data={\"double_translation\": True}; levels[4].data={\"alter_rules\": True}; levels[5].data={\"double_translation\": True, \"alter_rules\": True, \"tree_translation\": True}"
+    },
+    {
+      "content": "The source uses fixed per-level seed arrays: first for initial rotation choice, second for subsequent rule-offset randomization. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-rng-seeds",
+      "kind": "source_finding",
+      "source_ref": "source: on_set_level: ofysoutulp = [4, 2, 1, 2, 12, 20]; ripmydnety = [7, 7, 32, 18, 23, 11]"
+    },
+    {
+      "content": "Sprites tagged 'nxkictbbvzt' are sorted by (y,x), set to BOUNDING_BOX blocking, and assigned a seeded rotation from [0, 90, 180, 270]. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-rotations",
+      "kind": "source_finding",
+      "source_ref": "source: on_set_level: self.zdwrfusvmx.sort(key=lambda s: (s.y, s.x)); ekifeojqhe.set_blocking(BlockingMode.BOUNDING_BOX); ekifeojqhe.set_rotation(fcnjuctdrc.choice([0, 90, 180, 270]))"
+    },
+    {
+      "content": "Each iqrduxrukrk marker anchors a left and right sequence of nxkictbbvzt sprites, extended horizontally with step iokndxodxw=7. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-rule-pairs",
+      "kind": "source_finding",
+      "source_ref": "source: on_set_level: for kubalgsiiy in sorted(self.current_level.get_sprites_by_name(\"iqrduxrukrk\"), key=lambda len: (len.y, len.x)): ... get_sprite_at(... \"nxkictbbvzt\") ... qrkneeaawb(..., -1) ... qrkneeaawb(..., 1)"
+    },
+    {
+      "content": "When alter_rules is set, both sides of each rule pair are independently rotated 0..6 sprite variants; otherwise only the ztgmtnnufb side is randomized. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-rule-randomization",
+      "kind": "source_finding",
+      "source_ref": "source: on_set_level: if self.current_level.get_data(\"alter_rules\"): ... dkmtlqnzhy = fcnjuctdrc.randint(0, 6) ... else: ... fcnjuctdrc.randint(0, 6)"
+    },
+    {
+      "content": "ACTION3/4 cycle the selected rule index; ACTION1/2 rotate the selected sequence by -1/+1 through wpbnovjwkv. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-controls",
+      "kind": "source_finding",
+      "source_ref": "source: step: elif self.action.id in [GameAction.ACTION3, GameAction.ACTION4]: ... elif self.action.id in [GameAction.ACTION1, GameAction.ACTION2]: ..."
+    },
+    {
+      "content": "The interface renders a bottom bar in color 4 and a color-1 progress segment proportional to upmkivwyrxz/vfpimnmtnta. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-ui-meter",
+      "kind": "source_finding",
+      "source_ref": "source: cjcjtddeyl.render_interface: qrrzgzkkgn = self.aqrjzwnzcx.upmkivwyrxz / self.aqrjzwnzcx.vfpimnmtnta; ysswxajmmd = math.ceil(nqbxwxgrom * qrrzgzkkgn); gyrdjxybtcm[...] = efblfzysop; gyrdjxybtcm[..., 0:ysswxajmmd] = fiwynmpoeb"
+    },
+    {
+      "content": "The action budget is 128 for level indices <=4 and 256 for index 5. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-action-budget",
+      "kind": "source_finding",
+      "source_ref": "source: on_set_level: self.vfpimnmtnta = 128 if self._current_level_index <= 4 else 256; self.upmkivwyrxz = self.vfpimnmtnta"
+    },
+    {
+      "content": "The win check greedily matches the left sprite sequence against rules and verifies the corresponding right sequence, requiring all left sprites to be consumed. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-win-check",
+      "kind": "source_finding",
+      "source_ref": "source: bsqsshqpox: while eutyeiwurz < len(self.zvojhrjxxm): ... if not self.iwbhnvdaao(self.ztgmtnnufb, pcxqrgcdzp, xwaazaiaiq): return False ... return True"
+    },
+    {
+      "content": "After a solved check, the source animates matched sprites through color-remap sequence rhoqllymmn and calls next_level when the animation frame count completes. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-after-win-animation",
+      "kind": "source_finding",
+      "source_ref": "source: step: if self.yfetxjexviz >= 0: ... rhoqllymmn ... ekifeojqhe.color_remap(tqqhnygzgwn, pmrplgnzmz) ... self.next_level()"
+    },
+    {
+      "content": "If the action budget reaches zero and the solved branch has not returned, the game calls lose(). Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-loss",
+      "kind": "source_finding",
+      "source_ref": "source: step: if self.upmkivwyrxz == 0: self.lose()"
+    },
+    {
+      "content": "The supplied sprite table defines those exact sprite colors and shapes. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-sprite-colors",
+      "kind": "source_finding",
+      "source_ref": "source: sprites dict: gyrdjxybtcmA pixels color 10; gyrdjxybtcmB color 7; gyrdjxybtcmC color 11; iqrduxrukrk color 3; nxkictbbvzt sprites use 5 and -1; jpafjzbfwiq A1/A2/B1/B2 colors 8/12/9/14"
+    },
+    {
+      "content": "All sprites tagged tjaqvwdgkxe are hidden during level setup; bsqsshqpox later reads sprites by name from that tag group. Limitation: source-only observation on supplied sha256 3274657a6499af5c7a52390d58a5c5441497ed70b84388e418fdfa6c9601e305; no historical same-version identity inferred.",
+      "id": "source-hidden-tokens",
+      "kind": "source_finding",
+      "source_ref": "source: on_set_level: for ujwvrzndre in self.current_level.get_sprites_by_tag(\"tjaqvwdgkxe\"): ujwvrzndre.set_visible(False)"
+    }
+  ]
+}

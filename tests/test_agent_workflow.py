@@ -85,6 +85,31 @@ class AgentWorkflowTests(unittest.TestCase):
         spec_path.write_text(json.dumps(spec, ensure_ascii=False, indent=2), encoding="utf-8")
         return spec_path, prompt, trace
 
+    def test_blind_cache_provenance_preserves_blind_dependents(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);spec,_,_=self.make_bundle(root)
+            data=json.loads(spec.read_text());data["tasks"][1]["evidence_lane"]="trajectory_blind";spec.write_text(json.dumps(data))
+            p=FakeProvider([Completion('{"claims":[{"claim":"visible fixture"}]}',total_tokens=7),Completion('{"status":"draft"}',total_tokens=7)])
+            WorkflowRunner(spec,root/"run0",provider=p).run();record=json.loads((root/"run0/workflow_run.json").read_text());row=record["tasks"][0]
+            import copy
+            updated=copy.deepcopy(data);updated["workflow_id"]="blind-cache-revision";task=updated["tasks"][0]
+            task["frozen_output"]={"path":str(root/"run0"/row["output_path"]),"sha256":row["output_sha256"]}
+            task["frozen_origin"]={"record_path":str(root/"run0/workflow_run.json"),"record_sha256":hashlib.sha256((root/"run0/workflow_run.json").read_bytes()).hexdigest(),"spec_path":str(spec),"spec_sha256":hashlib.sha256(spec.read_bytes()).hexdigest(),"task_id":task["id"]}
+            revised=root/"revised.json";revised.write_text(json.dumps(updated));p2=FakeProvider([Completion('{"status":"unknown"}',total_tokens=7)])
+            result=WorkflowRunner(revised,root/"run1",provider=p2).run()
+            self.assertEqual(result["status"],"complete");self.assertEqual(len(p2.calls),1)
+            updated["tasks"][0]["frozen_origin"]["record_sha256"]="0"*64;revised.write_text(json.dumps(updated))
+            with self.assertRaises(WorkflowError):WorkflowRunner(revised,plan_only=True)
+
+    def test_evidence_union_cannot_rewrite_immutable_input(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);spec,_,_=self.make_bundle(root);data=json.loads(spec.read_text())
+            for task in data["tasks"]:task["output_schema"]={"type":"object","required":["evidence"]}
+            data["tasks"][1]["preserve_evidence_inputs"]=["claims"];spec.write_text(json.dumps(data))
+            provider=FakeProvider([Completion('{"evidence":[{"id":"e","content":"original"}]}',total_tokens=7),Completion('{"evidence":[{"id":"e","content":"rewritten"}]}',total_tokens=7)])
+            with self.assertRaises(WorkflowError) as caught:WorkflowRunner(spec,root/"run",provider=provider).run()
+            self.assertEqual(caught.exception.diagnostic_ref["route"],"artifact_revision")
+
     def test_plan_is_offline_and_does_not_create_a_run(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -325,15 +350,20 @@ class AgentWorkflowTests(unittest.TestCase):
             self.assertEqual(final_state["budget"]["tokens_reserved"], 0)
             self.assertEqual(final_state["budget"]["tokens_used"], 34)
 
-    def test_unit_budget_hard_caps_reject_larger_values(self):
+    def test_explicit_large_budget_is_supported_and_nonpositive_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             spec, _, _ = self.make_bundle(root)
             raw = json.loads(spec.read_text(encoding="utf-8"))
             raw["budget"]["max_attempts"] = 51
             spec.write_text(json.dumps(raw), encoding="utf-8")
-            with self.assertRaisesRegex(WorkflowError, "max_attempts"):
-                WorkflowRunner(spec, root / "run", provider=FakeProvider([]))
+            raw["budget"]["max_tokens"]=2_000_000
+            spec.write_text(json.dumps(raw),encoding="utf-8")
+            self.assertTrue(WorkflowRunner(spec,plan_only=True).plan()["valid"])
+            raw["budget"]["max_attempts"]=0
+            spec.write_text(json.dumps(raw),encoding="utf-8")
+            with self.assertRaisesRegex(WorkflowError,"max_attempts"):
+                WorkflowRunner(spec,root/"run",provider=FakeProvider([]))
 
     def test_malformed_nested_schema_and_dependency_cycle_are_rejected_preflight(self):
         with tempfile.TemporaryDirectory() as tmp:

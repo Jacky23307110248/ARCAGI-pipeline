@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from .diagnostics import Archive, ArchiveWriteError, traced, current, scrub
 import re
 from pathlib import Path
 
@@ -105,6 +106,7 @@ def main(argv: list[str] | None = None) -> int:
     legacy_freeze.add_argument("--output", type=Path, required=True)
     game_bind = sub.add_parser("game-bind", help="Fingerprint a Tycho game source tree and runtime")
     game_bind.add_argument("--game-id", required=True)
+    game_bind.add_argument("--runtime-profile", choices=("tycho","duck","raw-arcengine"), default="tycho")
     game_bind.add_argument("--tycho-root", type=Path, required=True)
     game_bind.add_argument("--source-dir", type=Path, required=True)
     game_bind.add_argument("--python", required=True)
@@ -136,7 +138,188 @@ def main(argv: list[str] | None = None) -> int:
     preview.add_argument("--max-actions", type=int, default=None)
     preview.add_argument("--max-runtime-minutes", type=float, default=10.0)
     preview.add_argument("--preflight", action="store_true")
+    production = sub.add_parser("production-run", help="Run an explicit frozen-rule game plugin")
+    production.add_argument("--runtime-config",type=Path,required=True)
+    production.add_argument("--plugin", required=True, help="Importable module:factory")
+    production.add_argument("--rule-contract", type=Path, required=True)
+    production.add_argument("--blueprint", type=Path, required=True)
+    production.add_argument("--seed", type=int, default=21)
+    production.add_argument("--cap", type=int, default=250_000)
+    production.add_argument("--output-dir", type=Path, required=True)
+    production.add_argument("--evidence", type=Path)
+    production.add_argument("--require-design", action="store_true")
+    production.add_argument("--require-unit-checks",action="store_true")
+    production.add_argument("--production-contract", choices=["generated-game/v2", "design-production/v1"], default="generated-game/v2")
+    machine_plan = sub.add_parser("machine-plan", help="Inspect a machine workflow without model calls or plugin execution")
+    machine_plan.add_argument("--config", type=Path, required=True)
+    machine = sub.add_parser("machine-run", help="Run workflow, materialize implementation, execute and export revision feedback")
+    machine.add_argument("--config", type=Path, required=True)
+    machine.add_argument("--workflow-run", type=Path, required=True)
+    machine.add_argument("--output-dir", type=Path, required=True)
+    machine.add_argument("--env-file", type=Path)
+    machine.add_argument("--retry-failed", action="store_true")
+    handoff = sub.add_parser("machine-handoff", help="Execute completed workflow outputs without another model call")
+    handoff.add_argument("--config", type=Path, required=True)
+    handoff.add_argument("--workflow-run", type=Path, required=True)
+    handoff.add_argument("--output-dir", type=Path, required=True)
+    fork = sub.add_parser("control-fork",help="Offline verified continuation after an approved core repair")
+    fork.add_argument("--config",type=Path,required=True)
+    fork.add_argument("--source-run",type=Path,required=True)
+    fork.add_argument("--run-dir",type=Path,required=True)
+    fork.add_argument("--previous-core",type=Path,required=True)
+    recover = sub.add_parser('control-recover',help='Preserve a compatible completed workflow after protocol repair')
+    for name in ('source-run','checkpoint-workflow','run-dir','previous-core','history-manifest'):
+        recover.add_argument('--'+name,type=Path,required=True)
+    recover.add_argument('--additional-revisions',type=int,default=100)
+    for operation in ("plan","run","status","resume","pause"):
+        control = sub.add_parser("control-"+operation, help="Persistent generic production controller")
+        control.add_argument("--run-dir",type=Path,required=operation!="plan")
+        if operation not in {"status","pause"}: control.add_argument("--config",type=Path,required=True)
+        if operation in {"run","resume"}: control.add_argument("--env-file",type=Path)
+        if operation=="resume": control.add_argument("--resolution",type=Path)
+    show = sub.add_parser("diagnostic-show", help="Read diagnostic facts, attribution history and continuation links")
+    show.add_argument("--log-dir",type=Path,required=True)
+    show.add_argument("--event-id")
+    attribute = sub.add_parser("diagnostic-attribute",help="Append an evidence-backed attribution without changing facts")
+    attribute.add_argument("--log-dir",type=Path,required=True)
+    attribute.add_argument("--event-id",required=True)
+    attribute.add_argument("--category",choices=("artifact","runtime","undetermined"),required=True)
+    attribute.add_argument("--basis",type=Path,required=True,help="JSON list of structured evidence records")
+    attribute.add_argument("--source",choices=("operator","independent_review"),default="operator")
+    attribute.add_argument("--supersedes")
+    attribute.add_argument("--confidence",choices=("provisional","confirmed"),default="provisional")
+    resolve = sub.add_parser("diagnostic-resolve",help="Append an event-bound successor check as resolution evidence")
+    resolve.add_argument("--log-dir",type=Path,required=True)
+    resolve.add_argument("--event-id",required=True)
+    resolve.add_argument("--successor-run",required=True)
+    resolve.add_argument("--check-file",type=Path,action="append",required=True)
+    for command in (machine_plan,machine,handoff,production,workflow_plan,workflow_run):
+        command.add_argument("--log-dir",type=Path)
+        command.add_argument("--previous-run")
+        command.add_argument("--pending-event",action="append",default=[])
     args = parser.parse_args(argv)
+    if args.command.startswith("diagnostic-"):
+        try:
+            archive=Archive(args.log_dir)
+            if args.command=="diagnostic-show": result=archive.view(args.event_id)
+            elif args.command=="diagnostic-attribute":
+                result={"attribution_id":archive.attribute(args.event_id,args.category,basis=json.loads(args.basis.read_text(encoding="utf-8")),source=args.source,confidence=args.confidence,supersedes=args.supersedes)}
+            else: result={"resolution_id":archive.resolve(args.event_id,run_id=args.successor_run,check_refs=args.check_file)}
+            print(json.dumps(result,ensure_ascii=False,indent=2));return 0
+        except (ValueError,OSError,KeyError) as exc:
+            print(json.dumps({"status":"return","error_type":type(exc).__name__}));return 1
+    path=next((getattr(args,key) for key in ("output_dir","run_dir","workflow_run","config","spec") if getattr(args,key,None) is not None),Path.cwd()/"run")
+    root=getattr(args,"log_dir",None) or Path(path).resolve().parent/"error-archive"
+    try:
+        try: context=Archive(root).start(args.command,previous_run=getattr(args,"previous_run",None),pending_events=getattr(args,"pending_event",()))
+        except ArchiveWriteError: raise
+        except Exception as exc:
+            context=Archive(root).start(args.command)
+            ref=context.record("config_invalid","continuation_links",exc=exc)
+            print(json.dumps({"status":"return","diagnostic_ref":ref}));return 1
+        return _dispatch(args,_diagnostics=context)
+    except ArchiveWriteError:
+        print(json.dumps({"status":"return","error":"diagnostic_archive_write_failed","facts_saved":"unknown","archive_complete":False}));return 2
+
+
+def _cli_error(exc):
+    if isinstance(exc,ArchiveWriteError): raise exc
+    return getattr(exc,"diagnostic_ref",None) or current().record(getattr(exc,"diagnostic_code",None) or "exception","cli",exc=exc)
+
+
+@traced("cli")
+def _dispatch(args):
+    if args.command.startswith("control-"):
+        from .controller import control_plan,control_run,control_status,control_resume,control_pause
+        try:
+            if args.command=='control-recover':
+                from .resume_checkpoint import recover
+                result=recover(args.source_run,args.checkpoint_workflow,args.run_dir,args.previous_core,args.history_manifest,args.additional_revisions)
+            elif args.command=="control-fork":
+                from .control_checkpoint import control_fork
+                result=control_fork(args.config,args.source_run,args.run_dir,args.previous_core)
+            elif args.command=="control-pause": result=control_pause(args.run_dir)
+            elif args.command=="control-plan": result=control_plan(args.config)
+            elif args.command=="control-status": result=control_status(args.run_dir)
+            elif args.command=="control-run": result=control_run(args.config,args.run_dir,env_file=args.env_file)
+            else: result=control_resume(args.config,args.run_dir,env_file=args.env_file,resolution=args.resolution)
+            print(json.dumps(result,ensure_ascii=False,indent=2))
+            if args.command in {"control-status","control-pause","control-fork","control-recover"}:return 0
+            return 0 if result.get("status") in {"pass","complete","ready"} or result.get("valid") is True else 1
+        except (ValueError,OSError,KeyError) as exc:
+            print(json.dumps({"status":"return","error":_cli_error(exc)}));return 1
+    if args.command == "machine-plan":
+        from .machine import plan_machine
+        try:
+            config, _, plan = plan_machine(args.config)
+            print(json.dumps({"workflow":plan,"roles":config["roles"],"execution_started":False},ensure_ascii=False,indent=2))
+            return 0
+        except (ValueError,OSError,KeyError) as exc:
+            print(json.dumps({"valid":False,"error":_cli_error(exc)}))
+            return 1
+    if args.command in {"machine-run", "machine-handoff"}:
+        from .machine import run_machine, execute_handoff
+        try:
+            if args.command == "machine-run":
+                result = run_machine(args.config, args.workflow_run, args.output_dir,
+                                     env_file=args.env_file, retry_failed=args.retry_failed)
+            else:
+                config = json.loads(args.config.read_text(encoding="utf-8"))
+                if not isinstance(config.get("runtime_config"),str):
+                    from .diagnostics import Fault
+                    raise Fault("config_invalid","machine-handoff requires runtime_config")
+                result = execute_handoff(args.workflow_run,config["roles"],args.output_dir,
+                                         seed=config.get("seed",0),cap=config.get("cap",250_000),
+                                         timeout=config.get("timeout_seconds",300),runtime_config=(args.config.parent/config["runtime_config"]).resolve(),require_unit_checks=config.get("require_unit_checks",False),production_contract=config.get("production_contract","generated-game/v2"))
+            print(json.dumps({"status":result["status"],"stage":result["stage"],"completion_scope":result.get("completion_scope")}))
+            return 0 if result["status"] == "pass" else 1
+        except (ValueError, OSError, KeyError, ImportError) as exc:
+            print(json.dumps({"status":"return","error":_cli_error(exc)}))
+            return 1
+    if args.command == "production-run":
+        import importlib
+        from .production import FrozenInputs, run_production
+        try:
+            from .runtime_control import runtime_command
+            import sys,os,subprocess
+            python,env,facts=runtime_command(args.runtime_config)
+            runtime_digest=__import__("hashlib").sha256(args.runtime_config.read_bytes()).hexdigest()
+            if not os.path.samefile(sys.executable,python) or os.environ.get("ARCAGI_RUNTIME_CLI_CHILD")!=runtime_digest:
+                runtime_data=json.loads(args.runtime_config.read_text(encoding="utf-8"))
+                roots=[str(Path(__file__).resolve().parents[1])]+[str((args.runtime_config.parent/root).resolve()) for root in runtime_data.get("import_roots",[])]
+                # Invoke same CLI in the declared interpreter, not the caller interpreter.
+                import argparse
+                argv=["production-run","--runtime-config",str(args.runtime_config.resolve()),"--plugin",args.plugin,"--rule-contract",str(args.rule_contract.resolve()),"--blueprint",str(args.blueprint.resolve()),"--seed",str(args.seed),"--cap",str(args.cap),"--output-dir",str(args.output_dir.resolve())]
+                if args.evidence: argv += ["--evidence",str(args.evidence.resolve())]
+                if args.require_design: argv += ["--require-design"]
+                if args.require_unit_checks: argv += ["--require-unit-checks"]
+                argv += ["--production-contract", args.production_contract]
+                env["ARCAGI_RUNTIME_CLI_CHILD"]=runtime_digest
+                bootstrap="import sys;sys.path[:0]="+repr(roots)+";from arcagi_pipeline.cli import main;raise SystemExit(main("+repr(argv)+"))"
+                return subprocess.run([python,"-I","-c",bootstrap],env=env).returncode
+            module, factory = args.plugin.split(":", 1)
+            from .runtime_control import RuntimeContext
+            context=RuntimeContext(args.runtime_config)
+            factory_fn=getattr(importlib.import_module(module),factory)
+            import inspect
+            try:inspect.signature(factory_fn).bind(context)
+            except TypeError:
+                if args.require_unit_checks or args.production_contract == "generated-game/v2":raise ValueError("controlled factory must accept runtime context")
+                plugin=factory_fn()
+            else:plugin=factory_fn(context)
+            if args.production_contract == "generated-game/v2":
+                from .generated_game import run_generated_production
+                result = run_generated_production(plugin, FrozenInputs(args.rule_contract,args.blueprint,args.evidence),seed=args.seed,cap=args.cap,output_dir=args.output_dir,runtime_context=context,
+                    probe_factory={'runtime_config':str(args.runtime_config.resolve()),'runtime_config_sha256':runtime_digest,
+                                   'module_path':str(Path(importlib.import_module(module).__file__).resolve()),'factory_name':factory,
+                                   'file_refs':[{'path':str(Path(importlib.import_module(module).__file__).resolve()),'sha256':__import__('hashlib').sha256(Path(importlib.import_module(module).__file__).read_bytes()).hexdigest()}]})
+            else: result = run_production(plugin, FrozenInputs(args.rule_contract, args.blueprint, args.evidence),
+                                    seed=args.seed, cap=args.cap, output_dir=args.output_dir, require_design=args.require_design or args.require_unit_checks,runtime_context=context if args.require_unit_checks else None,require_unit_checks=args.require_unit_checks)
+            print(json.dumps({"status": result["status"], "tasks": len(result["tasks"])}))
+            return 0 if result["status"] == "pass" else 1
+        except (ValueError, OSError, ImportError, AttributeError) as exc:
+            print(json.dumps({"status": "return", "error": _cli_error(exc)}))
+            return 1
     if args.command == "validate-manifest":
         errors = validate_manifest(args.path)
         if errors:
@@ -151,7 +334,7 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(runner.plan(), ensure_ascii=False, indent=2))
             return 0
         except (OSError, ValueError) as exc:
-            print(json.dumps({"valid": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"valid": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
     if args.command == "workflow-run":
         from .agent_workflow import WorkflowRunner
@@ -161,7 +344,7 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(result, ensure_ascii=False, indent=2))
             return 0
         except (OSError, ValueError) as exc:
-            print(json.dumps({"completed": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"completed": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 1
     if args.command == "workflow-status":
         from .agent_workflow import workflow_status
@@ -169,7 +352,7 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(workflow_status(args.run_dir), ensure_ascii=False, indent=2))
             return 0
         except (OSError, ValueError) as exc:
-            print(json.dumps({"found": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"found": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
     if args.command == "demo":
         from .demo import run_demo
@@ -212,7 +395,7 @@ def main(argv: list[str] | None = None) -> int:
                     runs_root=args.runs_root,
                 )
         except (OSError, ValueError) as exc:
-            print(json.dumps({"prepared": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"prepared": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -225,7 +408,7 @@ def main(argv: list[str] | None = None) -> int:
                 runs_root=args.runs_root,
             )
         except (OSError, ValueError) as exc:
-            print(json.dumps({"executed": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"executed": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0 if result["status"] == "completed" else 1
@@ -234,7 +417,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             result = get_harness_session_status(run_id=args.run_id, runs_root=args.runs_root)
         except (OSError, ValueError) as exc:
-            print(json.dumps({"found": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"found": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -243,7 +426,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             result = export_trajectory_packet(run_id=args.run_id, runs_root=args.runs_root)
         except (OSError, ValueError) as exc:
-            print(json.dumps({"exported": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"exported": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -256,7 +439,7 @@ def main(argv: list[str] | None = None) -> int:
                 runs_root=args.runs_root,
             )
         except (OSError, ValueError) as exc:
-            print(json.dumps({"imported": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"imported": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -272,7 +455,7 @@ def main(argv: list[str] | None = None) -> int:
                 output_path=args.output,
             )
         except (OSError, ValueError) as exc:
-            print(json.dumps({"imported": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"imported": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -281,7 +464,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             result = freeze_legacy_claims(packet_path=args.packet, claims_path=args.claims, output_path=args.output)
         except (OSError, ValueError) as exc:
-            print(json.dumps({"frozen": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"frozen": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -293,10 +476,10 @@ def main(argv: list[str] | None = None) -> int:
                 tycho_root=args.tycho_root,
                 source_dir=args.source_dir,
                 python=args.python,
-                output_path=args.output,
+                runtime_profile=args.runtime_profile, output_path=args.output,
             )
         except (OSError, ValueError) as exc:
-            print(json.dumps({"bound": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"bound": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -319,7 +502,7 @@ def main(argv: list[str] | None = None) -> int:
                 output_path=args.output,
             )
         except (OSError, ValueError) as exc:
-            print(json.dumps({"frozen": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"frozen": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -328,7 +511,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             result = export_source_audit_task(run_id=args.run_id, runs_root=args.runs_root)
         except (OSError, ValueError) as exc:
-            print(json.dumps({"exported": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"exported": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
@@ -341,7 +524,7 @@ def main(argv: list[str] | None = None) -> int:
                 runs_root=args.runs_root,
             )
         except (OSError, ValueError) as exc:
-            print(json.dumps({"imported": False, "error": str(exc)}, ensure_ascii=False, indent=2))
+            print(json.dumps({"imported": False, "error": _cli_error(exc)}, ensure_ascii=False, indent=2))
             return 2
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0

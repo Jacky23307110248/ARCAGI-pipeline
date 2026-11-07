@@ -1,0 +1,136 @@
+{
+  "schema_version": "ls20-delivery-dependencies/v1",
+  "arcengine_version": "0.9.3",
+  "files": [
+    {
+      "path": "vendor/arcengine/arcengine/__init__.py",
+      "sha256": "538961ed7fcd09401dc7157c5611ee9f1fdaa177eae751a4b61b16844ab4304b"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/base_game.py",
+      "sha256": "5b5f41f3bec4c0c97a727fda7326114991dc0d4a5642d489b40ee4aa87e6b15f"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/camera.py",
+      "sha256": "f06e16807b0f97d86cafb5481bb3969213f27768f789d898c6b8b07e957de397"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/enums.py",
+      "sha256": "94ebef48f6fe950a18679a1b991c366e8e28c32ab58c9335f385e19bea21950e"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/interfaces.py",
+      "sha256": "0cfc24178e9f1102fb4ccb5892141d91c3a9eec88eccab3402b9777a76532cd8"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/level.py",
+      "sha256": "f74db969772b251018b2fcce6ec42f3522adeef4e9c03c036e455d2a35e3215a"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/OVERVIEW.md",
+      "sha256": "65f20764d5e3cd8efc55f55508046c29b75cb27e22d70eaa7f76b400cf5abd0d"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/py.typed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/README.md",
+      "sha256": "2cc4693553c2dd7342ae0cadf5a335f377c4d6cea9c2d8a29ec63468e26bbd21"
+    },
+    {
+      "path": "vendor/arcengine/arcengine/sprites.py",
+      "sha256": "ea9d3d02c7db0814954134a0e0ea6a3cb9b80066930dbdbfc5865befb54c493f"
+    },
+    {
+      "path": "vendor/arcengine/LICENSE-MIT.txt",
+      "sha256": "dc408b7287c1c9cf8034bca32b8ca9ac157651998a08a28e21a06af6fe02ace0"
+    },
+    {
+      "path": "examples/ls20/game/ls20.py",
+      "sha256": "67cc85888eeef68f125cbb5f5fb158e9ca455d6bca46b171790f556fcabf934e"
+    },
+    {
+      "path": "examples/ls20/game/metadata.json",
+      "sha256": "559b6349cc0285a6d56960bc85b0686f469e5b8315aa717da1ed71c23b2f0cf8"
+    },
+    {
+      "path": "examples/ls20/evidence/blueprint.md",
+      "sha256": "cff201e27023ebbcd4077c3a5afd66230c87d92a3753fef627490c812110918d"
+    },
+    {
+      "path": "examples/ls20/evidence/CP0_FINAL_AUDIT.md",
+      "sha256": "2d084875a9e6d2d4eaeffa414b655357c04e7235bd25c8d3517c9cfc11ef195e"
+    },
+    {
+      "path": "examples/ls20/evidence/CP0_TYCHO_MEMORY_RECONCILIATION.md",
+      "sha256": "0b9fe04aaf5db0be87fe6e267f82cb8dc6d73315feb903523795b3257a768287"
+    },
+    {
+      "path": "examples/ls20/evidence/CP1_M1_HINT_COST_CORRECTION_REPORT.md",
+      "sha256": "bfb7825d91e0a0ed3a238bc8cf30e8c9fdf088959ff7b6180260c320cbcdbd36"
+    },
+    {
+      "path": "examples/ls20/evidence/CP1_M1_IMPLEMENTATION_REPORT.md",
+      "sha256": "04666c49745a78646dcabfa1c2ef131752a61ae8e05435a9529d3f96bf122eb1"
+    },
+    {
+      "path": "examples/ls20/evidence/historical-acceptance.md",
+      "sha256": "6695e5722f6be095017160b75390b696e4e6195e403ac7bd676b22781b8fb29f"
+    },
+    {
+      "path": "examples/ls20/evidence/historical-design.md",
+      "sha256": "21a13a8309891fcf183208b0d62da49c33e494982f13e4c8691982bf01f9faef"
+    },
+    {
+      "path": "examples/ls20/evidence/historical-run.md",
+      "sha256": "dcbf4554e63245f69e4be5c9136c93652ef964264ccbce47a741f81574be7f42"
+    },
+    {
+      "path": "examples/ls20/evidence/origins.json",
+      "sha256": "63546521d928a6c70a502b0b5b6de30420f5ba5d4423e734290ad64555713a0f"
+    },
+    {
+      "path": "examples/ls20/evidence/rule-contract.md",
+      "sha256": "f3df210a48201903a279bdbd8b76e4d0fe58e856d4bf83d031237e3e5d95ca3f"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/duck-claims.json",
+      "sha256": "ce929cdb8576d9e948326a47622936c7252e293373dffc54851704b9efcb48a5"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/duck-ledger.json",
+      "sha256": "3fe648a04cd612ee0503ed071b5305044e5978285dee4e6362a000d35769be10"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/duck-packet.json",
+      "sha256": "55f91e8befded0c5da848524d8bb6d072f132959ccffd45362af09217213955a"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/duck-visible-input.json",
+      "sha256": "da7bf49782508a2ad706b97b72fd014e1b887137d97cbed0109cf94aa9e4147a"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/sourceblind-analysis-summary.json",
+      "sha256": "9f0e33e0d390289a46f8732ab47d701ced72c70a6e7b498b80fc9553a8d0a2ba"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/tycho-claims.json",
+      "sha256": "7ea7a4b670850c92804bf2523dc11516c22d79f0569b98ad127b83a2998a2600"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/tycho-ledger.json",
+      "sha256": "7cd96821528275f68cab1515f72c5f0fef2856948fe16a5d45c1e6eae9823428"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/tycho-packet.json",
+      "sha256": "2b8caa9b00c94879cf2d7b5ed558b23709bcd98296a3e58020cd207c7200cbab"
+    },
+    {
+      "path": "examples/ls20/evidence/trajectory/tycho-visible-input.json",
+      "sha256": "cbe848a955dbd6497acc475c51c5b9a5c1ba9578e6d54b7eb655f63a079dab14"
+    }
+  ],
+  "original_metadata_sha256": "bc919750fba3d0549e12faf552a4a2999530ef4d02d048c0bbc3a9c72c3da4bd",
+  "metadata_redaction": "local_dir replaced by dot; metadata is not used by the adapter"
+}

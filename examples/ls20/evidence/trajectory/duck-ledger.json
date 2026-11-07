@@ -1,0 +1,61 @@
+{
+  "schema_version": "arcagi-trajectory-ledger/v1",
+  "run_id": "duck-20261020-002308-ls20-9607627b",
+  "game_id": "ls20-9607627b",
+  "trajectory_frozen": true,
+  "source_binding": {
+    "status": "unbound",
+    "basis": "game_id_only",
+    "game_id_version_label": "9607627b",
+    "source_sha256": null,
+    "reason": "historic record has no trusted hash binding to the exact game source tree"
+  },
+  "packet": {
+    "path": "<HISTORICAL_ROOT>/campaigns\\ls20-rotation-slice\\evidence\\trajectory\\duck-packet.json",
+    "sha256": "67e0c218b9b241ce7f2661df5bf2001a25f438e7b41835a424b58234213424cd"
+  },
+  "claims_input": {
+    "path": "<HISTORICAL_ROOT>/campaigns\\ls20-rotation-slice\\evidence\\trajectory\\duck-claims.json",
+    "sha256": "c5827a32ef56b57230028c73775d5c02c9812c9cad2e5309358995a4946fc37d"
+  },
+  "trajectory_digest": "097ee70046865e28f2f2af2d514ef8d6f0853d517f94f8e2ea5286189f8dd20d",
+  "claims": [
+    {
+      "claim_id": "duck-claim-001",
+      "statement": "At the cited events the packet records level_completed=true, board_changed=true, and reward 0.14285714285714285.",
+      "kind": "direct_observation",
+      "evidence_refs": [
+        "ev-000025",
+        "ev-000152",
+        "ev-000355",
+        "ev-000519"
+      ],
+      "alternatives": [],
+      "prediction": null,
+      "confidence": 1.0
+    },
+    {
+      "claim_id": "duck-claim-002",
+      "statement": "At each cited game_over=true event, the immediately following trace event records action RESET.",
+      "kind": "direct_observation",
+      "evidence_refs": [
+        "ev-000663",
+        "ev-000664",
+        "ev-000772",
+        "ev-000773",
+        "ev-000877",
+        "ev-000878",
+        "ev-000944",
+        "ev-000945"
+      ],
+      "alternatives": [],
+      "prediction": null,
+      "confidence": 1.0
+    }
+  ],
+  "provenance_limits": {
+    "source_findings_included": false,
+    "engine_probe_results_included": false,
+    "action_sequence_treated_as_reasoning": false
+  }
+}

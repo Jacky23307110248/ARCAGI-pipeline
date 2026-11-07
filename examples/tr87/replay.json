@@ -1,0 +1,114 @@
+{
+  "unit_sha256": "477319ec8a877fce0e0a4c3ab02ed397be63f75aaba8eeea25ab330e6f88e894",
+  "origin_artifact_sha256": {
+    "evidence.json": "ed65bb5400d120c69625e51a862175f77138a85496cb21256a41ba3b7b1cc40e",
+    "rules.json": "398971ba8a73b36037acfe6051a5e50cc6c00036daf23c361849d615dcffb8e6",
+    "blueprint.json": "bb7809e6c5a73e8e60da32277a18729104be3fbc6c9300965169e83be04d9a55",
+    "machine.json": "b4973d4e4581c85fc7d51f4560eb6afb735d3357eabe39807908b061ba025eae",
+    "production/production.json": "0e06d8c09c269bf316dc21221f86425548ca81c78990a2a6880e732fa685eb8d",
+    "unit.json": "d51ae56d2a6f45ef72ac7607fdc3e66da11090d931eddf233e8de8a31c8df266",
+    "plugin.py": "a6a7853e4c225f24ce3fba4f837df442276a8b4366f9aec641d636fad33acd40"
+  },
+  "candidates": {
+    "tr87-slot-01-level-0-baseline": {
+      "status": "candidate",
+      "actions": [
+        4,
+        1
+      ],
+      "reason": "deterministic_source_action_composition",
+      "complete_model": true,
+      "exhausted": false,
+      "evidence": {
+        "configuration_sha256": "034bf4eed4ad96a208a2c2994162d23eb35be2eef5ff0ade6d50c7da51add302",
+        "goal_sha256": "90feebbeb6367dbf37eb3f822c01411cc3cb7aba074651a629be3aae3105de44",
+        "model_version": "tr87-generated-v2/rule-composition/1",
+        "solution_length": 2
+      }
+    },
+    "tr87-slot-02-level-1-transition-budget-win": {
+      "status": "candidate",
+      "actions": [
+        4,
+        1
+      ],
+      "reason": "deterministic_source_action_composition",
+      "complete_model": true,
+      "exhausted": false,
+      "evidence": {
+        "configuration_sha256": "181fbcc0c766f3f6fe395c38af095f7789aeceb1270a84d751b4db3bb3c718ea",
+        "goal_sha256": "e285b090d4c47670fda0bf509ba961815f7fbc0b591ed60ed1010297f7c37f34",
+        "model_version": "tr87-generated-v2/rule-composition/1",
+        "solution_length": 2
+      }
+    },
+    "tr87-slot-03-level-2-rule-cursor-and-solved-transition": {
+      "status": "candidate",
+      "actions": [
+        4,
+        1
+      ],
+      "reason": "deterministic_source_action_composition",
+      "complete_model": true,
+      "exhausted": false,
+      "evidence": {
+        "configuration_sha256": "aee0d5c180ed402e68f5e3ad2e9d8b1e5747869d1f6b01d447b8b65ecc10799d",
+        "goal_sha256": "e28b08f504e9adb464a98ae6a21a63de1847d20dfd9c23486769ac1e0dbb3a50",
+        "model_version": "tr87-generated-v2/rule-composition/1",
+        "solution_length": 2
+      }
+    },
+    "tr87-slot-04-level-3-double-translation-budget": {
+      "status": "candidate",
+      "actions": [
+        4,
+        1
+      ],
+      "reason": "deterministic_source_action_composition",
+      "complete_model": true,
+      "exhausted": false,
+      "evidence": {
+        "configuration_sha256": "55ba9766e4079c8056cc12ae9ad94a19695fa2b4f7bf0e67faf2b42c56130529",
+        "goal_sha256": "cd7d13175ce9255269b3004da1e6e7d61148485bcc52f90f8b3824691f6e342d",
+        "model_version": "tr87-generated-v2/rule-composition/1",
+        "solution_length": 2
+      }
+    },
+    "tr87-slot-05-level-4-alter-rules": {
+      "status": "candidate",
+      "actions": [
+        4,
+        4,
+        1
+      ],
+      "reason": "deterministic_source_action_composition",
+      "complete_model": true,
+      "exhausted": false,
+      "evidence": {
+        "configuration_sha256": "48df25f88506c9c30c2ff305ceed8518bc99fb2ec6b105e2147808160358a910",
+        "goal_sha256": "b98215ec00b540e6183fe6d5d2ebfced52f79dcc75a6ccc1ed59b8c871ab491d",
+        "model_version": "tr87-generated-v2/rule-composition/1",
+        "solution_length": 3
+      }
+    },
+    "tr87-slot-06-level-5-combined-tree": {
+      "status": "candidate",
+      "actions": [
+        4,
+        4,
+        4,
+        4,
+        1
+      ],
+      "reason": "deterministic_source_action_composition",
+      "complete_model": true,
+      "exhausted": false,
+      "evidence": {
+        "configuration_sha256": "d50272e879ccd8a4770c4d7ef5096279af63f54c122259e3f89276ed8ce3f546",
+        "goal_sha256": "57ef24f1a83354b02467da65a0436435c5cee1bd5277c5414bca0566ef2e6728",
+        "model_version": "tr87-generated-v2/rule-composition/1",
+        "solution_length": 5
+      }
+    }
+  }
+}

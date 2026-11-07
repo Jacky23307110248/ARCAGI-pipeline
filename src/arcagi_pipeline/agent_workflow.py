@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 import hashlib
+import http.client
+import time
+import math
+import uuid
 import json
 import os
 import re
@@ -12,6 +16,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Protocol, Sequence
 from urllib.parse import urlparse
+from .diagnostics import traced, current, ArchiveWriteError
+from .budget import AggregateBudget, file_lock
 
 MAX_UNIT_ATTEMPTS = 50
 MAX_UNIT_TOKENS = 50_000
@@ -27,10 +33,19 @@ _TRACE_FIELDS = {"evidence_id", "step", "source_ref", "observation", "action", "
 
 class WorkflowError(ValueError):
     """A safe-to-display workflow validation or execution error."""
+    def __init__(self,message,*,code=None):
+        self.diagnostic_code=code
+        super().__init__(message)
 
 
 class ProviderError(RuntimeError):
     """Provider failure that deliberately omits response bodies and credentials."""
+    def __init__(self,message,*,code=None,http_status=None,transport=None):
+        self.diagnostic_code=code
+        self.diagnostic_observed={"http_status":http_status} if http_status is not None else {}
+        if transport is not None:
+            self.diagnostic_observed.update(transport)
+        super().__init__(message)
 
 
 @dataclass(frozen=True)
@@ -39,6 +54,8 @@ class Completion:
     total_tokens: int | None = None
     prompt_tokens: int | None = None
     completion_tokens: int | None = None
+    finish_reason: str | None = None
+    response_model: str | None = None
 
 
 class AgentProvider(Protocol):
@@ -63,7 +80,7 @@ def _read_env_file(path: Path | None) -> dict[str, str]:
     if path is None:
         return {}
     result: dict[str, str] = {}
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
+    for raw_line in path.read_text(encoding="utf-8-sig").splitlines():
         line = raw_line.strip()
         if not line or line.startswith("#"):
             continue
@@ -82,6 +99,15 @@ def _read_env_file(path: Path | None) -> dict[str, str]:
             value = value.split(" #", 1)[0].rstrip()
         if value:
             result[key] = value
+    return result
+
+
+def _transport_facts(exc):
+    # Only types/numeric OS codes; never copy addresses, partial bodies or messages.
+    result = {"transport_kind": "timeout" if isinstance(exc, TimeoutError) else "connection", "exception_type": type(exc).__name__}
+    for field in ("errno", "winerror"):
+        value = getattr(exc, field, None)
+        if isinstance(value, int) and not isinstance(value, bool): result[field] = value
     return result
 
 
@@ -104,7 +130,7 @@ class DeepSeekProvider:
     def from_environment(cls, env_file: Path | None = None, environ: Mapping[str, str] | None = None) -> tuple["DeepSeekProvider", str]:
         file_values = _read_env_file(env_file)
         env = os.environ if environ is None else environ
-        values = {key: env.get(key, file_values.get(key, "")) for key in ("DEEPSEEK_API_KEY", "DEEPSEEK_BASE_URL", "DEEPSEEK_MODEL")}
+        values = {key: (file_values.get(key, "") if env_file is not None else env.get(key, "")) for key in ("DEEPSEEK_API_KEY", "DEEPSEEK_BASE_URL", "DEEPSEEK_MODEL")}
         provider = cls(values["DEEPSEEK_API_KEY"], values["DEEPSEEK_BASE_URL"] or "https://api.deepseek.com/v1")
         return provider, values["DEEPSEEK_MODEL"] or "deepseek-chat"
 
@@ -115,6 +141,7 @@ class DeepSeekProvider:
             "messages": list(messages),
             "max_tokens": max_tokens,
             "stream": False,
+            "response_format": {"type":"json_object"},
         }, ensure_ascii=False).encode("utf-8")
         request = urllib.request.Request(
             url,
@@ -126,16 +153,18 @@ class DeepSeekProvider:
             with urllib.request.urlopen(request, timeout=self.timeout) as response:
                 payload = json.loads(response.read().decode("utf-8"))
         except urllib.error.HTTPError as exc:
-            raise ProviderError(f"DeepSeek request failed with HTTP {exc.code}") from None
+            raise ProviderError(f"DeepSeek request failed with HTTP {exc.code}",code="provider_http",http_status=exc.code) from None
         except urllib.error.URLError as exc:
-            reason = type(exc.reason).__name__
-            raise ProviderError(f"DeepSeek connection failed ({reason})") from None
-        except (TimeoutError, OSError):
-            raise ProviderError("DeepSeek connection failed") from None
+            raise ProviderError("DeepSeek connection failed",code="provider_transport",transport=_transport_facts(exc.reason)) from None
+        except http.client.IncompleteRead as exc:
+            raise ProviderError("DeepSeek response transfer incomplete",code="provider_transport",transport={"transport_kind":"incomplete_response","exception_type":type(exc).__name__}) from None
+        except (TimeoutError, OSError) as exc:
+            raise ProviderError("DeepSeek connection failed",code="provider_transport",transport=_transport_facts(exc)) from None
         except (UnicodeDecodeError, json.JSONDecodeError):
             raise ProviderError("DeepSeek returned an invalid response") from None
         try:
-            message = payload["choices"][0]["message"]
+            choice = payload["choices"][0]
+            message = choice["message"]
             content = message.get("content")
             if not isinstance(content, str):
                 raise TypeError
@@ -145,6 +174,8 @@ class DeepSeekProvider:
             completion = usage.get("completion_tokens")
             return Completion(
                 content=content,
+                finish_reason=choice.get("finish_reason"),
+                response_model=payload.get("model") if isinstance(payload.get("model"),str) else None,
                 total_tokens=total if isinstance(total, int) and not isinstance(total, bool) and total >= 0 else None,
                 prompt_tokens=prompt if isinstance(prompt, int) and not isinstance(prompt, bool) and prompt >= 0 else None,
                 completion_tokens=completion if isinstance(completion, int) and not isinstance(completion, bool) and completion >= 0 else None,
@@ -472,10 +503,82 @@ def _validate_trajectory_packet(packet_path: Path, packet: dict[str, Any] | None
         raise WorkflowError("historic Duck packet has no verified event sidecar and run config")
 
 
+def _validate_blind_import(task, depth=0):
+    _validate_blind_graph(task)
+
+def _validate_blind_revision_input(item, target_id, depth=0):
+    """Only same-lane DS self-feedback, never supervisor or source audit notes."""
+    origin=item.get("blind_revision_origin")
+    if not isinstance(origin,dict):raise WorkflowError("blind revision input requires provenance",code="config_invalid")
+    proxy={"frozen_origin":origin,"frozen_output":{"sha256":item.get("sha256")}}
+    _validate_blind_graph(proxy,item,target_id)
+
+def _validate_blind_graph(task, revision_item=None, target_id=None):
+    # Iterative DAG walk avoids recursive depth limits and exponential rechecking
+    # of shared review/import ancestors across long, bounded revision histories.
+    pending=[(task,revision_item,target_id)];seen=set()
+    try:
+        while pending:
+            current,item,target=pending.pop();origin=current["frozen_origin"]
+            record_path=Path(origin["record_path"]);spec_path=Path(origin["spec_path"])
+            if sha256_file(record_path)!=origin["record_sha256"] or sha256_file(spec_path)!=origin["spec_sha256"]:raise ValueError()
+            record=json.loads(record_path.read_text(encoding="utf-8"));spec=json.loads(spec_path.read_text(encoding="utf-8"))
+            if record["spec_sha256"]!=origin["spec_sha256"]:raise ValueError()
+            prior=next(t for t in spec["tasks"] if t["id"]==origin["task_id"])
+            row=next(t for t in record["tasks"] if t["id"]==origin["task_id"])
+            path=(record_path.parent/row["output_path"]).resolve()
+            if not path.is_relative_to(record_path.parent.resolve()) or row["status"]!="complete" or sha256_file(path)!=row["output_sha256"] or row["output_sha256"]!=current["frozen_output"]["sha256"] or prior.get("evidence_lane")!="trajectory_blind":raise ValueError()
+            if item:
+                if Path(item["path"]).resolve()!=path:raise ValueError()
+                if item["role"]=="trajectory_review_feedback":
+                    if prior.get("gate_review") is not True or target not in prior.get("depends_on",[]):raise ValueError()
+                elif item["role"]=="prior_trajectory_claims":
+                    if prior["id"]!=target:raise ValueError()
+                else:raise ValueError()
+            key=(str(record_path.resolve()),origin["record_sha256"],origin["task_id"])
+            if key in seen:continue
+            seen.add(key)
+            if len(seen)>10000:raise ValueError()
+            if prior.get("frozen_output"):pending.append((prior,None,None))
+            for source in prior.get("inputs",[]):
+                if "from_task" in source:
+                    if source.get("role")!="trajectory_claims":raise ValueError()
+                    dep=next(r for r in record["tasks"] if r["id"]==source["from_task"])
+                    pending.append(({"frozen_origin":{**origin,"task_id":source["from_task"]},"frozen_output":{"sha256":dep["output_sha256"]}},None,None))
+                elif source.get("role")=="trajectory_packet":
+                    packet=(spec_path.parent/source["path"]).resolve()
+                    if source.get("sha256") and sha256_file(packet)!=source["sha256"]:raise ValueError()
+                    _validate_trajectory_packet(packet)
+                elif source.get("role") in {"trajectory_review_feedback","prior_trajectory_claims"}:
+                    pending.append(({"frozen_origin":source["blind_revision_origin"],"frozen_output":{"sha256":source["sha256"]}},source,prior["id"]))
+                else:raise ValueError()
+    except (KeyError,ValueError,OSError,StopIteration,TypeError):raise WorkflowError("blind provenance is invalid",code="artifact_changed") from None
+
+
+def reconcile_workflow(spec_path,run_dir):
+    """Offline bookkeeping only; record endpoint is not a connectivity assertion."""
+    root=Path(run_dir).resolve()
+    with file_lock(root/".workflow.lock"):
+        runner=WorkflowRunner(Path(spec_path),root,plan_only=True)
+        runner.state_path=root/"workflow_run.json"
+        existing=json.loads(runner.state_path.read_text(encoding="utf-8"))
+        runner.provider_id=existing.get("provider",{}).get("id")
+        runner.provider_endpoint=existing.get("provider",{}).get("endpoint")
+        ledger=runner.spec.get("budget",{}).get("aggregate_ledger")
+        runner.aggregate=AggregateBudget((runner.spec_path.parent/ledger).resolve()) if ledger else None
+        runner.data=runner._load_or_create_state()
+        runner._recover_aggregate_orphans();runner._recover_interrupted_attempts()
+        return runner.summary()
+
 class WorkflowRunner:
     """Resumable, game-neutral agent workflow executor with durable budgets and artifacts."""
 
-    def __init__(self, spec_path: Path, run_dir: Path | None = None, *, provider: AgentProvider | None = None, env_file: Path | None = None, plan_only: bool = False):
+    @traced("workflow_preflight", "config_invalid")
+    def __init__(self, spec_path: Path, run_dir: Path | None = None, *, provider: AgentProvider | None = None, env_file: Path | None = None, plan_only: bool = False, deadline: float | None = None, pause_check=None, diagnosis_receipts=None, diagnosis_observer=None):
+        self.diagnosis_receipts=diagnosis_receipts or {}
+        self.diagnosis_observer=diagnosis_observer
+        self.pause_check = pause_check
+        self.deadline = deadline
         self.spec_path = spec_path.resolve()
         self.run_dir = run_dir.resolve() if run_dir is not None else self.spec_path.parent / "runs" / "uninitialized"
         try:
@@ -496,7 +599,7 @@ class WorkflowRunner:
             return
         if run_dir is None:
             raise WorkflowError("run_dir is required for execution")
-        if self.provider is None:
+        if self.provider is None and any(not task.get("frozen_output") for task in self.spec["tasks"]):
             if self.provider_id != DeepSeekProvider.provider_id:
                 raise WorkflowError(f"unsupported provider: {self.provider_id}")
             self.provider, env_model = DeepSeekProvider.from_environment(env_file)
@@ -504,7 +607,10 @@ class WorkflowRunner:
                 self.model = env_model
         if not self.model:
             raise WorkflowError("provider.model is required")
+        if hasattr(self.provider,"timeout"):self.provider.timeout=configured_provider.get("timeout_seconds",120)
         self.provider_endpoint = getattr(self.provider, "base_url", None)
+        ledger=self.spec.get("budget",{}).get("aggregate_ledger")
+        self.aggregate=AggregateBudget((self.spec_path.parent/ledger).resolve()) if ledger else None
         self.state_path = self.run_dir / "workflow_run.json"
         self.data = self._load_or_create_state()
 
@@ -525,10 +631,12 @@ class WorkflowRunner:
             raise WorkflowError("budget must be an object")
         attempts = budget.get("max_attempts", MAX_UNIT_ATTEMPTS)
         tokens = budget.get("max_tokens", MAX_UNIT_TOKENS)
-        if not isinstance(attempts, int) or isinstance(attempts, bool) or not 1 <= attempts <= MAX_UNIT_ATTEMPTS:
-            raise WorkflowError(f"budget.max_attempts must be between 1 and {MAX_UNIT_ATTEMPTS}")
-        if not isinstance(tokens, int) or isinstance(tokens, bool) or not 1 <= tokens <= MAX_UNIT_TOKENS:
-            raise WorkflowError(f"budget.max_tokens must be between 1 and {MAX_UNIT_TOKENS}")
+        for key,value in (("max_attempts",attempts),("max_tokens",tokens),("max_input_tokens_per_request",budget.get("max_input_tokens_per_request",tokens)),("max_output_tokens_per_request",budget.get("max_output_tokens_per_request",tokens)),("max_elapsed_seconds",budget.get("max_elapsed_seconds",86400))):
+            if isinstance(value,bool) or not isinstance(value,int) or value<1:raise WorkflowError("budget."+key+" must be a positive integer")
+        if not isinstance(budget.get("allow_rework_reserve",False),bool):raise WorkflowError("allow_rework_reserve must be boolean")
+        timeout=provider.get("timeout_seconds",120)
+        if isinstance(timeout,bool) or not isinstance(timeout,(int,float)) or not math.isfinite(timeout) or timeout<=0:raise WorkflowError("provider.timeout_seconds must be finite and positive")
+        if "aggregate_ledger" in budget and (not isinstance(budget["aggregate_ledger"],str) or not budget["aggregate_ledger"]):raise WorkflowError("aggregate_ledger must be a path")
         tasks = spec.get("tasks")
         if not isinstance(tasks, list) or not tasks:
             raise WorkflowError("tasks must be a non-empty list")
@@ -548,6 +656,8 @@ class WorkflowRunner:
             if task.get("evidence_lane", "general") not in {"trajectory_blind", "source_audit", "general"}:
                 raise WorkflowError(f"{prefix}.evidence_lane is invalid")
             deps = task.get("depends_on", [])
+            if type(task.get("gate_review", False)) is not bool:
+                raise WorkflowError("gate_review must be boolean", code="config_invalid")
             inputs = task.get("inputs", [])
             if not isinstance(deps, list) or not all(isinstance(dep, str) for dep in deps):
                 raise WorkflowError(f"{prefix}.depends_on must be a list of task IDs")
@@ -562,6 +672,9 @@ class WorkflowRunner:
             schema_errors = _schema_definition_errors(task["output_schema"])
             if schema_errors:
                 raise WorkflowError(f"{prefix}.output_schema: {schema_errors[0]}")
+            if task.get('diagnosis_contract'):
+                from .diagnosis_protocol import feedback_for
+                feedback_for(task['diagnosis_contract'])
             prompt = task.get("prompt")
             if not isinstance(prompt, str) or not prompt.strip():
                 raise WorkflowError(f"{prefix}.prompt is required")
@@ -570,6 +683,17 @@ class WorkflowRunner:
                 raise WorkflowError(f"{prefix}.prompt file does not exist")
             if not isinstance(task.get("max_output_tokens", 4096), int) or isinstance(task.get("max_output_tokens", 4096), bool) or task.get("max_output_tokens", 4096) < 1:
                 raise WorkflowError(f"{prefix}.max_output_tokens must be a positive integer")
+            frozen = task.get("frozen_output")
+            if frozen is not None:
+                if task.get("evidence_lane", "general") == "trajectory_blind":
+                    _validate_blind_import(task)
+                if not isinstance(frozen,dict) or set(frozen) != {"path","sha256"} or not isinstance(frozen.get("path"),str) or not isinstance(frozen.get("sha256"),str):
+                    raise WorkflowError("frozen_output requires path and sha256",code="config_invalid")
+                path = self._resolve(frozen["path"])
+                if not path.is_file() or sha256_file(path) != frozen["sha256"]:
+                    raise WorkflowError("frozen_output hash mismatch",code="artifact_changed")
+            from .execution_contract import validate_execution_inputs
+            validate_execution_inputs(task, self.spec_path.parent)
             input_ids: set[str] = set()
             for input_index, item in enumerate(inputs):
                 if not isinstance(item, dict):
@@ -579,10 +703,16 @@ class WorkflowRunner:
                 if item["id"] in input_ids:
                     raise WorkflowError(f"{prefix} has duplicate input ID {item['id']!r}")
                 input_ids.add(item["id"])
+                if item.get("content_encoding","text") not in {"text","json_compact"}:
+                    raise WorkflowError("input content_encoding is invalid",code="config_invalid")
                 if not isinstance(item.get("role"), str) or not item["role"].strip():
                     raise WorkflowError(f"{prefix}.inputs[{input_index}].role is required")
-                has_path = isinstance(item.get("path"), str)
-                has_task = isinstance(item.get("from_task"), str)
+                if "path" in item and not isinstance(item["path"],str):
+                    raise WorkflowError(f"{prefix}.inputs[{input_index}].path must be a string",code="config_invalid")
+                if "from_task" in item and not isinstance(item["from_task"],str):
+                    raise WorkflowError(f"{prefix}.inputs[{input_index}].from_task must be a string",code="config_invalid")
+                has_path = "path" in item
+                has_task = "from_task" in item
                 if has_path == has_task:
                     raise WorkflowError(f"{prefix}.inputs[{input_index}] must set exactly one of path or from_task")
                 if has_path and not self._resolve(item["path"]).is_file():
@@ -592,9 +722,11 @@ class WorkflowRunner:
                 if task.get("evidence_lane", "general") == "trajectory_blind":
                     role = item["role"].strip().lower()
                     if has_path:
-                        if role != "trajectory_packet":
+                        if role in {"trajectory_review_feedback","prior_trajectory_claims"}:
+                            _validate_blind_revision_input(item,task_id)
+                        elif role != "trajectory_packet":
                             raise WorkflowError(f"{prefix} is trajectory_blind and path inputs must be verified trajectory_packet artifacts")
-                        _validate_trajectory_packet(self._resolve(item["path"]))
+                        else:_validate_trajectory_packet(self._resolve(item["path"]))
                     elif role != "trajectory_claims":
                         raise WorkflowError(f"{prefix} is trajectory_blind and task outputs must use the trajectory_claims role")
             if "model" in task and (not isinstance(task["model"], str) or not task["model"].strip()):
@@ -695,7 +827,10 @@ class WorkflowRunner:
                     inputs.append({"id": item["id"], "role": item["role"], "sha256": sha256_file(path), "source": item["path"]})
                 else:
                     inputs.append({"id": item["id"], "role": item["role"], "from_task": item["from_task"]})
+            if task.get("frozen_output"):
+                inputs.append({"id":"$frozen_output","role":"frozen_output","sha256":sha256_file(self._resolve(task["frozen_output"]["path"])),"source":task["frozen_output"]["path"]})
             tasks.append({
+                "execution_mode":"frozen_import" if task.get("frozen_output") else "model_request",
                 "id": task["id"], "stage": task["stage"], "evidence_lane": task.get("evidence_lane", "general"),
                 "depends_on": task.get("depends_on", []), "prompt_sha256": prompt_hash, "inputs": inputs,
             })
@@ -711,15 +846,26 @@ class WorkflowRunner:
             },
             "spec_sha256": self.spec_hash,
             "tasks": tasks,
+            "execution_limits":{k:self.spec.get("budget",{}).get(k) for k in ("max_input_tokens_per_request","max_output_tokens_per_request","max_elapsed_seconds","aggregate_ledger","allow_rework_reserve")},
             "execution_started": False,
         }
 
+    @traced("workflow_run")
     def run(self, *, retry_failed: bool = False) -> dict[str, Any]:
+        with file_lock(self.run_dir/".workflow.lock"):
+            self.data=self._load_or_create_state()
+            self._recover_aggregate_orphans()
+            return self._run_locked(retry_failed=retry_failed)
+
+    def _run_locked(self, *, retry_failed=False):
         self._recover_interrupted_attempts()
         task_state = {row["id"]: row for row in self.data["tasks"]}
         for task in self._topological_tasks():
             state = task_state[task["id"]]
             if state["status"] == "complete":
+                artifact = (self.run_dir / state.get("output_path", "")).resolve()
+                if not artifact.is_relative_to(self.run_dir) or not artifact.is_file() or sha256_file(artifact) != state.get("output_sha256"):
+                    raise WorkflowError("completed output is missing or changed",code="artifact_changed")
                 fingerprint = self._fingerprint(task, task_state)
                 if state.get("fingerprint") != fingerprint:
                     raise WorkflowError(f"completed task inputs or prompt changed: {task['id']}")
@@ -727,15 +873,40 @@ class WorkflowRunner:
         self._save()
         try:
             for task in self._topological_tasks():
+                if self.pause_check: self.pause_check()
                 state = task_state[task["id"]]
-                if state["status"] == "complete":
-                    continue
-                if state["status"] in {"failed", "interrupted"} and not retry_failed:
-                    raise WorkflowError(f"task {task['id']} previously failed; pass --retry-failed to spend another attempt")
-                for dep in task.get("depends_on", []):
-                    if task_state[dep]["status"] != "complete":
-                        raise WorkflowError(f"task {task['id']} is blocked by incomplete dependency {dep}")
-                self._execute_task(task, state, task_state)
+                try:
+                    if state["status"] == "complete":
+                        self._check_task_gates(task,state)
+                        continue
+                    if state["status"] in {"failed", "interrupted"} and not retry_failed:
+                        from .diagnostics import Archive
+                        attempt=next((a for a in reversed(self.data["attempt_log"]) if a["task_id"]==task["id"]),{})
+                        ref=attempt.get("diagnostic_ref")
+                        fact=Archive(ref["archive"]).read("events",ref["event_id"]) if ref else {}
+                        failure=WorkflowError("task previously failed; pass --retry-failed for an explicit retry or use a new revision",code=fact.get("code"))
+                        failure.diagnostic_ref=ref
+                        if fact.get("observed",{}).get("protocol"):failure.protocol_facts=fact["observed"]["protocol"]
+                        raise failure
+                    for dep in task.get("depends_on", []):
+                        if task_state[dep]["status"] != "complete":
+                            raise WorkflowError(f"task {task['id']} is blocked by incomplete dependency {dep}")
+                    self._execute_task(task, state, task_state)
+                    self._check_task_gates(task,state)
+                except Exception as original:
+                    from .diagnostics import exception_facts,current,ArchiveWriteError
+                    from .revision_protocol import PauseRequested
+                    if isinstance(original,(PauseRequested,ArchiveWriteError)):raise
+                    state['gate_status']='return'
+                    state['gate_error']=exception_facts(original)
+                    self.data['active_failure']={'task_id':task['id'],'stage':task['stage'],'artifact_sha256':state.get('output_sha256')}
+                    self._save()
+                    failure=original if isinstance(original,WorkflowError) else WorkflowError('task stage check failed',code=getattr(original,'diagnostic_code',None) or 'output_protocol_invalid')
+                    failure.task_id=task['id'];failure.failed_stage=task['stage']
+                    if not getattr(failure,'revision_targets',None) and not getattr(failure,'diagnosis_repair',None):failure.revision_targets=[task['id']]
+                    if not getattr(failure,'diagnostic_ref',None) and current() is not None:
+                        failure.diagnostic_ref=current().record('output_protocol_invalid','task_gate',task_id=task['id'],exc=original,observed=self.data['active_failure'])
+                    raise failure
         except WorkflowError:
             if self.data.get("status") == "running":
                 self.data["status"] = "blocked"
@@ -744,6 +915,139 @@ class WorkflowRunner:
         self.data["status"] = "complete"
         self._save()
         return self.summary()
+
+    def _check_task_gates(self,task,state):
+        self._diagnosis_gate(task,state)
+        if task.get('gate_review'):self._review_gate(task,state)
+        state['gate_status']='pass';state['gate_artifact_sha256']=state.get('output_sha256')
+        self.data.pop('active_failure',None);self._save()
+
+    def _diagnosis_gate(self,task,state):
+        if task.get('validation_program') in ('arcagi-validation-program/v1','arcagi-validation-program/v2') and task.get('stage') in ('blueprint','course_design','design'):
+            from .verification_program import compile_obligations,commitment_changes
+            blueprint=json.loads((self.run_dir/state['output_path']).read_text(encoding='utf-8'))
+            issues=compile_obligations(blueprint,strict=True)
+            roles=task.get('validation_inputs')
+            if roles:
+                from .generated_game import target_issues
+                records={r['id']:r for r in self.data['tasks']}
+                artifacts={role:json.loads((self.run_dir/records[tid]['output_path']).read_text(encoding='utf-8')) for role,tid in roles.items()}
+                issues=target_issues(artifacts['evidence'],artifacts['rules'],blueprint,strict=True)
+            for item in task.get('inputs',[]) if not issues else []:
+                if item.get('role')=='commitment_baseline':
+                    previous=json.loads(self._resolve(item['path']).read_text(encoding='utf-8'))
+                    issues.extend(x for x in commitment_changes(previous,blueprint) if x.get('unacknowledged'))
+            if issues:
+                failure=WorkflowError('validation plan cannot be executed as declared',code='output_protocol_invalid')
+                targets=set()
+                for issue in issues:
+                    role=issue.get("artifact","blueprint") if isinstance(issue,dict) else "blueprint"
+                    targets.add(roles.get(role,task["id"]) if roles and role!="blueprint" else task["id"])
+                failure.revision_targets=sorted(targets)
+                failure.protocol_facts={'check':'validation_capabilities' ,'issues':issues}
+                raise failure
+        contract=task.get('diagnosis_contract')
+        if not contract:return
+        from .diagnosis_protocol import effective_bundle,feedback_for,validate,describe
+        artifact=self.run_dir/state['output_path']
+        value=effective_bundle(artifact,contract,self.diagnosis_receipts.get(task['id']))
+        feedback=feedback_for(contract);issues=validate(value,feedback,contract.get('allow_stage_revision',True))
+        if self.diagnosis_observer:self.diagnosis_observer(task['id'],{'path':str(artifact.resolve()),'sha256':sha256_file(artifact)},issues)
+        if issues:
+            failure=WorkflowError('diagnosis protocol correction required',code='output_protocol_invalid')
+            failure.diagnosis_repair={'task_id':task['id'],'artifact_ref':{'path':str(artifact.resolve()),'sha256':sha256_file(artifact)},'contract':contract}
+            failure.protocol_facts={'check':'diagnosis_protocol','issues':issues,'contract':describe(contract)}
+            raise failure
+        proposed=value['diagnosis'].get('revise_task_id')
+        if proposed==task['id']:
+            # The complete replacement artifact is already present. Validate it
+            # through downstream gates; a self-address is not a new failure.
+            receipt={'task_id':task['id'],'artifact_sha256':sha256_file(artifact),
+                     'target':proposed,'reason':'replacement_artifact_already_produced'}
+            handled=self.data.setdefault('applied_stage_revision_requests',[])
+            if receipt not in handled:handled.append(receipt);self._save()
+            return
+        if proposed:
+            target=next((t for t in self.spec['tasks'] if t['id']==proposed),None)
+            if not target or target.get('evidence_lane')=='trajectory_blind':
+                failure=WorkflowError('invalid diagnosis revision target',code='output_protocol_invalid')
+                failure.diagnosis_repair={'task_id':task['id'],'artifact_ref':{'path':str(artifact.resolve()),'sha256':sha256_file(artifact)},'contract':contract}
+                failure.protocol_facts={'check':'diagnosis_protocol','issues':[{'path':'diagnosis.revise_task_id','code':'invalid_revision_target'}],'contract':describe(contract)}
+                raise failure
+            # A frozen upstream request has already been dispatched when its
+            # target is active in this revision. Validate the diagnosis above,
+            # then allow that scheduled target to execute instead of dispatching
+            # the identical request forever. Frozen targets still require a new
+            # revision; newly generated requests are never silently consumed.
+            if task.get('frozen_output') and not target.get('frozen_output'):
+                receipt={'task_id':task['id'],'artifact_sha256':sha256_file(artifact),'target':proposed,
+                         'reason':'frozen_request_target_scheduled'}
+                handled=self.data.setdefault('applied_stage_revision_requests',[])
+                if receipt not in handled:
+                    handled.append(receipt);self._save()
+                return
+            failure=WorkflowError('model requests stage revision',code='model_revision_requested');failure.revision_targets=[proposed];raise failure
+
+    def _response_schema(self,task):
+        from .revision_protocol import review_schema
+        from .diagnosis_protocol import output_schema
+        value={**task,'output_schema':review_schema(task,self.spec['tasks']) if task.get('gate_review') else task['output_schema']}
+        return output_schema(value)
+
+    def _review_gate(self, task, state):
+        from .revision_protocol import review_targets, ReviewProtocolError
+        review = json.loads((self.run_dir/state["output_path"]).read_text(encoding="utf-8"))
+        try: targets = review_targets(review, task, self.spec["tasks"])
+        except ReviewProtocolError as violation:
+            exc = WorkflowError("review protocol invalid", code="output_protocol_invalid")
+            exc.revision_targets = [task["id"]]
+            exc.protocol_facts = violation.facts
+            raise exc from None
+        if task.get('review_contract')=='phase-review/v1':
+            producer=task.get('obligation_source_task');records={r['id']:r for r in self.data['tasks']}
+            if producer not in records:raise WorkflowError('phase review requires declared obligation source',code='config_invalid')
+            blueprint=json.loads((self.run_dir/records[producer]['output_path']).read_text(encoding='utf-8'))
+            known={(s['id'],r['id']) for s in blueprint.get('slots',[]) for r in s.get('behavior_requirements',[])+[o for o in s.get('validation_obligations',[]) if o.get('required') and o.get('phase')!='research']}
+            pending=[]
+            for finding in review['findings']:
+                if finding['category'] in {'implementation_obligation','runtime_obligation'}:
+                    ref=finding['obligation_ref']
+                    if (ref['slot_id'],ref['id']) not in known:
+                        error=WorkflowError('deferred finding is not a declared blueprint obligation',code='output_protocol_invalid');error.revision_targets=[task['id']];raise error
+                    pending.append(ref)
+            self.data.setdefault('deferred_obligations',{})[task['id']]=pending;self._save()
+        if review["verdict"] != "pass":
+            scheduled={t['id'] for t in self.spec['tasks'] if not t.get('frozen_output')}
+            if task.get('frozen_output') and targets and set(targets)<=scheduled:
+                receipt={'task_id':task['id'],'artifact_sha256':sha256_file(self.run_dir/state['output_path']),
+                         'targets':targets,'reason':'frozen_review_targets_scheduled'}
+                handled=self.data.setdefault('applied_stage_revision_requests',[])
+                if receipt not in handled:handled.append(receipt);self._save()
+                return
+            exc = WorkflowError("model self-review requests revision", code="model_review_return")
+            exc.revision_targets = targets
+            exc.review_task_id = task["id"]
+            raise exc
+
+    def _recover_aggregate_orphans(self):
+        if self.aggregate is None:return
+        rows=self.aggregate.snapshot().get("runtime_requests",{})
+        known={a.get("request_id") for a in self.data["attempt_log"]}
+        for rid,entry in rows.items():
+            meta=entry["metadata"]
+            if meta.get("workflow_state")!=str(self.state_path) or rid in known:continue
+            settled=self.aggregate.settle(rid,status="interrupted") if entry["status"]=="reserved" else entry
+            number=meta["attempt"]
+            self.data["budget"]["attempts_used"]=max(self.data["budget"]["attempts_used"],number)
+            self.data["budget"]["tokens_used"]+=settled["charged_tokens"]
+            self.data["attempt_log"].append({"request_id":rid,"task_id":meta["task_id"],"attempt":number,"status":"interrupted","reserved_tokens":entry["reserved_tokens"],"charged_tokens":settled["charged_tokens"],"error_code":"orphan_request_reconciled"})
+            task=next(t for t in self.data["tasks"] if t["id"]==meta["task_id"])
+            task.update(status="interrupted",fingerprint=meta["fingerprint"])
+        self._save()
+
+    def _settle_aggregate(self,attempt,*,reported=None,prompt=None,completion=None,status="complete"):
+        if self.aggregate is None or not attempt.get("request_id"):return None
+        return self.aggregate.settle(attempt["request_id"],reported_total=reported,prompt_tokens=prompt,completion_tokens=completion,status=status)
 
     def _recover_interrupted_attempts(self) -> None:
         budget = self.data["budget"]
@@ -781,9 +1085,11 @@ class WorkflowRunner:
             if attempt.get("status") == "running":
                 reserved = int(attempt.get("reserved_tokens", 0))
                 budget["tokens_reserved"] = max(0, int(budget["tokens_reserved"]) - reserved)
-                budget["tokens_used"] += reserved
+                aggregate=self._settle_aggregate(attempt,status="interrupted")
+                charged=aggregate["charged_tokens"] if aggregate else reserved
+                budget["tokens_used"] += charged
                 attempt["status"] = "interrupted"
-                attempt["charged_tokens"] = reserved
+                attempt["charged_tokens"] = charged
                 attempt["error_code"] = "process_interrupted"
                 task_id = attempt.get("task_id")
                 attempt_number = attempt.get("attempt")
@@ -800,6 +1106,7 @@ class WorkflowRunner:
         self, state: dict[str, Any], attempt: dict[str, Any], output_path: Path,
         output_rel: Path, output_hash: str, charged_tokens: int,
     ) -> None:
+        self._settle_aggregate(attempt,reported=attempt.get("reported_tokens"),prompt=attempt.get("prompt_tokens"),completion=attempt.get("completion_tokens"))
         reservation = int(attempt.get("reserved_tokens", 0))
         budget = self.data["budget"]
         budget["tokens_reserved"] = max(0, int(budget["tokens_reserved"]) - reservation)
@@ -822,23 +1129,70 @@ class WorkflowRunner:
                 content = raw.decode("utf-8")
                 digest = sha256_bytes(raw)
                 if task.get("evidence_lane", "general") == "trajectory_blind":
-                    try:
-                        packet = json.loads(content)
-                    except json.JSONDecodeError:
-                        raise WorkflowError("trajectory_blind input is not a valid pipeline packet") from None
-                    _validate_trajectory_packet(path, packet if isinstance(packet, dict) else None)
+                    if item.get("role") in {"trajectory_review_feedback","prior_trajectory_claims"}:
+                        _validate_blind_revision_input(item,task["id"])
+                    else:
+                        try:packet = json.loads(content)
+                        except json.JSONDecodeError:raise WorkflowError("trajectory_blind input is not a valid pipeline packet") from None
+                        _validate_trajectory_packet(path, packet if isinstance(packet, dict) else None)
             else:
                 parent = task_state[item["from_task"]]
                 path = (self.run_dir / parent["output_path"]).resolve()
+                if not path.is_relative_to(self.run_dir) or parent.get("status") != "complete":
+                    raise WorkflowError("dependency artifact is not a completed in-run output",code="artifact_changed")
                 raw = path.read_bytes()
                 content = raw.decode("utf-8")
                 digest = sha256_bytes(raw)
+                if digest != parent.get("output_sha256"):
+                    raise WorkflowError("dependency artifact hash differs from its recorded output",code="artifact_changed")
             expected_hash = item.get("sha256")
             if expected_hash is not None and expected_hash != digest:
                 raise WorkflowError(f"input hash mismatch for {item['id']}")
-            payload.append({"id": item["id"], "role": item["role"], "sha256": digest, "content": content})
+            if item.get("content_encoding")=="json_compact":
+                try:content=json.dumps(json.loads(content),ensure_ascii=False,separators=(",",":"),allow_nan=False)
+                except (ValueError,TypeError):raise WorkflowError("compact JSON input is invalid",code="config_invalid") from None
+            payload.append({"id": item["id"], "role": item["role"], "sha256": digest, "rendered_sha256":sha256_bytes(content.encode("utf-8")), "content": content})
             hashes[item["id"]] = digest
+        if task.get("frozen_output"):
+            frozen = task["frozen_output"]
+            digest = sha256_file(self._resolve(frozen["path"]))
+            if digest != frozen["sha256"]:
+                raise WorkflowError("frozen_output changed",code="artifact_changed")
+            hashes["$frozen_output"] = digest
         return payload, hashes
+
+    def _import_frozen(self, task, state, task_state):
+        raw = self._resolve(task["frozen_output"]["path"]).read_bytes()
+        digest = sha256_bytes(raw)
+        if digest != task["frozen_output"]["sha256"]:
+            raise WorkflowError("frozen_output changed",code="artifact_changed")
+        try: value = json.loads(raw.decode("utf-8"))
+        except (ValueError,UnicodeDecodeError):
+            raise WorkflowError("frozen output is not JSON",code="output_protocol_invalid") from None
+        from .revision_protocol import review_schema
+        from .diagnosis_protocol import payload_schema,payload_value
+        schema=review_schema(task,self.spec["tasks"]) if task.get("gate_review") and isinstance(value,dict) and "revision_targets" in value else task["output_schema"]
+        if _schema_errors(payload_value(value,task),payload_schema({**task,'output_schema':schema})) or _private_reasoning_paths(value):
+            raise WorkflowError("frozen output violates output protocol",code="output_protocol_invalid")
+        _, hashes = self._input_payload(task,task_state)
+        prompt_hash = sha256_file(self._resolve(task["prompt"]))
+        fingerprint = self._fingerprint(task,task_state,prompt_hash=prompt_hash,input_hashes=hashes)
+        if state.get("fingerprint") and state["fingerprint"] != fingerprint:
+            raise WorkflowError("frozen import input changed",code="artifact_changed")
+        rel = Path("artifacts") / (task["id"]+".json")
+        path = (self.run_dir/rel).resolve()
+        if not path.is_relative_to(self.run_dir): raise WorkflowError("invalid import destination",code="config_invalid")
+        # Record intent first; after a crash only the identical pinned output is reused.
+        recovering = state.get("execution_mode") == "frozen_import" and state.get("fingerprint") == fingerprint
+        if path.exists() and (not recovering or sha256_file(path) != digest):
+            raise WorkflowError("frozen import destination already exists or changed",code="artifact_changed")
+        state.update(status="pending",execution_mode="frozen_import",fingerprint=fingerprint,prompt_sha256=prompt_hash,input_hashes=hashes)
+        self._save()
+        path.parent.mkdir(parents=True,exist_ok=True)
+        if not path.exists():
+            with path.open("xb") as stream: stream.write(raw);stream.flush();os.fsync(stream.fileno())
+        state.update(status="complete",output_path=rel.as_posix(),output_sha256=digest,completed_at=_utc_now(),completion_scope="schema_validated_frozen_import",frozen_source=task["frozen_output"])
+        self._save()
 
     def _fingerprint(
         self, task: dict[str, Any], task_state: Mapping[str, dict[str, Any]], *,
@@ -854,10 +1208,16 @@ class WorkflowRunner:
             "dependency_hashes": dependency_hashes,
         }, ensure_ascii=False, sort_keys=True).encode("utf-8"))
 
+    @traced("model_request")
     def _execute_task(self, task: dict[str, Any], state: dict[str, Any], task_state: Mapping[str, dict[str, Any]]) -> None:
+        if self.deadline is not None and time.time() >= self.deadline:raise WorkflowError("controller time limit",code="budget_limit")
+        from .execution_contract import validate_execution_inputs
+        validate_execution_inputs(task, self.spec_path.parent)
+        if task.get("frozen_output"):
+            return self._import_frozen(task,state,task_state)
         budget = self.data["budget"]
         if budget["attempts_used"] >= budget["max_attempts"]:
-            raise WorkflowError("workflow attempt budget is exhausted")
+            raise WorkflowError("workflow attempt budget is exhausted",code="budget_limit")
         prompt_path = self._resolve(task["prompt"])
         prompt_bytes = prompt_path.read_bytes()
         prompt = prompt_bytes.decode("utf-8")
@@ -869,25 +1229,53 @@ class WorkflowRunner:
         state["fingerprint"] = fingerprint
         state["prompt_sha256"] = prompt_hash
         state["input_hashes"] = input_hashes
-        user_content = json.dumps({
+        from .revision_protocol import review_schema, review_scope, review_instructions
+        request = {
             "task": {"id": task["id"], "stage": task["stage"], "evidence_lane": task.get("evidence_lane", "general")},
             "input_artifacts": inputs,
-            "required_output_schema": task["output_schema"],
+            "required_output_schema": self._response_schema(task),
             "response_instruction": "Return exactly one JSON value matching required_output_schema. Do not use Markdown fences.",
-        }, ensure_ascii=False, separators=(",", ":"))
+        }
+        if task.get("gate_review"):
+            request["review_protocol"] = {"allowed_targets":review_scope(task,self.spec["tasks"]),"instruction":review_instructions(task)}
+        if task.get('diagnosis_contract'):
+            from .diagnosis_protocol import describe
+            contract_context=describe(task['diagnosis_contract'])
+            if any(item['role']=='execution_evidence_fragments' for item in inputs):
+                for key in ('checks','evidence_refs','revision_targets'):
+                    contract_context.pop(key,None)
+                contract_context['feedback_context']='Read check IDs, evidence refs and revision targets in control_feedback.'
+            request['diagnosis_contract']=contract_context
+        user_content = json.dumps(request, ensure_ascii=False, separators=(",", ":"))
         system_content = (
             "Return concise, evidence-linked conclusions. Do not expose or save private chain-of-thought; "
             "do not include reasoning_content, chain_of_thought, cot, or thoughts fields.\n\n" + prompt
         )
+        if task.get("gate_review"):
+            system_content += "\n"+review_instructions(task)+"\n"
         messages = [{"role": "system", "content": system_content}, {"role": "user", "content": user_content}]
         # UTF-8 byte count is a conservative upper bound on tokenizer pieces; framing allowance covers chat overhead.
         input_ceiling = sum(len(message["content"].encode("utf-8")) for message in messages) + 256
         remaining = budget["max_tokens"] - budget["tokens_used"] - budget["tokens_reserved"]
+        limits=self.spec.get("budget",{})
+        ceiling=limits.get("max_input_tokens_per_request",limits.get("max_tokens",MAX_UNIT_TOKENS))
+        if self.aggregate is not None:
+            ceiling=min(ceiling,self.aggregate.snapshot()["ceilings"]["input_tokens_per_request"])
+        if input_ceiling>ceiling:
+            from .handoff_control import compact_feedback_fragment
+            for item in inputs:
+                if item['role']=='execution_evidence_fragments':
+                    item['content']=json.dumps(compact_feedback_fragment(json.loads(item['content'])),ensure_ascii=False,separators=(",",":"))
+                    item['rendered_sha256']=sha256_bytes(item['content'].encode("utf-8"))
+            messages[1]['content']=json.dumps(request,ensure_ascii=False,separators=(",",":"))
+            input_ceiling=sum(len(message['content'].encode('utf-8')) for message in messages)+256
+        if input_ceiling>ceiling:
+            raise WorkflowError(f"minimum request needs {input_ceiling} UTF-8 bytes, configured ceiling is {ceiling}",code="budget_limit")
         if input_ceiling >= remaining:
-            raise WorkflowError("workflow token budget cannot cover the next request")
-        output_cap = min(int(task.get("max_output_tokens", 4096)), remaining - input_ceiling)
+            raise WorkflowError("workflow token budget cannot cover the next request",code="budget_limit")
+        output_cap = min(int(task.get("max_output_tokens", 4096)), remaining - input_ceiling,limits.get("max_output_tokens_per_request",limits.get("max_tokens",MAX_UNIT_TOKENS)))
         if output_cap < 1:
-            raise WorkflowError("workflow token budget cannot reserve a completion token")
+            raise WorkflowError("workflow token budget cannot reserve a completion token",code="budget_limit")
         output_rel = Path("artifacts") / f"{task['id']}.json"
         output_path = (self.run_dir / output_rel).resolve()
         if not output_path.is_relative_to(self.run_dir) or output_path.exists():
@@ -898,10 +1286,18 @@ class WorkflowRunner:
         if staged_path.exists():
             raise WorkflowError("staged task output already exists; inspect the run before retrying")
         reservation = input_ceiling + output_cap
+        started=self.data.get("execution_started_at")
+        if started and (datetime.now(timezone.utc)-datetime.fromisoformat(started)).total_seconds()>limits.get("max_elapsed_seconds",86400):raise WorkflowError("workflow elapsed limit",code="budget_limit")
+        if self.deadline is not None and time.time()>=self.deadline:raise WorkflowError("controller time limit",code="budget_limit")
+        if self.pause_check: self.pause_check()
+        request_id=uuid.uuid4().hex
+        if self.aggregate is not None:
+            self.aggregate.reserve(request_id,reservation=reservation,input_ceiling=input_ceiling,output_cap=output_cap,rework=limits.get("allow_rework_reserve",False),metadata={"workflow_state":str(self.state_path),"workflow_id":self.spec["workflow_id"],"task_id":task["id"],"attempt":next_attempt_number,"fingerprint":fingerprint})
+        self.data.setdefault("execution_started_at",_utc_now())
         budget["attempts_used"] += 1
         budget["tokens_reserved"] += reservation
         attempt = {
-            "task_id": task["id"], "attempt": budget["attempts_used"], "status": "running",
+            "task_id": task["id"], "attempt": budget["attempts_used"], "status": "running", "request_id":request_id,
             "reserved_tokens": reservation, "reported_tokens": None, "charged_tokens": None,
             "prompt_sha256": prompt_hash, "input_hashes": input_hashes,
             "started_at": _utc_now(),
@@ -911,21 +1307,45 @@ class WorkflowRunner:
         self.data["status"] = "running"
         self._save()
         try:
+            if hasattr(self.provider,"timeout"):
+                remaining_seconds=limits.get("max_elapsed_seconds",86400)-(datetime.now(timezone.utc)-datetime.fromisoformat(self.data["execution_started_at"])).total_seconds()
+                if self.deadline is not None:remaining_seconds=min(remaining_seconds,self.deadline-time.time())
+                self.provider.timeout=min(self.spec.get("provider",{}).get("timeout_seconds",120),max(.001,remaining_seconds))
             completion = self.provider.complete(messages, model=str(task.get("model", self.model)), max_tokens=output_cap)
+            attempt.update(response_model=completion.response_model,finish_reason=completion.finish_reason,content_length=len(completion.content),content_sha256=sha256_bytes(completion.content.encode("utf-8")))
             charged = completion.total_tokens if completion.total_tokens is not None else reservation
             if charged > reservation:
-                raise WorkflowError("provider usage exceeded the reserved request budget")
+                raise WorkflowError("provider usage exceeded the reserved request budget",code="budget_limit")
+            if completion.finish_reason=="length":
+                failure=WorkflowError("model output truncated",code="output_protocol_invalid")
+                failure.protocol_facts={"check":"completion","reason":"output_truncated","output_cap":output_cap}
+                raise failure
+            if not completion.content.strip():
+                failure=WorkflowError("model returned empty output",code="output_protocol_invalid")
+                failure.protocol_facts={"check":"completion","reason":"empty_output"}
+                raise failure
             parsed = json.loads(completion.content)
             private_fields = _private_reasoning_paths(parsed)
             if private_fields:
-                raise WorkflowError("provider output contains a private-reasoning field")
-            errors = _schema_errors(parsed, task["output_schema"])
+                raise WorkflowError("provider output contains a private-reasoning field",code="output_protocol_invalid")
+            for input_id in task.get("preserve_evidence_inputs",[]):
+                source_input=next((item for item in inputs if item["id"]==input_id),None)
+                if source_input is None:raise WorkflowError("preserved evidence input is missing",code="config_invalid")
+                originals=json.loads(source_input["content"]).get("evidence",[])
+                actual=parsed.get("evidence",[]) if isinstance(parsed,dict) else []
+                if any(item not in actual for item in originals):raise WorkflowError("evidence union modified or omitted original records",code="output_protocol_invalid")
+            schema=review_schema(task,self.spec["tasks"]) if task.get("gate_review") and isinstance(parsed,dict) and "revision_targets" in parsed else task["output_schema"]
+            from .diagnosis_protocol import payload_schema,payload_value
+            errors = _schema_errors(payload_value(parsed,task), payload_schema({**task,'output_schema':schema}))
             if errors:
-                raise WorkflowError("provider output failed schema validation: " + "; ".join(errors[:8]))
+                failure = WorkflowError("provider output failed schema validation",code="output_protocol_invalid")
+                failure.protocol_facts = {"check":"output_schema","errors":errors[:8]}
+                raise failure
             _atomic_json(staged_path, parsed)
             output_hash = sha256_file(staged_path)
             attempt.update({
                 "status": "output_staged", "reported_tokens": completion.total_tokens,
+                "finish_reason":completion.finish_reason,"response_model":completion.response_model,
                 "prompt_tokens": completion.prompt_tokens, "completion_tokens": completion.completion_tokens,
                 "charged_tokens": charged, "staged_output_path": staged_rel.as_posix(),
                 "staged_output_sha256": output_hash, "finished_at": _utc_now(),
@@ -935,30 +1355,46 @@ class WorkflowRunner:
             if sha256_file(output_path) != output_hash:
                 raise WorkflowError("committed task output hash differs from the staged artifact")
             self._finalize_staged_output(state, attempt, output_path, output_rel, output_hash, charged)
+        except ArchiveWriteError: raise
         except Exception as exc:
+            if isinstance(exc,json.JSONDecodeError):
+                exc.protocol_facts={"check":"json_syntax","line":exc.lineno,"column":exc.colno,"reason":"invalid_json"}
+            code=getattr(exc,"diagnostic_code",None) or "exception"
+            if isinstance(exc,json.JSONDecodeError) and "completion" in locals(): code="output_protocol_invalid"
+            ref=current().record(code,"model_request",task_id=task["id"],exc=exc,
+                observed={"attempt":attempt["attempt"],"request_id":request_id,"input_hashes":input_hashes,"prompt_sha256":prompt_hash,"provider":getattr(exc,"diagnostic_observed",{}),"protocol":getattr(exc,"protocol_facts",None),"reported_total_tokens":completion.total_tokens if "completion" in locals() else None})
+            exc.diagnostic_ref=ref
+            attempt["diagnostic_ref"]=ref
             if attempt.get("status") == "running":
                 budget["tokens_reserved"] = max(0, budget["tokens_reserved"] - reservation)
                 has_completion = "completion" in locals() and isinstance(completion, Completion)
                 reported = completion.total_tokens if has_completion else None
                 charged = reported if reported is not None else reservation
+                self._settle_aggregate(attempt,reported=reported,prompt=completion.prompt_tokens if has_completion else None,completion=completion.completion_tokens if has_completion else None,status="failed")
                 budget["tokens_used"] += charged
                 attempt.update({
                     "status": "failed", "reported_tokens": reported,
                     "charged_tokens": charged, "error_code": type(exc).__name__, "finished_at": _utc_now(),
+                    "finish_reason":completion.finish_reason if has_completion else None,"response_model":completion.response_model if has_completion else None,
                 })
                 state["status"] = "failed"
                 self.data["status"] = "budget_violation" if reported is not None and reported > reservation else "failed"
                 self._save()
             if isinstance(exc, WorkflowError):
                 raise
-            raise WorkflowError(f"task {task['id']} failed ({type(exc).__name__})") from None
+            wrapped=WorkflowError(f"task {task['id']} failed ({type(exc).__name__})",code=code)
+            wrapped.diagnostic_ref=ref
+            if getattr(exc,"protocol_facts",None):wrapped.protocol_facts=exc.protocol_facts
+            raise wrapped from None
 
     def summary(self) -> dict[str, Any]:
         return {
+            "completion_scope": "schema_validated_workflow_outputs" if any(t.get("frozen_output") for t in self.spec["tasks"]) else "schema_validated_model_outputs",
+            "diagnostics": self._diagnostic_context.serial(),
             "workflow_id": self.data["workflow_id"], "unit_id": self.data["unit_id"],
             "status": self.data["status"], "run_dir": str(self.run_dir),
             "attempts_used": self.data["budget"]["attempts_used"], "tokens_used": self.data["budget"]["tokens_used"],
-            "tasks": [{"id": row["id"], "stage": row["stage"], "status": row["status"], "output_path": row.get("output_path"), "output_sha256": row.get("output_sha256")} for row in self.data["tasks"]],
+            "tasks": [{"id": row["id"], "stage": row["stage"], "status": row["status"], "execution_mode":row.get("execution_mode","model_request"), "output_path": row.get("output_path"), "output_sha256": row.get("output_sha256")} for row in self.data["tasks"]],
             "execution_started": any(row["status"] != "pending" for row in self.data["tasks"]),
         }
 

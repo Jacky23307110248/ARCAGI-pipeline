@@ -94,6 +94,20 @@ class GeneratedReplayTests(unittest.TestCase):
         contract_path.write_text(json.dumps(contract))
         return binding_path, contract_path, {"id":"opaque-17", "sha":"a"*64}
 
+    def test_non_boolean_goal_is_not_accepted(self):
+        with tempfile.TemporaryDirectory() as d:
+            b,c,level=self.setup_inputs(Path(d));provider=OpaqueProvider(b,c)
+            provider.is_goal_observation=lambda level,obs: "false"
+            result=run_generated_level_replay(provider,level,[],source_binding_path=b,rule_contract_path=c,binder=FakeBinder())
+            self.assertFalse(result.accepted);self.assertIn("TypeError",result.reason)
+
+    def test_custom_terminal_predicate_stops_before_actions(self):
+        with tempfile.TemporaryDirectory() as d:
+            b,c,level=self.setup_inputs(Path(d));provider=OpaqueProvider(b,c)
+            provider.is_terminal_observation=lambda level,obs: obs["node"]==0
+            result=run_generated_level_replay(provider,level,["arbitrary"],source_binding_path=b,rule_contract_path=c,binder=FakeBinder())
+            self.assertFalse(result.accepted);self.assertEqual(len(result.trace),1)
+
     def test_opaque_actions_and_states_replay_to_goal_with_trace(self):
         with tempfile.TemporaryDirectory() as d:
             b, c, level = self.setup_inputs(Path(d)); provider = OpaqueProvider(b,c)
@@ -141,7 +155,8 @@ class GeneratedReplayTests(unittest.TestCase):
             b,c,level=self.setup_inputs(Path(d)); provider=OpaqueProvider(b,c)
             result=run_generated_level_replay(provider,level,["blink"],source_binding_path=b,rule_contract_path=c,binder=UnguardedBinder())
             self.assertFalse(result.accepted)
-            self.assertIn("VersionBoundEngineProbe", result.reason)
+            self.assertEqual(result.reason,"replay_mismatch:TypeError")
+            self.assertEqual(provider.last_adapter.reset_calls,0)
 
 
 if __name__ == "__main__": unittest.main()

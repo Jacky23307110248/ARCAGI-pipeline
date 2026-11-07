@@ -1,0 +1,69 @@
+{
+  "schema_version": "arcagi-trajectory-ledger/v1",
+  "run_id": "tycho-serial-03-ls20-9607627b",
+  "game_id": "ls20-9607627b",
+  "trajectory_frozen": true,
+  "source_binding": {
+    "status": "unbound",
+    "basis": "game_id_only",
+    "game_id_version_label": "9607627b",
+    "source_sha256": null,
+    "reason": "historic record has no trusted hash binding to the exact game source tree"
+  },
+  "packet": {
+    "path": "<HISTORICAL_ROOT>/campaigns\\ls20-rotation-slice\\evidence\\trajectory\\tycho-packet.json",
+    "sha256": "bb3d80485c0662c921766cb5d953103caf18af539c428201cebd99f1251a6975"
+  },
+  "claims_input": {
+    "path": "<HISTORICAL_ROOT>/campaigns\\ls20-rotation-slice\\evidence\\trajectory\\tycho-claims.json",
+    "sha256": "5dd7adb440f7a8ac8c40b39d1c11aa6b3c35ecf1118426bb4f2ed1c6ae7e2742"
+  },
+  "trajectory_digest": "34a285b5a6511c2ed56648d9f90c9181c305b0bc744b929083027c5fcafe2172",
+  "claims": [
+    {
+      "claim_id": "tycho-claim-001",
+      "statement": "The recorded run outcome reports 4 of 7 levels completed and stop_reason=exception.",
+      "kind": "direct_observation",
+      "evidence_refs": [
+        "outcome-0001"
+      ],
+      "alternatives": [],
+      "prediction": null,
+      "confidence": 1.0
+    },
+    {
+      "claim_id": "tycho-claim-002",
+      "statement": "The visible grid changes between ev-000001 and ev-000002, then changes again between ev-000002 and ev-000003; the recorded actions are ACTION1 and ACTION3. These changes do not identify their rule cause.",
+      "kind": "direct_observation",
+      "evidence_refs": [
+        "ev-000001",
+        "ev-000002",
+        "ev-000003"
+      ],
+      "alternatives": [],
+      "prediction": null,
+      "confidence": 1.0
+    },
+    {
+      "claim_id": "tycho-claim-003",
+      "statement": "The packet does not establish a deterministic tile-entry or re-entry rotation rule; the visible changes could be action-timed or conditioned on the player's position.",
+      "kind": "post_run_hypothesis",
+      "evidence_refs": [
+        "ev-000001",
+        "ev-000002",
+        "ev-000003"
+      ],
+      "alternatives": [
+        "A state change occurs with each action regardless of tile entry.",
+        "A state change depends on player position or a region crossed."
+      ],
+      "prediction": "From a repeatable initial state, compare equal-length action sequences that do and do not enter then re-enter the candidate tile, recording player orientation before and after each step.",
+      "confidence": 0.2
+    }
+  ],
+  "provenance_limits": {
+    "source_findings_included": false,
+    "engine_probe_results_included": false,
+    "action_sequence_treated_as_reasoning": false
+  }
+}
