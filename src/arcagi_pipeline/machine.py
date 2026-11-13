@@ -119,7 +119,7 @@ def materialize(bundle: dict, directory: Path):
     return inventory
 
 @traced("handoff")
-def execute_handoff(workflow_run: Path, roles: dict, output: Path, *, seed=0, cap=250_000, timeout=300, runtime_config=None, require_unit_checks=False, production_contract="generated-game/v2",diagnostic_requests=None):
+def execute_handoff(workflow_run: Path, roles: dict, output: Path, *, seed=0, cap=250_000, timeout=300, runtime_config=None, require_unit_checks=False, production_contract="generated-game/v2",diagnostic_requests=None,historical_baseline=None):
     if isinstance(timeout,bool) or not isinstance(timeout,(int,float)) or not math.isfinite(timeout) or timeout <= 0: raise Fault("config_invalid","timeout must be positive")
     if isinstance(cap,bool) or not isinstance(cap,int) or cap < 1: raise Fault("config_invalid","cap must be a positive integer")
     if isinstance(seed,bool) or not isinstance(seed,int): raise Fault("config_invalid","seed must be an integer")
@@ -147,6 +147,14 @@ def execute_handoff(workflow_run: Path, roles: dict, output: Path, *, seed=0, ca
         from .generated_game import target_issues
         validator = target_issues if production_contract == "generated-game/v2" else validate_design
         errors = validator(*(outputs[r]["value"] for r in ("evidence", "rules", "blueprint")))
+        if historical_baseline is not None:
+            from .diagnosis_protocol import pinned,read
+            from .historical_coverage import mappings
+            if production_contract != "generated-game/v2":
+                raise Fault("config_invalid","historical coverage requires generated-game/v2")
+            if not errors:
+                _, coverage_errors=mappings(read(pinned(historical_baseline)),outputs["blueprint"]["value"])
+                errors.extend(coverage_errors)
         if errors:
             report["revision_roles"]=sorted({issue["artifact"] for issue in errors if isinstance(issue,dict)})
             failure=Fault("design_invalid","design protocol checks failed")
@@ -170,6 +178,8 @@ def execute_handoff(workflow_run: Path, roles: dict, output: Path, *, seed=0, ca
         if production_contract not in {"generated-game/v2", "design-production/v1"}: raise Fault("config_invalid","unknown production contract")
         execution = {"diagnostics":current().serial(),"entrypoint":bundle["entrypoint"],"factory":bundle["factory"],"files":inventory,"seed":seed,"cap":cap,"runtime_config":str(runtime_config),"runtime_config_sha256":runtime_hash,"require_unit_checks":require_unit_checks,"production_contract":production_contract}
         execution["operation_plan_sha256"]=report["operation_plan_sha256"]
+        if historical_baseline is not None:
+            execution["historical_baseline"]=historical_baseline
         write(output/"execution.json", execution)
         stage = "execution"
         # Runtime roots are explicit; no ambient Python path or provider credentials.
@@ -265,9 +275,12 @@ def worker(root):
         raise
     if execution.get("production_contract") == "generated-game/v2":
         from .generated_game import run_generated_production
+        from .diagnosis_protocol import pinned,read
+        baseline=execution.get("historical_baseline")
         run_generated_production(plugin,FrozenInputs(root/"rules.json",root/"blueprint.json",root/"evidence.json"),
                                  seed=execution["seed"],cap=execution["cap"],output_dir=root/"production",runtime_context=runtime_context,
                                  operation_requests=requests,
+                                 historical_baseline=read(pinned(baseline)) if baseline is not None else None,
                                  probe_factory={'runtime_config':str(runtime_path),'runtime_config_sha256':execution['runtime_config_sha256'],
                                                 'module_path':str(entry),'factory_name':execution['factory'],
                                                 'file_refs':[{'path':str(safe(plugin_root,r['path'])),'sha256':r['sha256']} for r in execution['files']]})

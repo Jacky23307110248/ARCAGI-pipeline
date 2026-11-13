@@ -123,7 +123,10 @@ def target_issues(evidence, rules, blueprint, *, strict=False):
     issues=[]
     for message in validate_target(evidence,rules,blueprint):
         role="evidence" if message.startswith("evidence ") else "rules" if message.startswith(("rule ","rules ")) else "blueprint"
-        issues.append({"artifact":role,"stage":"design_preflight","code":"target_invalid","detail":message})
+        code = ("evidence_reference_invalid" if message in {
+            "rule has missing or unknown evidence_refs", "slot has missing or unknown evidence_refs"
+        } else "target_invalid")
+        issues.append({"artifact":role,"stage":"design_preflight","code":code,"detail":message})
     if strict and blueprint.get("validation_program_version") is None:
         issues.extend({**item,"artifact":"blueprint","stage":"design_preflight"}
                       for item in compile_obligations(blueprint,strict=True))
@@ -160,7 +163,13 @@ class NativeDriver:
     def step(self, action):
         from arcengine import ARCBaseGame, ActionInput, GameAction
         data = action if isinstance(action, dict) else {"id": action}
-        frame = ARCBaseGame.perform_action(self.engine, ActionInput(**{**data, "id": GameAction.from_id(data["id"])}), raw=True)
+        try:
+            if type(data.get("id")) is not int:
+                raise ValueError("native action ID must be an integer")
+            action_input = ActionInput(**{**data, "id": GameAction.from_id(data["id"])})
+        except (TypeError, ValueError):
+            raise Fault("output_protocol_invalid", "invalid_native_action") from None
+        ARCBaseGame.perform_action(self.engine, action_input, raw=True)
         return self.observe()
 
     def observe(self):
@@ -292,20 +301,27 @@ def behavior_check(requirement, trajectory, target_position=None):
 
 @traced("production")
 def run_generated_production(plugin, inputs: FrozenInputs, *, seed, output_dir: Path,
-                             runtime_context, cap=250000,probe_factory=None,operation_requests=()):
+                             runtime_context, cap=250000,probe_factory=None,operation_requests=(), historical_baseline=None):
     """No plugin replay/pass hooks: the machine installs and plays each unit."""
     require(not output_dir.exists(), "output_exists")
     output_dir.mkdir(parents=True)
     evidence, rules, blueprint = [json.loads(p.read_text(encoding="utf-8")) for p in
                                   (inputs.evidence, inputs.rule_contract, inputs.blueprint)]
     errors = validate_target(evidence, rules, blueprint)
+    coverage_rows = []
+    if historical_baseline is not None and not errors:
+        from .historical_coverage import mappings
+        coverage_rows, issues = mappings(historical_baseline, blueprint)
+        errors.extend(issue["requirement"] for issue in issues)
     rows, units, feedback = [], [], []
     artifacts = inputs.fingerprints()
-    def failure(stage, reason, task_id=None, unknown=False,obligation_id=None,exc=None):
+    def failure(stage, reason, task_id=None, unknown=False,obligation_id=None,exc=None,unknown_kind=None):
         ref = current().record("search_limited" if unknown else "output_protocol_invalid", stage,
                                task_id=task_id, exc=exc, kind="limited_result" if unknown else "error",
                                observed={"reason": reason}, refs=[file_ref(inputs.blueprint)])
         feedback.append({"stage": stage, "reason": reason, "task_id": task_id,"obligation_id":obligation_id,"root_cause_status":"unconfirmed","suggested_role":"implementation", **ref})
+        if unknown_kind is not None:
+            feedback[-1]["unknown_kind"] = unknown_kind
     try:
         require(not errors, "; ".join(errors))
         require(getattr(plugin, "production_contract", None) == CONTRACT, "generated_game_plugin_required")
@@ -382,6 +398,7 @@ def run_generated_production(plugin, inputs: FrozenInputs, *, seed, output_dir: 
                        "goal_sha256": digest(level.goal), "checks": {}}
                 rows.append(row); ur["levels"].append(level.task_id)
                 stage="structure"
+                replaying_candidate = False
                 try:
                     from .production import GeneratedTask
                     from .blueprint import validate_construction
@@ -417,7 +434,13 @@ def run_generated_production(plugin, inputs: FrozenInputs, *, seed, output_dir: 
                         negative=search.status=='unsolvable' and search.complete_model and search.exhausted
                         row["status"] = "return" if negative else "unknown"
                         row['model_conclusion']='model_exhaustion_claim' if negative else 'unresolved'
-                        failure("model_search", "model_result_" + search.status, level.task_id, unknown=not negative)
+                        kind = ("resource_cap" if search.status == "unknown"
+                                and (search.evidence.get("limit_kind") == "state_cap" or (
+                                    search.reason == "declared_cap_below_generated_solution_length"
+                                    and type(search.evidence.get("solution_length")) is int
+                                    and search.evidence["solution_length"] > cap)) else None)
+                        failure("model_search", "model_result_" + search.status, level.task_id,
+                                unknown=not negative, unknown_kind=kind)
                         record(level.task_id,"engine_replay","blocked",{"reason":"candidate_missing"},executed=False)
                         return
                     stage="engine_replay"
@@ -455,8 +478,10 @@ def run_generated_production(plugin, inputs: FrozenInputs, *, seed, output_dir: 
                                "semantic_sha256": row["semantic_sha256"], "initializations": init,
                                "instance_id": uuid.uuid4().hex, "trajectory": [{"op": "reset_select", "observation": d.observe(),"engine_position":d.position()}]}
                     ur["sessions"].append(session)
+                    replaying_candidate = True
                     for action in search.actions:
                         session["trajectory"].append({"op": "step", "action": copy.deepcopy(action), "observation": d.step(action),"engine_position":d.position()})
+                    replaying_candidate = False
                     accepted = d.goal(level.goal)
                     for n,event in enumerate(session['trajectory']):event['event_index']=n
                     named=validation_contexts[level.task_id]
@@ -468,7 +493,11 @@ def run_generated_production(plugin, inputs: FrozenInputs, *, seed, output_dir: 
                     passed = accepted and all(c["status"] == "pass" for c in row["fulfillment"].values())
                     row["status"] = "pass" if passed else ("unknown" if accepted and any(c["status"] == "unknown" for c in row["fulfillment"].values()) else "return")
                     row["verified_solution"] = accepted
-                    if not passed: failure("generated_level_validation", "goal_or_behavior_not_met", level.task_id, unknown=row["status"] == "unknown")
+                    if not passed:
+                        kind = "trace_mismatch" if not accepted else (
+                            "evidence_unsupported" if row["status"] == "unknown" else None)
+                        failure("generated_level_validation", "goal_or_behavior_not_met", level.task_id,
+                                unknown=row["status"] == "unknown", unknown_kind=kind)
                     candidates[index]=search if accepted else None
                     record(level.task_id,stage,"pass" if accepted else "return",row["replay"])
                     yield stage
@@ -479,7 +508,9 @@ def run_generated_production(plugin, inputs: FrozenInputs, *, seed, output_dir: 
                     from .handoff_control import safe_exception
                     row['execution_error']=safe_exception(exc)
                     if isinstance(exc,Fault) and str(exc) in ('source_method_changed','source_file_changed','generated_loaded_configuration_mismatch'):raise
-                    failure('generated_level_validation',str(exc) if isinstance(exc,Fault) else type(exc).__name__,level.task_id,exc=exc)
+                    kind = ("candidate_invalid" if replaying_candidate
+                            and isinstance(exc, Fault) and str(exc) == "invalid_native_action" else None)
+                    failure('generated_level_validation',str(exc) if isinstance(exc,Fault) else type(exc).__name__,level.task_id,exc=exc,unknown_kind=kind)
                     record(level.task_id,stage,'return',row['execution_error'])
             session=None
             smoke_trace=None
@@ -631,6 +662,15 @@ def run_generated_production(plugin, inputs: FrozenInputs, *, seed, output_dir: 
     for pending in pending_units:
         for _ in pending:
             pass
+    coverage = []
+    if historical_baseline is not None:
+        from .historical_coverage import evaluate
+        coverage = evaluate(coverage_rows, rows, units)
+        for receipt in coverage:
+            if receipt["status"] != "pass":
+                failure("historical_coverage", "historical_requirement_unverified",
+                        unknown=True, obligation_id=receipt["requirement"],
+                        unknown_kind="evidence_unsupported")
     status = "pass" if units and all(u["status"] == "pass" for u in units) and not feedback else (
              "unknown" if units and all(u["status"] in {"pass", "unknown"} for u in units) else "return")
     result = {"schema_version": "arcagi-production/v2", "production_contract": CONTRACT, "status": status,
@@ -641,6 +681,8 @@ def run_generated_production(plugin, inputs: FrozenInputs, *, seed, output_dir: 
               "validation_program_version": blueprint.get("validation_program_version","arcagi-validation-program/v1"),
               "proof_limits": {"teaching_benefit": "hypothesis", "plugin_semantics": "model_self_review",
                                "source_protocol": "original_source_methods", "process_isolation": "ordinary_local_process"}}
+    if historical_baseline is not None:
+        result["historical_coverage"] = coverage
     from .budget import atomic_json
     atomic_json(output_dir / "production.json", result)
     return result

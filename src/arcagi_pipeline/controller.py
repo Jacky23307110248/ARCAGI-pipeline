@@ -120,6 +120,26 @@ def _bounded(value,depth=0):
     if isinstance(value,dict):return {k:_bounded(v,depth+1) for k,v in list(value.items())[:80]}
     return value
 
+def _unsupported_blueprint_predicates(production):
+    """Find unsupported predicates that were evaluated in actual engine replay."""
+    return any(
+        row.get("replay", {}).get("accepted") is True
+        and any(check.get("reason") == "unsupported_behavior_predicate"
+                for check in row.get("fulfillment", {}).values())
+        for row in production.get("tasks", [])
+    )
+
+
+def production_revision_target(production, roles):
+    if _unsupported_blueprint_predicates(production):
+        return roles['blueprint']
+    kinds = {item.get('unknown_kind') for item in production.get('feedback', [])}
+    implementation_kinds = {'trace_mismatch','candidate_invalid','evidence_unsupported'}
+    if kinds & implementation_kinds and kinds <= implementation_kinds | {'resource_cap'}:
+        return roles['implementation']
+    return None
+
+
 def _facts(report,out):
     refs=[];checks=[];observations=[]
     if out and (out/"machine.json").is_file():refs.append(_verified_ref(out/"machine.json"))
@@ -157,13 +177,21 @@ def _facts(report,out):
                 checks.append({**step,"evidence_ref":refs[-1]})
                 seen.add(step["check_id"])
     expanded=[]
+    verified_kinds = {
+        item["event_id"]: item["unknown_kind"]
+        for item in (production or {}).get("feedback", [])
+        if item.get("event_id") and item.get("unknown_kind")
+    }
     for item in report.get("feedback",[]):
         if item.get("archive") and item.get("event_id"):
             try:
                 event=Archive(item["archive"]).read("events",item["event_id"])
                 expanded.append({"event_id":item["event_id"],**{k:event.get(k) for k in ("code","summary","stage","expected","observed","exception","artifact_refs")}})
             except (OSError,ValueError,KeyError):raise Fault("artifact_changed") from None
-        else:expanded.append(item)
+        else:expanded.append(dict(item))
+        kind = verified_kinds.get(item.get("event_id"))
+        if kind:
+            expanded[-1]["unknown_kind"] = kind
     if not checks:
         checks=[{"check_id":(f.get("event_id") or "check-"+str(i)),"stage":f.get("stage",report.get("stage","workflow")),"status":report.get("status","return"),"evidence_ref":refs[0] if refs else None} for i,f in enumerate(report.get("feedback",[]))]
     return {"schema_version":"arcagi-check-feedback/v1","observations":observations,"status":report.get("status","return"),"facts":_bounded(expanded),"checks":checks,"evidence_refs":refs,"attribution":"unconfirmed","next_route":"ds_diagnosis","internal_audit_forwarded":False}
@@ -290,7 +318,8 @@ def _revision(root,state,cfg,previous,feedback,target=None):
                 raise Fault("artifact_changed","commitment baseline no longer matches its passing gate")
             state.setdefault('commitment_baselines',{})[tid]={"path":str(artifact),"sha256":row['gate_artifact_sha256']}
     revision=state["revision"]+1;directory=root/("revision-"+str(revision).zfill(4));directory.mkdir(exist_ok=True)
-    feedback["revision_targets"]=[tid for tid in cfg.get("revision_targets",list(cfg["roles"].values())) if tasks[tid].get("evidence_lane")!="trajectory_blind"]
+    allowed = feedback.get("production_revision_targets", cfg.get("revision_targets",list(cfg["roles"].values())))
+    feedback["revision_targets"]=[tid for tid in allowed if tasks[tid].get("evidence_lane")!="trajectory_blind"]
     fragment_content={"schema_version":"arcagi-feedback-fragments/v1",
                       "observations":feedback.pop("observations",[]),"facts":feedback.pop("facts",[])}
     feedback_path=directory/"feedback.json"
@@ -306,6 +335,15 @@ def _revision(root,state,cfg,previous,feedback,target=None):
             if task.get("evidence_lane")=="trajectory_blind":
                 task.setdefault("frozen_origin",{"record_path":str(Path(state["current_workflow"])/"workflow_run.json"),"record_sha256":_hash(Path(state["current_workflow"])/"workflow_run.json"),"spec_path":state["workflow_spec"],"spec_sha256":_hash(state["workflow_spec"]),"task_id":tid})
         elif tid in affected:task.pop("frozen_output",None);task.pop("frozen_origin",None)
+        task.pop("frozen_revision_receipt", None)
+    for receipt in previous.get("applied_stage_revision_requests", []):
+        producer, destination = tasks.get(receipt.get("task_id")), tasks.get(receipt.get("target"))
+        if (receipt.get("reason") == "frozen_request_target_scheduled"
+                and producer and destination and producer.get("frozen_output")
+                and destination.get("frozen_output")):
+            producer["frozen_revision_receipt"] = _verified_ref(
+                Path(state["current_workflow"]) / "workflow_run.json"
+            )
     revision_files={str(feedback_path):_hash(feedback_path)};diagnosis_tasks=[]
     for target_id in targets:
         task=tasks[target_id]
@@ -339,6 +377,9 @@ def _revision(root,state,cfg,previous,feedback,target=None):
         revision_files[str(fragment)]=_hash(fragment)
         task['inputs'].append({'id':'control_evidence','role':'execution_evidence_fragments','content_encoding':'json_compact','path':str(fragment),'sha256':_hash(fragment)})
         task["inputs"].append({"id":"control_feedback","role":"revision_feedback","content_encoding":"json_compact","path":str(feedback_path),"sha256":_hash(feedback_path)})
+        if target_id == cfg["roles"]["blueprint"] and cfg.get("historical_baseline"):
+            task["inputs"]=[i for i in task["inputs"] if i["id"]!="historical_behavior_baseline"]
+            task["inputs"].append({"id":"historical_behavior_baseline","role":"historical_behavior_baseline",**cfg["historical_baseline"]})
         if feedback.get("self_review"):
             review=feedback["self_review"]
             task["inputs"].append({"id":"control_self_review","role":"model_self_review","path":review["path"],"sha256":review["sha256"]})
@@ -352,10 +393,15 @@ def _revision(root,state,cfg,previous,feedback,target=None):
             if _hash(baseline['path'])!=baseline['sha256']:raise Fault('artifact_changed')
             task['inputs'].append({'id':'commitment_baseline','role':'commitment_baseline',**baseline})
         prompt=directory/(target_id+"-revision-prompt.md")
-        from .diagnosis_protocol import INSTRUCTION,VERSION,schema
-        prompt_text=Path(task["prompt"]).read_text(encoding="utf-8")+'\n'+INSTRUCTION+'\n'
+        from .diagnosis_protocol import ID_INSTRUCTION,VERSION,schema
+        prompt_text=Path(task["prompt"]).read_text(encoding="utf-8")+'\n'+ID_INSTRUCTION+'\n'
         original_prompt=Path(task["prompt"]).read_text(encoding="utf-8")
-        if INSTRUCTION in original_prompt:prompt_text=original_prompt
+        if ID_INSTRUCTION in original_prompt:prompt_text=original_prompt
+        if target_id == cfg["roles"]["blueprint"] and cfg.get("historical_baseline"):
+            prompt_text += ("\nReturn historical_coverage keyed by old slot ID + '/' + old requirement ID. "
+                            "Each entry names slot_id and check_id of a required check in that slot. "
+                            "Optionally set observation_path to the equivalent engine observation path. "
+                            "Every old requirement is independently rechecked using its original predicate.\n")
         if not prompt.exists():prompt.write_text(prompt_text,encoding="utf-8")
         elif prompt.read_text(encoding="utf-8")!=prompt_text:raise Fault("artifact_changed")
         task["prompt"]=str(prompt)
@@ -363,8 +409,8 @@ def _revision(root,state,cfg,previous,feedback,target=None):
         diagnosis_tasks.append(target_id)
         task["output_schema"].setdefault("required",[])
         if "diagnosis" not in task["output_schema"]["required"]:task["output_schema"]["required"].append("diagnosis")
-        task['output_schema'].setdefault('properties',{})['diagnosis']=schema()
-        task['diagnosis_contract']={'schema_version':VERSION,'feedback_ref':_verified_ref(feedback_path),'allow_stage_revision':True}
+        task['output_schema'].setdefault('properties',{})['diagnosis']=schema(check_ids=True)
+        task['diagnosis_contract']={'schema_version':VERSION,'feedback_ref':_verified_ref(feedback_path),'allow_stage_revision':True,'check_ids':True}
     # A non-imported blind revision must remain blind even if proposed by source review.
     for tid,t in tasks.items():
         if tid in affected and t.get("frozen_origin_lane")=="trajectory_blind":t["evidence_lane"]="trajectory_blind";t.pop("frozen_origin_lane",None)
@@ -501,7 +547,7 @@ def _run(config,run_root,env_file=None,provider=None,resolution=None,resume_requ
                             if ts.get('diagnosis_contract'):
                                 bundle=effective_bundle(workflow/row['output_path'],ts['diagnosis_contract'],state.get('diagnosis_receipts',{}).get(row['id']))
                                 operation_requests.append({'task_id':row['id'],'operation':bundle['diagnosis']['next_check']['operation']})
-                        report=execute_handoff(workflow,cfg["roles"],out,seed=cfg.get("seed",0),cap=cfg.get('search_cap_schedule',[cfg.get('cap',250000)])[state.get('search_cap_index',0)],timeout=min(cfg.get("timeout_seconds",300),max(.001,state["started"]+cfg["max_elapsed_seconds"]-time.time())),runtime_config=runtime,require_unit_checks=True,production_contract=cfg.get("production_contract","generated-game/v2"),diagnostic_requests=operation_requests)
+                        report=execute_handoff(workflow,cfg["roles"],out,seed=cfg.get("seed",0),cap=cfg.get('search_cap_schedule',[cfg.get('cap',250000)])[state.get('search_cap_index',0)],timeout=min(cfg.get("timeout_seconds",300),max(.001,state["started"]+cfg["max_elapsed_seconds"]-time.time())),runtime_config=runtime,require_unit_checks=True,production_contract=cfg.get("production_contract","generated-game/v2"),diagnostic_requests=operation_requests,**({"historical_baseline":cfg["historical_baseline"]} if cfg.get("historical_baseline") else {}))
                         state["execution_hash"]=_hash(out/"machine.json");_save(root,state)
                     _event(root,"execution_finished",revision=revision,report=_verified_ref(out/"machine.json"),status=report["status"])
                 _check_execution_evidence(state)
@@ -551,7 +597,7 @@ def _run(config,run_root,env_file=None,provider=None,resolution=None,resume_requ
                     report["self_review"]={"path":str((workflow/review_row["output_path"]).resolve()),"sha256":review_row["output_sha256"],"origin":{"record_path":str(record),"record_sha256":_hash(record),"spec_path":state["workflow_spec"],"spec_sha256":_hash(state["workflow_spec"]),"task_id":review_id}}
             try:
                 feedback=_facts(report,out if out.exists() else None)
-                production=confirmed_production(out,report) if report['status']=='unknown' and report.get('production_sha256') else None
+                production=confirmed_production(out,report) if report.get('production_sha256') else None
             except Fault as exc:
                 if exc.diagnostic_code!="artifact_changed":
                     raise
@@ -559,12 +605,33 @@ def _run(config,run_root,env_file=None,provider=None,resolution=None,resume_requ
                          "producer":"machine_recheck","reason":str(exc)}]
                 return _block(root,state,"artifact_changed","feedback",{"confirmed_checks":checks})
             if production is not None:
-                capped=any(r.get('search',{}).get('status')=='unknown' and r.get('search',{}).get('evidence',{}).get('limit_kind')=='state_cap' for r in production.get('tasks',[]))
+                capped=any(item.get('unknown_kind')=='resource_cap' for item in production.get('feedback', [])) or any(r.get('search',{}).get('status')=='unknown' and r.get('search',{}).get('evidence',{}).get('limit_kind')=='state_cap' for r in production.get('tasks',[]))
                 schedule=cfg.get('search_cap_schedule',[cfg.get('cap',250000)]);idx=state.get('search_cap_index',0)
                 if capped and idx+1<len(schedule):
                     _event(root,'bounded_search_resource_retry',revision=revision,previous=_verified_ref(out/'machine.json'),old_cap=schedule[idx],new_cap=schedule[idx+1],model_requests=0)
                     state.update(search_cap_index=idx+1,execution_output=str(root/('execution-'+str(revision).zfill(4)+'-cap-'+str(idx+1))))
                     state.pop('execution_hash',None);state.pop('execution_intent',None);_save(root,state);continue
+                kinds = {item.get('unknown_kind') for item in production.get('feedback', [])}
+                if report['status']=='unknown' and capped and kinds == {'resource_cap'}:
+                    state.update(status='limited',reason='search_resource_cap_exhausted')
+                    _event(root,'limited',revision=revision,reason=state['reason'])
+                    _save(root,state)
+                    return state
+                selected = production_revision_target(production,cfg['roles'])
+                if selected:
+                    target = selected
+                    feedback['production_revision_targets'] = [target]
+                    _event(root,'production_revision_routed',revision=revision,target=target,
+                           production_sha256=report['production_sha256'])
+            elif report.get('error') == 'design_invalid':
+                issues = [
+                    issue for fact in feedback['facts']
+                    for issue in (fact.get('observed') or {}).get('errors', [])
+                    if isinstance(issue, dict)
+                ]
+                if issues and all(issue.get('code') == 'evidence_reference_invalid' for issue in issues):
+                    target = sorted({cfg['roles'][issue['artifact']] for issue in issues})
+                    feedback['production_revision_targets'] = target
             if report.get('stage')=='workflow':
                 from .handoff_control import operation_receipt
                 requests=[]

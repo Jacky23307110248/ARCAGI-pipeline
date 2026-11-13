@@ -3,7 +3,7 @@ from pathlib import Path
 import copy,time
 from .agent_workflow import WorkflowRunner,WorkflowError
 from .budget import atomic_json
-from .diagnosis_protocol import (VERSION,INSTRUCTION,feedback_for,describe,validate,
+from .diagnosis_protocol import (VERSION,feedback_for,describe,validate,
                                 read,sha,pinned,digest,effective_bundle,schema)
 from .diagnostics import Fault
 
@@ -33,19 +33,26 @@ def process(root,state,cfg,provider,env_file,pause_check):
             _write(attempt/'prior-diagnosis.json',{'diagnosis':prior})
             _write(attempt/'constraints.json',{'contract':describe({**contract,'allow_stage_revision':False}),'issues':pending.get('issues',validate(original,feedback))})
             prompt=attempt/'prompt.md'
+            repair_contract={**contract,'allow_stage_revision':False}
             text=('Correct the supplied diagnosis metadata using the exact machine contract. Return {"diagnosis": ...}. '
                   'Copy completed check IDs, status values and evidence objects from control_feedback. '
                   'Choose next_check.operation from the supplied enum. Retain supported conclusions and uncertainty. '
-                  'This task updates diagnosis metadata. '+INSTRUCTION)
+                'This task updates diagnosis metadata. '+describe(repair_contract)['instructions'])
+            if contract.get('check_ids'):
+                text=text.replace('Copy completed check IDs, status values and evidence objects from control_feedback. ',
+                                  'Use only eligible completed_check_ids. ')
             if prompt.exists() and prompt.read_text(encoding='utf-8')!=text:raise Fault('artifact_changed')
             if not prompt.exists():prompt.write_text(text,encoding='utf-8')
-            main=read(state['workflow_spec']);repair_contract={**contract,'allow_stage_revision':False}
+            main=read(state['workflow_spec'])
+            ceiling=main['budget'].get('max_output_tokens_per_request',8192)
+            cap=min(cfg.get('diagnosis_max_output_tokens',8192),ceiling)
+            cap=min(pending.get('next_output_cap',cap),ceiling)
             task={'id':'diagnosis-correction','stage':'protocol_correction','prompt':str(prompt),
                 'inputs':[{'id':'prior_diagnosis','role':'prior_artifact','path':str(attempt/'prior-diagnosis.json'),'sha256':sha(attempt/'prior-diagnosis.json')},
                   {'id':'control_feedback','role':'revision_feedback',**contract['feedback_ref']},
                   {'id':'protocol_constraints','role':'protocol_contract','path':str(attempt/'constraints.json'),'sha256':sha(attempt/'constraints.json')}],
-                'diagnosis_contract':repair_contract,'max_output_tokens':min(cfg.get('diagnosis_max_output_tokens',8192),main['budget'].get('max_output_tokens_per_request',8192)),
-                'output_schema':{'type':'object','required':['diagnosis'],'additionalProperties':False,'properties':{'diagnosis':schema(False)}}}
+                'diagnosis_contract':repair_contract,'max_output_tokens':cap,
+                'output_schema':{'type':'object','required':['diagnosis'],'additionalProperties':False,'properties':{'diagnosis':schema(False,contract.get('check_ids',False))}}}
             spec={'schema_version':'arcagi-agent-workflow/v1','workflow_id':'diagnosis-correction-'+directory.name+'-'+str(number),
                   'unit_id':main['unit_id'],'game':copy.deepcopy(main['game']),'provider':copy.deepcopy(main['provider']),
                   'budget':copy.deepcopy(main['budget']),'tasks':[task]}
@@ -74,5 +81,8 @@ def process(root,state,cfg,provider,env_file,pause_check):
             repair=getattr(exc,'diagnosis_repair',None)
             if repair:pending['last_diagnosis']=read(pinned(repair['artifact_ref'])).get('diagnosis')
             pending['issues']=getattr(exc,'protocol_facts',{'check':'output_schema','reason':'invalid_correction_output'})
+            if isinstance(pending['issues'],dict) and pending['issues'].get('reason')=='output_truncated':
+                attempted=pending['issues']['output_cap']
+                pending['next_output_cap']=attempted*2
             _event(root,'diagnosis_correction_returned',task_id=pending['task_id'],attempt=pending['attempt'],issues=pending['issues'])
             pending.pop('active_spec',None);pending.pop('active_workflow',None);_save(root,state)

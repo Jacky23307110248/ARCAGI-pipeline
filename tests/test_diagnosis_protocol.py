@@ -46,6 +46,37 @@ def prepare(root,legacy=False):
     spec.write_text(json.dumps(data));return cfg,feedback
 
 class DiagnosisProtocolTests(unittest.TestCase):
+    def test_id_diagnosis_only_accepts_unique_executed_checks(self):
+        with tempfile.TemporaryDirectory() as td:
+            _, feedback = feedback_at(Path(td))
+            feedback['checks'].append({
+                **feedback['checks'][0], 'check_id':'blocked-check',
+                'executed':False, 'status':'blocked',
+            })
+            value = valid(feedback)
+            value.pop('completed_checks')
+            value['completed_check_ids'] = ['actual-check']
+            self.assertEqual(validate({'diagnosis':value},feedback),[])
+            value['completed_check_ids'] += ['blocked-check','actual-check','missing']
+            self.assertEqual([issue['path'] for issue in validate({'diagnosis':value},feedback)],
+                             [f'/diagnosis/completed_check_ids/{i}' for i in (1,2,3)])
+
+    def test_historical_diagnosis_failure_shapes(self):
+        with tempfile.TemporaryDirectory() as td:
+            _, feedback = feedback_at(Path(td))
+            for operation in OPERATIONS:
+                value = valid(feedback)
+                value['next_check']['operation'] = operation
+                self.assertEqual(validate({'diagnosis': value}, feedback), [])
+            value['next_check']['operation'] = 'none_declared'
+            issues = validate({'diagnosis': value}, feedback)
+            self.assertIn({'path':'/diagnosis/next_check/operation',
+                           'code':'undeclared_next_check','expected':list(OPERATIONS),
+                           'observed':'none_declared'}, issues)
+            self.assertEqual(validate({}, feedback), [
+                {'path':'/diagnosis','code':'diagnosis_required',
+                 'expected':'object','observed':None}])
+
     def test_all_protocol_errors_reported_together(self):
         with tempfile.TemporaryDirectory() as td:
             _,feedback=feedback_at(Path(td));issues=validate({'diagnosis':bad(feedback)},feedback)

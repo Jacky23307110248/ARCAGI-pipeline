@@ -3,10 +3,9 @@ from __future__ import annotations
 import copy, hashlib, json
 from pathlib import Path
 from .diagnostics import Fault
+from .handoff_control import OPERATIONS
 
 VERSION = 'arcagi-diagnosis/v1'
-OPERATIONS = ('rerun_declared_checks','revise_and_rerun','search','engine_replay',
-              'validate_unit','adapter_smoke','validate_structure')
 INSTRUCTION = ('Return a complete new artifact. diagnosis follows the supplied diagnosis_contract. '
                'next_check.operation requests a declared operation, not a pending check ID. Only machine operation receipts and check records prove execution. '
                'Copy completed_checks IDs, evidence_ref objects and observed_status values from the supplied checks. '
@@ -16,6 +15,10 @@ INSTRUCTION = ('Return a complete new artifact. diagnosis follows the supplied d
                'Use revise_task_id only to request a different allowed stage. Planned interface bindings are implementation obligations, not executed evidence.')
 LEGACY_INSTRUCTION = '\nReturn a complete new version using only declared inputs. Include diagnosis with stage, root_cause_status (confirmed/unconfirmed), candidate_causes, completed_checks [{check_id,evidence_ref,observed_status}], excluded_causes, missing_evidence, next_check object, fact_refs. Checks claimed completed must cite supplied machine check IDs and exact evidence refs. Uncertainty does not request a supervisor. If another declared stage needs revision, diagnosis.revise_task_id may explicitly request that NEXT stage from feedback.revision_targets; omit it otherwise. No invented observations or evidence.\n'
 
+ID_INSTRUCTION = INSTRUCTION.replace(
+    'Copy completed_checks IDs, evidence_ref objects and observed_status values from the supplied checks.',
+    'List only IDs from the executed checks in completed_check_ids.')
+
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def read(path):return json.loads(Path(path).read_text(encoding='utf-8'))
 def digest(value):return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest()
@@ -24,7 +27,7 @@ def pinned(ref):
         raise Fault('artifact_changed','diagnosis evidence changed')
     return Path(ref['path']).resolve()
 
-def schema(allow_revision=True):
+def schema(allow_revision=True, check_ids=False):
     text={'type':'string','minLength':1}
     strings={'type':'array','items':text}
     ref={'type':'object','required':['path','sha256'],'additionalProperties':False,
@@ -36,6 +39,9 @@ def schema(allow_revision=True):
       'fact_refs':{'type':'array','minItems':1,'items':ref},
       'next_check':{'type':'object','required':['operation'],'additionalProperties':False,
         'properties':{'operation':{'type':'string','enum':list(OPERATIONS)},'reason':text}}}
+    if check_ids:
+        properties.pop('completed_checks')
+        properties['completed_check_ids']=strings
     required=list(properties)
     if allow_revision:properties['revise_task_id']=text
     return {'type':'object','required':required,'properties':properties,'additionalProperties':False}
@@ -55,6 +61,15 @@ def feedback_for(contract):
 
 def describe(contract):
     feedback=feedback_for(contract)
+    if contract.get('check_ids'):
+        legacy=describe({**contract,'check_ids':False})
+        checks=[c for c in feedback['checks'] if c.get('executed') is not False and c['status']!='blocked']
+        legacy.update(schema=schema(contract.get('allow_stage_revision',True), True),
+                      checks=checks,blocked_checks=[c for c in feedback['checks'] if c not in checks],
+                      instructions=ID_INSTRUCTION + ' Blocked checks are context only.')
+        legacy['example'].pop('completed_checks')
+        legacy['example']['completed_check_ids']=[checks[0]['check_id']] if checks else []
+        return legacy
     example_ref=copy.deepcopy(feedback.get('evidence_refs',[{'path':'evidence.json','sha256':'0'*64}])[0])
     check=feedback.get('checks',[{'check_id':'check-1','status':'return','evidence_ref':example_ref}])[0]
     return {'schema_version':VERSION,'schema':schema(contract.get('allow_stage_revision',True)),
@@ -69,10 +84,25 @@ def describe(contract):
 def validate(bundle,feedback,allow_revision=True):
     from .agent_workflow import _schema_errors
     row=bundle.get('diagnosis') if isinstance(bundle,dict) else None
+    ids_mode=isinstance(row,dict) and 'completed_check_ids' in row
     issues=[{'path':e.split(':',1)[0],'code':'diagnosis_schema_invalid','detail':e,'expected':'diagnosis_contract.schema'}
-            for e in _schema_errors(row,schema(allow_revision),'diagnosis')]
+            for e in _schema_errors(row,schema(allow_revision,ids_mode),'diagnosis')]
+    if not isinstance(bundle,dict) or 'diagnosis' not in bundle:
+        return [{'path':'/diagnosis','code':'diagnosis_required','expected':'object','observed':None}]
     if not isinstance(row,dict):return issues
+    check=row.get('next_check')
+    if isinstance(check,dict) and check.get('operation') not in OPERATIONS:
+        issues.append({'path':'/diagnosis/next_check/operation','code':'undeclared_next_check',
+                       'expected':list(OPERATIONS),'observed':check.get('operation')})
     checks={c['check_id']:c for c in feedback.get('checks',[])}
+    if ids_mode and isinstance(row['completed_check_ids'],list):
+        allowed=[key for key,c in checks.items() if c.get('executed') is not False and c.get('status')!='blocked']
+        seen=set()
+        for i,key in enumerate(row['completed_check_ids']):
+            if not isinstance(key,str) or key not in allowed or key in seen:
+                issues.append({'path':f'/diagnosis/completed_check_ids/{i}','code':'diagnosis_check_not_executed',
+                               'expected':[x for x in allowed if x not in seen]})
+            if isinstance(key,str):seen.add(key)
     for i,c in enumerate(row.get('completed_checks',[]) if isinstance(row.get('completed_checks'),list) else []):
         if not isinstance(c,dict):continue
         actual=checks.get(c.get('check_id')) if isinstance(c.get('check_id'),str) else None
@@ -105,7 +135,8 @@ def payload_value(value,task):
 def output_schema(task):
     value=copy.deepcopy(task['output_schema'])
     if task.get('diagnosis_contract'):
-        value.setdefault('properties',{})['diagnosis']=schema(task['diagnosis_contract'].get('allow_stage_revision',True))
+        contract=task['diagnosis_contract']
+        value.setdefault('properties',{})['diagnosis']=schema(contract.get('allow_stage_revision',True),contract.get('check_ids',False))
         value['required']=list(dict.fromkeys(value.get('required',[])+['diagnosis']))
     return value
 

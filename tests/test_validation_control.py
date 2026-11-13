@@ -51,21 +51,38 @@ class ValidationControlTests(unittest.TestCase):
    self.assertEqual(code,'artifact_changed');self.assertEqual(checks[0]['check'],'execution_evidence_integrity')
  def test_bounded_search_cap_retry_uses_no_new_model_requests(self):
   with tempfile.TemporaryDirectory() as td:
-   root=Path(td);cfg=prepare_control(root/'spec');c=json.loads(cfg.read_text());c.update(unknown_policy='stop',search_cap_schedule=[50,100]);cfg.write_text(json.dumps(c))
+   root=Path(td);cfg=prepare_control(root/'spec');c=json.loads(cfg.read_text());c.update(unknown_policy='revise',search_cap_schedule=[50,100]);cfg.write_text(json.dumps(c))
    calls=[]
    def execute(workflow,roles,out,**kw):
     from arcagi_pipeline.machine import collect
     out.mkdir();(out/'production').mkdir();calls.append(kw['cap'])
-    p={'status':'unknown','schema_version':'arcagi-production/v1','tasks':[{'task_id':'x','status':'unknown','search':{'status':'unknown','evidence':{'limit_kind':'state_cap'}}}],'feedback':[]}
+    p={'status':'unknown','schema_version':'arcagi-production/v1','tasks':[{'task_id':'x','status':'unknown','search':{'status':'unknown','evidence':{'limit_kind':'state_cap'}}}],'feedback':[{'unknown_kind':'resource_cap'}]}
     path=out/'production/production.json';path.write_text(json.dumps(p))
     report={'status':'unknown','stage':'execution','feedback':[],'production_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'workflow_outputs':{role:{k:v for k,v in value.items() if k!='value'} for role,value in collect(workflow,roles).items()}}
     (out/'machine.json').write_text(json.dumps(report));return report
    provider=ScriptedControlProvider(failures=0)
    with patch('arcagi_pipeline.controller.execute_handoff',side_effect=execute):state=control_run(cfg,root/'run',provider=provider)
-   self.assertEqual(state['status'],'limited');self.assertEqual(calls,[50,100]);self.assertEqual(provider.calls,4)
+   self.assertEqual(state['status'],'limited');self.assertEqual(state['reason'],'search_resource_cap_exhausted');self.assertEqual(calls,[50,100]);self.assertEqual(provider.calls,4)
  def test_invalid_cap_schedule_rejected_without_provider(self):
   with tempfile.TemporaryDirectory() as td:
    root=Path(td);cfg=prepare_control(root/'spec');c=json.loads(cfg.read_text());c['search_cap_schedule']=[100,50];cfg.write_text(json.dumps(c))
    provider=ScriptedControlProvider(failures=0)
    with self.assertRaises(Exception):control_run(cfg,root/'run',provider=provider)
    self.assertEqual(provider.calls,0)
+ def test_unsupported_predicate_is_a_blueprint_issue_only_after_replay(self):
+  from arcagi_pipeline.controller import _unsupported_blueprint_predicates
+  row={'replay':{'accepted':True},'fulfillment':{'behavior':{'reason':'unsupported_behavior_predicate'}}}
+  self.assertTrue(_unsupported_blueprint_predicates({'tasks':[row]}))
+  row['replay']['accepted']=False
+  self.assertFalse(_unsupported_blueprint_predicates({'tasks':[row]}))
+  row['replay']['accepted']=True
+  row['fulfillment']['behavior']['reason']='observation_not_available'
+  self.assertFalse(_unsupported_blueprint_predicates({'tasks':[row]}))
+ def test_mixed_failure_keeps_the_implementation_route_after_cap_retry(self):
+  from arcagi_pipeline.controller import production_revision_target
+  roles={'implementation':'implementation','blueprint':'blueprint'}
+  replay={'unknown_kind':'trace_mismatch','task_id':'slot-b'}
+  search={'unknown_kind':'resource_cap','task_id':'slot-a'}
+  self.assertEqual(production_revision_target({'feedback':[search,replay]},roles),'implementation')
+  self.assertEqual(production_revision_target({'feedback':[replay]},roles),'implementation')
+  self.assertIsNone(production_revision_target({'feedback':[search]},roles))

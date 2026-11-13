@@ -934,6 +934,13 @@ class WorkflowRunner:
                 artifacts={role:json.loads((self.run_dir/records[tid]['output_path']).read_text(encoding='utf-8')) for role,tid in roles.items()}
                 issues=target_issues(artifacts['evidence'],artifacts['rules'],blueprint,strict=True)
             for item in task.get('inputs',[]) if not issues else []:
+                if item.get('role')=='historical_behavior_baseline':
+                    from .historical_coverage import mappings
+                    path=self._resolve(item['path'])
+                    if sha256_file(path)!=item['sha256']:
+                        raise WorkflowError('historical blueprint changed',code='artifact_changed')
+                    _, coverage_issues=mappings(json.loads(path.read_text(encoding='utf-8')),blueprint)
+                    issues.extend(coverage_issues)
                 if item.get('role')=='commitment_baseline':
                     previous=json.loads(self._resolve(item['path']).read_text(encoding='utf-8'))
                     issues.extend(x for x in commitment_changes(previous,blueprint) if x.get('unacknowledged'))
@@ -958,7 +965,15 @@ class WorkflowRunner:
             failure.diagnosis_repair={'task_id':task['id'],'artifact_ref':{'path':str(artifact.resolve()),'sha256':sha256_file(artifact)},'contract':contract}
             failure.protocol_facts={'check':'diagnosis_protocol','issues':issues,'contract':describe(contract)}
             raise failure
-        proposed=value['diagnosis'].get('revise_task_id')
+        diagnosis=value['diagnosis']
+        if 'completed_check_ids' in diagnosis:
+            checks={check['check_id']:check for check in feedback['checks']}
+            state['diagnosis_completed_checks']=[
+                {'check_id':key,'observed_status':checks[key]['status'],
+                 'evidence_ref':checks[key]['evidence_ref']}
+                for key in diagnosis['completed_check_ids']
+            ]
+        proposed=diagnosis.get('revise_task_id')
         if proposed==task['id']:
             # The complete replacement artifact is already present. Validate it
             # through downstream gates; a self-address is not a new failure.
@@ -986,6 +1001,22 @@ class WorkflowRunner:
                 if receipt not in handled:
                     handled.append(receipt);self._save()
                 return
+            receipt_ref = task.get('frozen_revision_receipt')
+            if task.get('frozen_output') and target.get('frozen_output') and receipt_ref:
+                from .diagnosis_protocol import pinned, read
+                previous = read(pinned(receipt_ref))
+                prior = next((r for r in previous['tasks'] if r['id'] == proposed), {})
+                receipt = {'task_id':task['id'],'artifact_sha256':sha256_file(artifact),
+                           'target':proposed,'reason':'frozen_request_target_scheduled'}
+                if (previous.get('status') == 'complete'
+                        and receipt in previous.get('applied_stage_revision_requests', [])
+                        and prior.get('gate_status') == 'pass'
+                        and prior.get('gate_artifact_sha256') == prior.get('output_sha256')
+                        == target['frozen_output']['sha256']):
+                    handled=self.data.setdefault('applied_stage_revision_requests',[])
+                    if receipt not in handled:
+                        handled.append(receipt);self._save()
+                    return
             failure=WorkflowError('model requests stage revision',code='model_revision_requested');failure.revision_targets=[proposed];raise failure
 
     def _response_schema(self,task):
@@ -1241,7 +1272,7 @@ class WorkflowRunner:
         if task.get('diagnosis_contract'):
             from .diagnosis_protocol import describe
             contract_context=describe(task['diagnosis_contract'])
-            if any(item['role']=='execution_evidence_fragments' for item in inputs):
+            if not task['diagnosis_contract'].get('check_ids') and any(item['role']=='execution_evidence_fragments' for item in inputs):
                 for key in ('checks','evidence_refs','revision_targets'):
                     contract_context.pop(key,None)
                 contract_context['feedback_context']='Read check IDs, evidence refs and revision targets in control_feedback.'

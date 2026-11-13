@@ -4,7 +4,7 @@ import copy
 from .controller import (_read,_hash,_absolute_spec,_baseline,_save,_event,_verified_ref,_check_baseline,_load_config)
 from .budget import file_lock,atomic_json,AggregateBudget
 from .agent_workflow import WorkflowRunner,_schema_errors,_private_reasoning_paths
-from .diagnosis_protocol import VERSION,LEGACY_INSTRUCTION,INSTRUCTION,schema,payload_schema,payload_value
+from .diagnosis_protocol import VERSION,LEGACY_INSTRUCTION,INSTRUCTION,ID_INSTRUCTION,schema,payload_schema,payload_value
 from .revision_protocol import review_targets
 from .diagnostics import Fault
 
@@ -17,7 +17,7 @@ def _domain(task,base):
     value['output_schema'].setdefault('properties',{}).pop('diagnosis',None)
     value['output_schema']['required']=[x for x in value['output_schema'].get('required',[]) if x!='diagnosis']
     text=Path(value.pop('prompt')).read_text(encoding='utf-8')
-    for suffix in (LEGACY_INSTRUCTION,'\n'+INSTRUCTION+'\n'):
+    for suffix in (LEGACY_INSTRUCTION,'\n'+INSTRUCTION+'\n','\n'+ID_INSTRUCTION+'\n'):
         if text.endswith(suffix):text=text[:-len(suffix)]
     value['prompt_content']=text
     return value
@@ -83,7 +83,10 @@ def recover(source_run,checkpoint_workflow,run_root,previous_core,history_manife
                 ref_path=str(Path(ref['path']).resolve())
                 if indexed.get(ref_path,old['baseline'].get(ref_path))!=ref['sha256']:raise Fault('artifact_changed')
                 template['diagnosis_contract']={'schema_version':VERSION,'feedback_ref':ref,'allow_stage_revision':True}
-                template['output_schema'].setdefault('properties',{})['diagnosis']=schema()
+                if prior.get('diagnosis_contract',{}).get('check_ids'):
+                    template['diagnosis_contract']['check_ids']=True
+                template['output_schema'].setdefault('properties',{})['diagnosis']=schema(
+                    check_ids=template['diagnosis_contract'].get('check_ids',False))
                 template['output_schema']['required']=list(dict.fromkeys(template['output_schema'].get('required',[])+['diagnosis']))
                 diagnoses.append(tid)
             reused.append({'task_id':tid,'artifact':_verified_ref(path),'fingerprint':row['fingerprint']})

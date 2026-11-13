@@ -72,8 +72,9 @@ class HandoffChainTests(unittest.TestCase):
     if feedback:
      assert any(i['role']=='execution_evidence_fragments' for i in request['input_artifacts'])
      assert 'observations' not in feedback and 'facts' not in feedback
-     assert 'checks' not in request['diagnosis_contract']
-     c=feedback['checks'][0];value['diagnosis']={'stage':c['stage'],'root_cause_status':'unconfirmed','candidate_causes':['protocol correction'],'completed_checks':[{'check_id':c['check_id'],'evidence_ref':c['evidence_ref'],'observed_status':c['status']}],'excluded_causes':[],'missing_evidence':[],'next_check':{'operation':'engine_replay'},'fact_refs':feedback['evidence_refs']}
+     checks=request['diagnosis_contract']['checks']
+     assert all(c.get('executed') is not False and c['status']!='blocked' for c in checks)
+     value['diagnosis']={'stage':feedback['checks'][0]['stage'],'root_cause_status':'unconfirmed','candidate_causes':['protocol correction'],'completed_check_ids':[c['check_id'] for c in checks],'excluded_causes':[],'missing_evidence':[],'next_check':{'operation':'engine_replay'},'fact_refs':feedback['evidence_refs']}
     return Completion(json.dumps(value),total_tokens=7)
   with tempfile.TemporaryDirectory() as td:
    root=Path(td);cfg=prepare_control(root/'spec',count=1,max_revisions=4)
